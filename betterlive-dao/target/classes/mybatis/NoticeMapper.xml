@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.NoticeMapper" >
+	
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Notice" >
+		<id column="notice_id"  property="noticeId"  jdbcType="INTEGER"/>
+		<result column="notice_title" property="noticeTitle" jdbcType="VARCHAR"/>
+		<result column="notice_type" property="noticeType" jdbcType="INTEGER"/>
+		<result column="object_id" property="objectId" jdbcType="INTEGER"/>
+		<result column="notice_content" property="noticeContent" jdbcType="VARCHAR"/>
+		<result column="notice_url" property="noticeUrl" jdbcType="VARCHAR"/>
+		<result column="start_time" property="startTime" jdbcType="VARCHAR"/>
+		<result column="end_time" property="endTime" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		<result column="create_by" property="createBy" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+    	notice_id,
+		notice_title,
+		notice_type,
+		object_id,
+		notice_content,
+		notice_url,
+		DATE_FORMAT(start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+		DATE_FORMAT(end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+		status,
+		create_by,
+		DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time   
+  	</sql>
+  
+  
+	<!-- //根据条件分页查询公告   -->
+	<select id="findNoticeListPage" resultMap="BaseResultMap" parameterType="pd">
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     	
+     	FROM t_notice 
+     						  	
+     	WHERE  1=1
+     	
+     	<!-- 公告ID--> 
+     	<if test="null != noticeId  and ''!= noticeId">
+     		and  notice_id=#{noticeId}
+     	</if>
+     	
+     	<!-- 活动主题--> 
+     	<if test="null != noticeTitle  and ''!= noticeTitle">
+     		and notice_title  like '${noticeTitle}%' 
+     	</if>
+     	
+     	<!-- 公告类型 -->
+     	<if test="null != noticeType  and ''!= noticeType">
+     		and notice_type=#{noticeType} 
+     	</if>
+     	
+     	<!--对象ID--> 
+     	<if test="null != objectId  and ''!= objectId">
+     		and  object_id=#{objectId}
+     	</if>
+		     	
+     	<!-- 公告内容-->
+     	<if test="null != productName  and ''!= productName">
+     		and notice_title  like '${noticeContent}%' 
+     	</if>
+		
+		<!-- 状态 -->
+		<if test="null != status  and ''!= status">
+     		and status=#{status} 
+     	</if>
+     	
+     	<!-- 判断是否过期 -->
+     	<if test=" 'yes'== timeFlag">
+     		<![CDATA[ and start_time<=now() and end_time>=now() ]]>  
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!-- //根据条件查询单个公告详细   -->
+	<select id="findNotice" resultMap="BaseResultMap" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     	
+     	FROM t_notice 
+     						  	
+     	WHERE  1=1
+     	
+     	<!-- 公告ID--> 
+     	<if test="null != noticeId  and ''!= noticeId">
+     		and  notice_id=#{noticeId}
+     	</if>
+     	
+     	<!-- 活动主题--> 
+     	<if test="null != noticeTitle  and ''!= noticeTitle">
+     		and notice_title like '${noticeTitle}%' 
+     	</if>
+     	
+     	<!-- 公告类型 -->
+     	<if test="null != noticeType  and ''!= noticeType">
+     		and notice_type=#{noticeType} 
+     	</if>
+     	
+     	<!--对象ID--> 
+     	<if test="null != objectId  and ''!= objectId">
+     		and  object_id=#{objectId}
+     	</if>
+		     	
+     	<!-- 公告内容-->
+     	<if test="null != productName  and ''!= productName">
+     		and notice_title  like '${noticeContent}%' 
+     	</if>
+		
+		<!-- 状态 -->
+		<if test="null != status  and ''!= status">
+     		and status=#{status} 
+     	</if>
+     	
+    	<!-- 判断是否过期 -->
+     	<if test=" 'yes'== timeFlag">
+     		<![CDATA[ and start_time<=now() and end_time>=now() ]]>  
+     	</if>  
+     	
+     	limit 1
+  	</select>
+  	
+  	
+  	<!--//根据条件查询全部公告 -->
+  	<select id="findListNotice" resultMap="BaseResultMap" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     	
+     	FROM t_notice 
+     						  	
+     	WHERE  1=1
+     	
+     	<!-- 公告ID--> 
+     	<if test="null != noticeId  and ''!= noticeId">
+     		and  notice_id=#{noticeId}
+     	</if>
+     	
+     	<!-- 活动主题--> 
+     	<if test="null != noticeTitle  and ''!= noticeTitle">
+     		and notice_title like '${noticeTitle}%' 
+     	</if>
+     	
+     	<!-- 公告类型 -->
+     	<if test="null != noticeType  and ''!= noticeType">
+     		and notice_type=#{noticeType} 
+     	</if>
+     	
+     	<!--对象ID--> 
+     	<if test="null != objectId  and ''!= objectId">
+     		and  object_id=#{objectId}
+     	</if>
+		     	
+     	<!-- 公告内容-->
+     	<if test="null != productName  and ''!= productName">
+     		and notice_title like '${noticeContent}%' 
+     	</if>
+		
+		<!-- 状态 -->
+		<if test="null != status  and ''!= status">
+     		and status=#{status} 
+     	</if>
+		
+		<!-- 判断是否过期 -->
+     	<if test=" 'yes'== timeFlag">
+     		<![CDATA[ and start_time<=now() and end_time>=now() ]]>  
+     	</if>     	
+  	</select>
+  	
+  	
+  	<!-- //增加公告-->
+  	<insert id="insertNotice" parameterType="com.kingleadsw.betterlive.model.Notice">
+    	insert into t_notice (notice_id,
+								notice_title,
+								notice_type,
+								object_id,
+								notice_content,
+								notice_url,
+								start_time,
+								end_time,
+								status,
+								create_by,
+								create_time
+    				  	      )
+   				  		values (null,
+    				  	 	    #{noticeTitle},
+    				  	 	    #{noticeType},
+    				  	 	    #{objectId}, 
+    				  	 	    #{noticeContent},
+    				  	 	    #{noticeUrl},
+    				  	 	    #{startTime},
+    				  	 	    #{endTime},
+    				  	 	    #{status},
+    				  	 	    #{createBy},
+    				  	 	    now()
+    				  	 	  )
+  	</insert>
+   	
+   	<!-- //根据ID修改公告-->
+    <update id="updateNoticeByNid" parameterType="com.kingleadsw.betterlive.model.Notice" >
+    	update t_notice set 
+			     		notice_title=#{noticeTitle}, 
+			     		notice_type=#{noticeType}, 
+			     		object_id=#{objectId}, 
+			     		notice_content=#{noticeContent},
+			     		start_time=#{startTime},
+			     		end_time=#{endTime},
+			     		status=#{status},
+			     		notice_url=#{noticeUrl},
+			     		create_by=#{createBy}
+    	where notice_id=#{noticeId}
+    	
+    </update> 
+    
+    <!--  //根据ID删除公告 -->
+    <delete id="deleteByNid" parameterType="java.lang.String" >
+    	delete from  t_notice where notice_id=#{noticeId}
+    </delete> 
+     
+</mapper>

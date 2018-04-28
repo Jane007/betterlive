@@ -1,0 +1,155 @@
+*{padding:0;margin:0;}
+#scheduallist caption{font-size:14px;font-weight:bold;text-align: center;}
+#scheduallist table{ border-collapse:collapse;border:1px #525152 solid;width:90%;margin:0 auto;margin-top:100px;}
+#scheduallist th,#scheduallist td{border:1px #525152 solid;text-align:center;font-size:12px;line-height:30px;}
+#scheduallist th{background:#D6D3D6;}
+/*模拟对角线*/
+#scheduallist .out{
+   border-top:40px #D6D3D6 solid;/*上边框宽度等于表格第一行行高*/
+   width:0px;/*让容器宽度为0*/
+   height:0px;/*让容器高度为0*/
+   border-left:80px #BDBABD solid;/*左边框宽度等于表格第一行第一格宽度*/	
+   position:relative;/*让里面的两个子容器绝对定位*/
+}
+#scheduallist b{font-style:normal;display:block;position:absolute;top:-40px;left:-40px;width:35px;}
+#scheduallist em{font-style:normal;display:block;position:absolute;top:-25px;left:-70px;width:55x;}
+#scheduallist .t1{background:#BDBABD;}
+ 
+#scheduallist .sche{
+ padding: 5px;
+}
+ 
+#scheduallist .item{
+    float: left;
+    padding: 2px;
+    color: #666666;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #cfcfcf;
+    border-radius: 14px;
+    line-height: 1.5;
+    margin: 2px;
+    background: rgba(232, 232, 232, 0.44);
+ }
+ #scheduallist .opt{
+ 	width: 50px;
+ }
+  #scheduallist a{
+  	text-decoration: none; 
+  	color:#400040;
+  }
+ .schedual{
+ 	display: block;
+ 	width: 50px;
+ 	
+ }
+ 
+
+ 
+ .interval{
+ 	float: left;
+ }
+ .interval span{
+ 	display: block;
+ 	float: left;
+ 	width: 45px;
+ 	line-height: 25px;
+ 	
+ }
+ .trainer-select{
+ 	float: left;
+ 	width: 120px;
+ 	margin-left: 5px
+ }
+  .trainer-select span{
+    display: block;
+    float: left;
+    line-height: 25px;
+    margin-right: 10px;
+  }
+  
+  .sche-list li{
+	 width: 350px;
+	 margin-bottom:5px; 
+	 height: 25px;
+	 line-height: 25px;
+  }
+  .sche-list li checkbox{
+  	float: left;
+  }
+  .sche-list .box{
+  	float: left;
+  	margin: 5px;
+  }
+  .sche-header .header-item{
+  		width: 150px;
+  }
+   .sche-header .opt{width: 80px;}
+   
+    .search-area{
+    	width: 100%;
+    	clear: both;
+    	height: 80px;
+    	
+    }
+   .search-area .time-area .time-select{
+	    width: 373px;
+	    float: left;
+	    margin: 10px 0px;
+	    height: 30px;
+   }
+   .search-area .label{
+	float: left;
+    width: 80px;
+    height: 56px;
+    line-height: 56px;
+   }
+   .search-area .time-area{
+   	   	float: left;
+   		width: 470px;
+   }
+   .search-area .shop-select{
+   	    float: left;
+   }
+   .search-area .shop-select select{
+   		float: left;
+   		margin-top: 18px;
+   }
+   .search-area .search-opt{
+   	 margin-left: 10px;
+    float: left;
+    margin-top: 10px;
+   }
+   
+#course-list  .item-top{
+     border-bottom: 1px solid #ccc;
+     margin-bottom: 10px;
+     height: 30px;
+ }
+ 
+ #course-list .item-top .courseName{
+    height: 30px;
+    line-height: 30px;
+    width: 300px;
+    float: left;
+ }
+   
+   #course-list .opts{
+    width: 300px;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+   }
+      #course-list .opts a{
+   	  display: block;
+   	  float: right;
+   	  text-decoration: none; 
+  	  color:#400040;
+  	  margin:0px 5px; 
+   }
+   #course-list .sche-list{
+   		display: block;
+   		min-height: 50px;	 
+   }
+   .dialog-opts {text-align: center;}
+   

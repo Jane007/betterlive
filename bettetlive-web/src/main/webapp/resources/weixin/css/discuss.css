@@ -1,0 +1,525 @@
+.titlelists {
+	width: 100%;
+	color: #666;
+	height: 0.8rem;
+	position: fixed;
+	top: 0.79rem;
+	z-index: 100;
+	background: #fff;
+	box-sizing: border-box;
+	padding: 0.2rem 0;
+	border-top: 1px solid #ededed;
+}
+
+.titlelists li {
+	float: left;
+	width: 50%;
+	text-align: center;
+	height: 0.33rem;
+	font-size: 0.22rem;
+	color: #333333;
+	box-sizing: border-box;
+}
+
+.titlelists li p {
+	width: 1.11rem;
+	height: 0.04rem;
+	border-radius: 12px;
+	text-align: center;
+	background: #e62d29;
+	margin: 0.26rem auto 0;
+	display: none;
+}
+
+.titlelists .active {
+	color: #e62d29;
+}
+
+.titlelists .active p {
+	display: block;
+}
+
+.messageBox {
+	top: 1.69rem;
+	bottom: 0;
+	padding: 0 0 0 0.26rem;
+	background: #fff;
+	width: 100%;
+	box-sizing: border-box;
+	border-top: 0.2rem solid #eee;
+}
+
+.has-msgBox {
+	
+}
+
+.no-msgBox {
+	text-align: center;
+	padding: 1.9rem 0 0 0;
+	display: none;
+}
+
+.no-msgBox img {
+	width: 1.09rem;
+	height: 1.04rem;
+	display: block;
+	margin: 0 auto;
+}
+
+.no-msgBox p {
+	font-size: 0.28rem;
+	color: #999999;
+	margin: 0.2rem 0 0 0;
+}
+
+.mesList {
+	overflow: hidden;
+	padding: 0.25rem 0;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.mesList:last-child {
+	border-bottom: 0;
+}
+
+.userPic {
+	width: 0.56rem;
+	height: 0.56rem;
+	float: left;
+	border-radius: 50%;
+}
+
+.userPic img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	border-radius: 50%;
+}
+
+.mesInfor {
+	width: 87%;
+	float: right;
+	font-size: 0.2rem;
+}
+
+.mesInfor .userName {
+	color: #868686;
+	display: inline-block;
+	width: 2.9rem;
+	padding-top: 0.14rem;
+	font-size: 0.24rem;
+}
+
+.mesInfor .mesTime {
+	margin-top: 0.05rem;
+	font-size: 0.16rem;
+	color: #999999;
+	display: inline-block;
+	text-align: right;
+	width: 2.6rem;
+}
+
+.mesCon {
+	padding-top: 0.15rem;
+	color: #333333;
+	font-size: 0.26rem;
+	clear: both;
+}
+
+.mesPic {
+	margin: 0.25rem 0 0.1rem -0.29rem;
+	overflow: hidden;
+}
+
+.mesPic img {
+	width: 1.1rem;
+	height: 1.1rem;
+	margin: 0 0 0.1rem 0.29rem;
+	display: block;
+	float: left;
+}
+
+.plbotbox {
+	overflow: hidden;
+	zoom: 1;
+	padding-right: 0.28rem;
+	background: #fff;
+}
+
+.plbotbox span.cpname {
+	float: left;
+	font-size: 0.24rem;
+	color: #868686;
+}
+
+.plbotbox span.dianzan {
+	background: url(../img/dianzanic.png) no-repeat 0.24rem;
+	background-size: 20%;
+	float: right;
+	font-size: 0.2rem;
+	color: #363636;
+	display: block;
+	padding-left: 0.5rem;
+	padding-right: 0.15rem;
+	height: 0.35rem;
+	line-height: 0.35rem;
+	border: 1px solid #c6c6c6;
+	border-radius: 0.17rem;
+	margin-left: 0.24rem;
+}
+
+.plbotbox span.pinglun {
+	background: url(../img/plico.png) no-repeat 0.24rem;
+	background-size: 20%;
+	float: right;
+	font-size: 0.2rem;
+	color: #363636;
+	display: block;
+	padding-left: 0.5rem;
+	padding-right: 0.15rem;
+	height: 0.35rem;
+	line-height: 0.35rem;
+	border: 1px solid #c6c6c6;
+	border-radius: 0.17rem;
+}
+
+.plbotbox span.dianzan2 {
+	background: url(../img/dz202.png) no-repeat 0.24rem;
+	background-size: 20%;
+	float: right;
+	font-size: 0.2rem;
+	color: #e62d29;
+	display: block;
+	padding-left: 0.5rem;
+	padding-right: 0.15rem;
+	height: 0.35rem;
+	line-height: 0.35rem;
+	border: 1px solid #e62d29;
+	border-radius: 0.17rem;
+	margin-left: 0.24rem;
+}
+
+.pltopboxs {
+	background: #fff;
+	padding-left: 0.26rem;
+	padding-top: 0.35rem;
+	padding-bottom: 0.4rem;
+}
+
+.pltop {
+	overflow: hidden;
+	zoom: 1;
+	padding-right: 0.26rem;
+	margin-bottom: 0.2rem;
+}
+
+.pltop span {
+	float: left;
+	display: block;
+}
+
+.pltop .pltouxiang {
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 0.3rem;
+	overflow: hidden;
+	zoom: 1;
+	margin-right: 0.17rem;
+	font-size: 0.2rem;
+}
+
+.pltop .pltouxiang img {
+	width: 100%;
+	height: 100%;
+}
+
+.pltop .plname {
+	font-size: 0.24rem;
+	color: #868686;
+}
+
+.pltop .pltime {
+	float: right;
+	font-size: 0.20rem;
+	color: #868686;
+}
+
+.plcent {
+	font-size: 0.26rem;
+	padding-top: 0.36rem;
+	color: #363636;
+	padding-right: 0.26rem;
+	border-bottom: 1px solid #d9d9d9;
+	padding-bottom: 0.35rem; ,
+	margin-bottom: 0.35rem;
+	word-wrap: break-word;
+}
+
+.plcent:last-child {
+	border: none;
+}
+
+.cpnames {
+	font-size: 0.24rem;
+	color: #cpnames;
+	color: #868686;
+	padding: 0.11rem 0;
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.plproduct {
+	overflow: hidden;
+	zoom: 1;
+	margin-top: 0.24rem;
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.plproduct .plproleft {
+	float: left;
+	width: 2.19rem;
+	margin-right: 0.24rem;
+}
+
+.plproduct .plproleft img {
+	width: 100%;
+}
+
+.plproduct .plproright {
+	float: left;
+	width: 4.18rem;
+	padding-top: 0.26rem;
+}
+
+.plproduct .plproright span {
+	display: block;
+}
+
+.plproduct .plproright span.name {
+	font-size: 0.3rem;
+	color: #363636;
+	margin-bottom: 0.16rem;
+}
+
+.plproduct .plproright span.detail {
+	font-size: 0.24rem;
+	color: #868686;
+	margin-bottom: 0.2rem;
+}
+
+.plproduct .plproright span.money {
+	font-size: 0.31rem;
+	color: #e62d29;
+}
+
+.plproduct .plproright span.money strong {
+	font-weight: normal;
+	color: #868686;
+	font-size: 0.2rem;
+	text-transform: uppercase;
+	text-decoration: line-through;
+	margin-left: 0.1rem;
+}
+
+.plxqbox {
+	padding-left: 0.28rem;
+	padding-right: 0 !important;
+	margin-top: 0.2rem;
+	padding-bottom: 0.94rem;
+}
+
+.plxqbox h3 {
+	display: block;
+	font-size: 0.26rem;
+	color: #363636;
+	border-bottom: 1px solid #d9d9d9;
+	height: 1rem;
+	line-height: 1rem;
+	font-weight: normal;
+	position: relative;
+	padding-left: 0.12rem;
+}
+
+.plxqbox h3:after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.4rem;
+	width: 0.04rem;
+	height: 0.24rem;
+	background: #e62d29;
+}
+
+.plxqbox .plcent {
+	padding-right: 0;
+}
+
+.plxqbox .plcent .plcttop {
+	overflow: hidden;
+	zoom: 1;
+	padding-right: 0.2rem;
+	line-height: 0.59rem;
+}
+
+.plxqbox .plcent .plcttop span.one {
+	display: block;
+	float: left;
+	width: 0.59rem;
+	height: 0.59rem;
+	border-radius: 0.295rem !important;
+	overflow: hidden;
+	position: relative;
+}
+
+.plxqbox .plcent .plcttop span.one img {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	height: 100%;
+}
+
+.plxqbox .plcent .plcttop span.two {
+	display: block;
+	margin-left: 0.2rem;
+	float: left;
+	color: #868686;
+	font-size: 0.24rem;
+	line-height: 0.59rem;
+}
+
+.plxqbox .plcent .plcttop span.three {
+	display: block;
+	float: right;
+	font-size: 0.2rem;
+	color: #868686;
+}
+
+.dchfcent {
+	padding-left: 0.75rem;
+	padding-right: 0.2rem;
+	font-size: 0.26rem;
+	color: #363636;
+}
+
+.plbotboxs {
+	overflow: hidden;
+	zoom: 1;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 0.94rem;
+	line-height: 0.94rem;
+	background: #fff;
+	border-top: 1px solid #d9d9d9;
+}
+
+.plbotboxs a {
+	float: left;
+	width: 25%;
+	font-size: 0.29rem;
+	color: #868686;
+	padding-left: 25%;
+	position: relative;
+}
+
+.plbotboxs a:first-child {
+	background: url(../img/pl2.png) no-repeat 40% 48%;
+	background-size: 10%;
+}
+
+.plbotboxs a:first-child:after {
+	content: "";
+	display: block;
+	right: 0;
+	width: 1px;
+	height: 100%;
+	top: 0;
+	background: #d9d9d9;
+	position: absolute;
+}
+
+.plbotboxs a:last-child {
+	background: url(../img/dz2.png) no-repeat 40% 48%;
+	background-size: 10%;
+}
+
+.plbotboxs a.current {
+	background: url(../img/dz202.png) no-repeat 40% 48%;
+	background-size: 10%;
+	color: #e62d29;
+}
+
+.shafabg {
+	background: url(../img/shafabg.png) no-repeat center 0.3rem;
+	background-size: 1.67rem;
+	font-size: 0.26rem;
+	color: #868686;
+	padding-top: 2.2rem;
+	text-align: center;
+	padding-bottom: 0.5rem;
+}
+
+.plbotboxsgai {
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	height: 0.92rem;
+	background: #fff;
+	border-top: 1px solid #bdbdbd;
+}
+
+.plbotboxsgai #contentId {
+	width: 92%;
+	height: 0.7rem;
+	margin: 0.1rem auto 0;
+	background: #eee;
+	display: block;
+	border: none;
+	text-indent: 0.1rem;
+	border-radius: 3px;
+}
+
+.plbotboxsgai a {
+	display: block;
+	width: 92%;
+	margin-left: 3%;
+	padding-left: 2%;
+	background: #eee;
+	font-size: 0.26rem;
+	color: #868686;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	border-radius: 0.05rem;
+	margin-top: 0.15rem;
+}
+
+.plbotbox .dz {
+	background: url(../img/dianzanic.png) no-repeat 0.24rem;
+	background-size: 20%;
+	float: right;
+	font-size: 0.2rem;
+	color: #363636;
+	display: block;
+	padding-left: 0.5rem;
+	padding-right: 0.15rem;
+	height: 0.35rem;
+	line-height: 0.35rem;
+	border: 1px solid #c6c6c6;
+	border-radius: 0.17rem;
+	margin-left: 0.24rem;
+}
+
+.plbotbox .dz.on {
+	background: url(../img/dz202.png) no-repeat 0.24rem;
+	background-size: 20%;
+	float: right;
+	font-size: 0.2rem;
+	color: #e62d29;
+	display: block;
+	padding-left: 0.5rem;
+	padding-right: 0.15rem;
+	height: 0.35rem;
+	line-height: 0.35rem;
+	border: 1px solid #e62d29;
+	border-radius: 0.17rem;
+	margin-left: 0.24rem;
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ProductRedeemSpecMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ProductRedeemSpec" >
+    <id column="redeem_spec_id" property="redeemSpecId" jdbcType="BIGINT" />
+    <result column="redeem_id" property="redeemId" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="spec_id" property="specId" jdbcType="INTEGER" />
+    <result column="redeem_type" property="redeemType" jdbcType="INTEGER" />
+    <result column="need_integral" property="needIntegral" jdbcType="DECIMAL" />
+    <result column="deductible_amount" property="deductibleAmount" jdbcType="DECIMAL" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+	t.redeem_spec_id, t.redeem_id, t.product_id, t.spec_id, t.redeem_type, t.need_integral, t.deductible_amount, t.status,
+	DATE_FORMAT(t.start_time, '%Y-%m-%d %H:%i:%s') start_time,
+	DATE_FORMAT(t.end_time, '%Y-%m-%d %H:%i:%s') end_time
+  </sql>
+  
+  
+  	<sql id="Join_Business_Column_List" >
+		tp.product_id AS "productId",
+		tp.product_name AS "productName",
+		tp.product_code AS "productCode",
+		tp.product_logo AS "productLogo",
+		tp.fake_sales_copy AS "fakeSalesCopy",
+		sum(stock_copy) AS "totalStockCopy"
+	</sql>
+	
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_redeem_spec t where t.`status` = 0
+    and t.start_time <![CDATA[ <= ]]>  NOW() and t.end_time <![CDATA[ > ]]> NOW()
+    <if test=" null != redeemType">
+    	AND t.redeem_type = #{redeemType}
+    </if>
+    <if test=" null != productId and '' != productId ">
+    	AND t.product_id = #{productId}
+    </if>
+    <if test=" null != specId and '' != specId ">
+    	AND t.spec_id = #{specId}
+    </if>
+    <if test="null !=redeemId and '' !=redeemId">
+    	AND t.redeem_id = #{redeemId}
+    </if>
+    
+    limit 1
+  </select>
+  
+  <select id="queryMinRedeemSpec" resultMap="BaseResultMap" parameterType="pd" >
+   	select t.need_integral, t.deductible_amount, ts.spec_id, 
+   		   ts.spec_price AS "specPrice", ts.discount_price AS "discountPrice"
+  		from t_product_redeem_spec t, t_product tp, t_spec ts
+		 where t.redeem_id = #{redeemId}
+		 	and t.`status` = 0
+			and t.start_time <![CDATA[ <= ]]> NOW()
+			and t.end_time  <![CDATA[ > ]]>  NOW()
+			and t.product_id = tp.product_id
+			and tp.`status` = 1
+			and t.product_id = ts.product_id
+			and t.spec_id	= ts.spec_id
+			and ts.`status` = 1
+	ORDER BY ts.spec_price asc
+	limit 1
+  </select>
+  
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_redeem_spec t
+    limit 1
+  </select>
+  
+</mapper>

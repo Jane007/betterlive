@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SingleCouponSpecMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SingleCouponSpec">
+		<id column="coupon_spec_id"  property="couponSpecId"   jdbcType="INTEGER" />
+		<result column="coupon_id" property="couponId" jdbcType="INTEGER" /> 
+		<result column="product_id" property="productId" jdbcType="INTEGER" /> 
+		<result column="spec_id" property="specId" jdbcType="INTEGER" />
+		<result column="link_url" property="linkUrl" jdbcType="VARCHAR" />
+		<result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		coupon_spec_id,
+		coupon_id,
+		product_id,
+		spec_id,
+		link_url
+	</sql>
+	
+	
+	
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd">
+		select 
+			ps.coupon_spec_id,
+			ps.coupon_id,
+			ps.product_id,
+			ps.spec_id,
+			ps.link_url,
+			sp.coupon_name
+		from t_single_coupon_spec ps left join t_single_coupon sp on ps.coupon_id = sp.coupon_id
+		where 1=1
+		<if test="couponSpecId!=null and ''!=couponSpecId">
+			and ps.coupon_spec_id=#{couponSpecId}
+		</if>
+		<if test="couponId!=null and ''!=couponId">
+			and ps.coupon_id=#{couponId}
+		</if>
+		<if test="productId!=null and ''!=productId">
+			and ps.product_id=#{productId}
+		</if>
+		<if test="specId!=null and ''!=specId">
+			and ps.spec_id=#{specId}
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and sp.start_time&lt;#{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and sp.end_time&gt;#{endTime}
+		</if>
+		<if test="null!=status and ''!=status">
+			and sp.status=#{status}
+		</if>
+		<if test="couponSpecIds !=null and '' != couponSpecIds">
+			and ps.coupon_spec_id in (${couponSpecIds})
+		</if>
+	</select>
+	
+	
+	<select id="queryOne" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_single_coupon_spec
+		where 1=1
+		<if test="couponSpecId!=null and ''!=couponSpecId">
+			and coupon_spec_id=#{couponSpecId}
+		</if>
+		<if test="couponId!=null and ''!=couponId">
+			and coupon_id=#{couponId}
+		</if>
+		<if test="productId!=null and ''!=productId">
+			and product_id=#{productId}
+		</if>
+		<if test="specId!=null and ''!=specId">
+			and spec_id=#{specId}
+		</if>
+	</select>
+	
+	
+	<delete id="delete" parameterType="pd">
+		delete from t_single_coupon_spec where 1=1
+		<if test="couponSpecId!=null and ''!=couponSpecId">
+			and coupon_spec_id=#{couponSpecId}
+		</if>
+		<if test="couponId!=null and ''!=couponId">
+			and coupon_id=#{couponId}
+		</if>
+		<if test="editSpec!=null and ''!=editSpec">
+			and spec_id not in    
+			<foreach collection="ids" item="id" separator="," open="(" close=")">
+            	#{id}
+        	</foreach>
+		</if>
+	
+	</delete>
+	
+	
+	<insert id="insert" parameterType="com.kingleadsw.betterlive.model.SingleCouponSpec">
+		insert into t_single_coupon_spec
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="couponId!=null and ''!=couponId">
+				coupon_id,
+			</if>
+			<if test="productId!=null and ''!=productId">
+				product_id,
+			</if>
+			<if test="specId!=null and ''!=specId">
+				spec_id,
+			</if>
+			<if test="linkUrl!=null and ''!=linkUrl">
+				link_url,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="couponId!=null and ''!=couponId">
+				#{couponId},
+			</if>
+			<if test="productId!=null and ''!=productId">
+				${productId},
+			</if>
+			<if test="specId!=null and ''!=specId">
+				#{specId},
+			</if>
+			<if test="linkUrl!=null and ''!=linkUrl">
+				#{linkUrl}
+			</if>
+		</trim>
+	</insert>
+</mapper>

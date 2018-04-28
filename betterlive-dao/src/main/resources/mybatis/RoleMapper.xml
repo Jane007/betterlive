@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Role" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+     <result column="role_type" property="roleType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    role_id, role_name,role_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.Role" useGeneratedKeys="true" keyProperty="roleId">
+  	insert into t_role(role_name,role_type) values(#{roleName,jdbcType=VARCHAR},#{roleType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kingleadsw.betterlive.model.Role" >
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.Role" >
+    update t_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.Role" >
+    update t_role
+    set role_name = #{roleName,jdbcType=VARCHAR},role_type = #{roleType,jdbcType=INTEGER}
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryList" resultMap="BaseResultMap" parameterType="pd">
+  	select * from t_role
+  </select>
+  
+   <!--   分页查询全部role -->
+   <select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+   select * from t_role where 1=1
+   <if test="roleName != null and roleName!=''" >
+        and role_name like '%${roleName}%'
+      </if>
+    order by role_id asc
+  	
+  	<if test="rowStart != null">
+  		limit #{rowStart}, #{pageSize}
+  	</if>
+  </select>
+   <select id="selectMaxType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select MAX(role_type) from t_role
+  </select>
+</mapper>

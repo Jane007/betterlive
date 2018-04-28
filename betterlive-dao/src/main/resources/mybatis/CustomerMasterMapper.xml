@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CustomerMasterMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.CustomerMaster" >
+    <id column="master_id" property="masterId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="recommend_flag" property="recommendFlag" jdbcType="INTEGER" />
+    <result column="sorts" property="sorts" jdbcType="INTEGER" />
+  </resultMap>
+  
+   <resultMap id="BaseJoinResultMap" type="com.kingleadsw.betterlive.model.CustomerMaster">
+   	<association property="customer" column="customer_id" select="getUsername"/>
+   </resultMap>
+  
+   <select id="getUsername"  parameterType="INTEGER" resultType="com.kingleadsw.betterlive.model.Customer">
+   		select  customer_id,
+   				(case when nickname is not null and nickname <![CDATA[ <> ]]> '' then nickname
+   				else mosaic(mobile) end) nickname
+   				,mobile,head_url,
+   		       DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time     
+    		from t_customer
+    			where customer_id = #{customer_id}
+  </select>
+  
+  <sql id="Base_Column_List" >
+  	t.master_id, t.customer_id, t.status, t.recommend_flag, DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+  </sql>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    	<include refid="Base_Column_List" />
+    from t_customer_master t 
+     where 1=1
+     limit 1
+  </select>
+  
+   <select id="queryList" resultMap="BaseResultMap" parameterType="pd">
+      select 
+    	<include refid="Base_Column_List" />
+	    from t_customer_master t 
+	  	 where 1=1
+	  <if test="status != null">
+	  	and t.status = #{status}
+	  </if>
+      <if test="recommendFlag != null">
+	  	and t.recommend_flag = #{recommendFlag}
+	  </if>
+  </select>
+  
+  <select id="queryHotList" resultMap="BaseJoinResultMap" parameterType="pd">
+      select 
+    	<include refid="Base_Column_List" />
+	    from t_customer_master t 
+	  	 where 1=1
+	  <if test="status != null">
+	  	and t.status = #{status}
+	  </if>
+      <if test="recommendFlag != null">
+	  	and t.recommend_flag = #{recommendFlag}
+	  </if>
+	  
+	    ORDER BY t.sorts asc
+	  <if test="rowStart != null">
+	  	limit #{rowStart}, #{pageSize}
+	  </if>
+  </select>
+  
+</mapper>

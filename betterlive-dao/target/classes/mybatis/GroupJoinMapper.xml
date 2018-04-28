@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.GroupJoinMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.GroupJoin" >
+    <id column="group_join_id" property="groupJoinId" jdbcType="INTEGER" />
+    <result column="user_group_id" property="userGroupId" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="special_id" property="specialId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="originator" property="originator" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="DATE" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="spec_id" property="specId" jdbcType="INTEGER" />
+    <result column="buy_num" property="buyNum" jdbcType="INTEGER" />
+    <result column="total_buy_num" property="totalBuyNum" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="cust_img" property="custImg" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    group_join_id, user_group_id, group_id, special_id, status, originator, create_time, product_id,spec_id, buy_num, customer_id
+
+  </sql>
+  
+   	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+        SELECT <include refid="Base_Column_List"/>
+          <if test="customerId != null">
+        	  ,(select sum(top.quantity) from t_order_product top, t_order tor 
+        	 	where top.`STATUS` in (2,3,4,5) and top.order_id= tor.order_id and top.product_id = t_group_join.product_id and top.spec_id = t_group_join.spec_id
+        	 	and tor.customer_id = t_group_join.customer_id
+        	 ) total_buy_num
+          </if>
+          FROM t_group_join WHERE 1=1
+          <if test="groupJoinId != null">
+          	AND group_join_id = #{groupJoinId}
+          </if>
+          <if test="userGroupId != null">
+          	AND user_group_id = #{userGroupId}
+          </if>
+           <if test="specialId != null">
+          	AND special_id = #{specialId}
+          </if>
+          <if test="customerId != null">
+          	AND customer_id = #{customerId}
+          </if>
+          <if test="productId != null">
+          	AND product_id = #{productId}
+          </if>
+          <if test="status != null">
+          	AND status = #{status}
+          </if>
+         limit 1
+    </select>
+	<select id="queryList" resultMap="BaseResultMap" parameterType="pd" >
+       SELECT  t.group_join_id, t.user_group_id, t.group_id, t.special_id, t.status, t.originator, t.create_time, t.product_id, t.spec_id, t.buy_num,
+ 			tc.mobile, tc.head_url cust_img
+         FROM t_group_join t, t_customer tc where t.customer_id=tc.customer_id
+          <if test="userGroupId != null">
+          	AND t.user_group_id = #{userGroupId}
+          </if>
+           <if test="specialId != null">
+          	AND t.special_id = #{specialId}
+          </if>
+          <if test="customerId != null">
+          	AND t.customer_id = #{customerId}
+          </if>
+          <if test="productId != null">
+          	AND t.product_id = #{productId}
+          </if>
+          <if test="status != null">
+          	AND t.status = #{status}
+          </if>
+   </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_group_join
+    where group_join_id = #{groupJoinId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertGroupJoin" parameterType="com.kingleadsw.betterlive.model.GroupJoin" useGeneratedKeys="true"  keyProperty="groupJoinId">
+    insert into t_group_join (user_group_id, group_id, special_id, originator, create_time, status, product_id, spec_id, buy_num, customer_id)
+    values (#{userGroupId}, #{groupId}, #{specialId}, #{originator}, NOW(), #{status}, #{productId}, #{specId}, #{buyNum}, #{customerId})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.GroupJoin" >
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.GroupJoin" >
+    update t_group_join
+    set 
+		status=#{status}
+    where group_join_id = #{groupJoinId}
+  </update>
+
+</mapper>

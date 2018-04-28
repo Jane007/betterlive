@@ -1,0 +1,195 @@
+*{
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.msglsists,dl{
+    list-style: none;
+}
+a{
+	text-decoration: none;
+}
+a:active{
+     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+i,em{
+	font-style: normal;
+	display: inline-block;
+}
+body,html{
+	min-height: 100%;
+}
+body{
+	background: #eee; 
+}
+.container{
+	width: 100%;
+	height: 100%;
+	font-family: "微软雅黑";
+	position: relative;
+}
+.header{
+	width: 100%;
+	height: 0.78rem;
+	box-sizing: border-box;
+	position: fixed;
+	top:0;
+	left: 0;
+	background: #e62d29; 
+	opacity: 0.9;
+	z-index: 35;
+	border-bottom: 1px solid #e3e3e2;
+}
+.header img.huihuo{
+	width: 1.07rem;
+	display: block;
+	position: absolute;
+	margin:auto;
+	left: 0.42rem;
+	top: 0;
+	bottom: 0;
+}
+.header img.kefuimg{
+	width:1.44rem;
+	display: block;
+	position: absolute;
+	margin:auto;
+	right: 0.42rem;
+	top: 0;
+	bottom: 0;
+}
+.mainBox{
+	padding:1.06rem 0.16rem 0.35rem;
+}
+.msglsists{
+	width:100%;
+	overflow: hidden;
+	font-size: 0.22rem;
+}
+.msglsists li{
+	max-width: 4.94rem;
+	margin-bottom: 0.12rem;
+}
+.msglsists .service{
+	float: left;
+	position: relative;
+}
+.msglsists .service span{
+	width:0.09rem;
+	height: 0.16rem;
+	display: inline-block;background: url(../img/kejian.png) no-repeat center center;
+	background-size: 100%;
+	position: absolute;
+	top: 0.29rem;
+	left: 0.86rem;
+}
+.msglsists .user{
+	float: right;
+	position: relative;
+}
+.msglsists .user .infos{background:#e62d29;color:#fff !important; border:none;  }  
+.msglsists .user span{
+	width:0.09rem;
+	height: 0.16rem;
+	display: inline-block;
+	background: url(../img/hongjiao.png) no-repeat center center; 
+	background-size: 100%;
+	position: absolute;
+	top: 0.29rem;  
+	right: 0.83rem;
+}
+.msglsists .separate{
+	clear: both;
+}
+.msglsists li .portrait{
+	width: 0.72rem;
+	height: 0.72rem;
+	float: left;
+	cursor: pointer;
+	overflow:hidden;
+	border-radius:0.72rem;  
+}
+  
+.msglsists li .portrait img{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.msglsists li .infos{
+	float: left;
+	box-sizing: border-box;
+	border-radius:6px;
+	max-width: 4rem;
+	color: #666666;
+	background:#fff;  
+	border: 1px solid #dfdeda;
+	padding:0.18rem 0.26rem;
+	font-size: 0.22rem;
+}
+.msglsists .service .infos{
+	color: #666666;
+	margin-left: 0.21rem;
+	font-size: 0.22rem;
+}
+.msglsists .user .infos{
+	float: left;
+	margin-right: 0.21rem;
+	color: #e62d29;
+	
+}
+.msglsists .user .portrait{
+	float: right;
+}
+.msglsists li.trouble .infos{
+	padding:0.18rem 0 0 0;
+}
+.msglsists .trouble .issueList{
+	margin-top: 0.15rem;
+	
+}
+.msglsists .trouble p{
+	padding: 0 0.26rem;
+}
+.msglsists .trouble .issueList label{
+	display: block;
+	height: 0.55rem;
+	line-height: 0.58rem;
+	border-top: 1px solid #deded9;
+	color: #e62d29;
+	cursor: pointer;
+	padding: 0 0.26rem; 
+}
+.msglsists .trouble .issueList .child{
+	display: none;
+	margin: 0 0 0.15rem 0;
+}
+.msglsists .trouble .issueList .child i{
+	display: block;
+	line-height: 0.3rem;
+	color: #e62d29;  
+	padding-left: 0.1rem;
+	margin-top: 0.12rem;
+	cursor: pointer;
+	padding: 0 0.26rem; 
+}
+
+
+.lxtitle{
+	font-size:0.33rem; 
+	display:block;
+	float:left; 
+	color:#fff; 
+	margin-left:40%;
+	height:0.78rem;
+	line-height:0.78rem;
+}
+.rengong{
+	font-size:0.26rem;
+	display:block;
+	float:right;
+	color:#fff; 
+	margin-right:0.24rem;
+	height:0.78rem;
+	line-height:0.78rem; 
+} 
+

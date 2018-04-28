@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SysGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SysGroup" >
+    <id column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="group_copy" property="groupCopy" jdbcType="INTEGER" />
+    <result column="limit_copy" property="limitCopy" jdbcType="INTEGER" />
+    <result column="special_id" property="specialId" jdbcType="INTEGER" />
+    <result column="join_copy" property="joinCopy" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="desc1" property="desc1" jdbcType="VARCHAR" />
+    <result column="desc2" property="desc2" jdbcType="VARCHAR" />
+    <result column="desc3" property="desc3" jdbcType="VARCHAR" />
+    <result column="desc4" property="desc4" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    group_id, group_copy, limit_copy, special_id, join_copy, product_id, desc1, desc2, desc3, desc4
+  </sql>
+  
+    
+	<select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+        SELECT *
+          FROM t_sys_group
+    </select>
+    
+   	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+        SELECT <include refid="Base_Column_List"/>
+          FROM t_sys_group WHERE 1=1
+          <if test="groupId != null">
+          	AND group_id = #{groupId}
+          </if>
+           <if test="specialId != null">
+          	AND special_id = #{specialId}
+          </if>
+         limit 1
+    </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sys_group
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SysGroup" >
+    insert into t_sys_group (group_id, group_copy, limit_copy, special_id, join_copy, product_id, desc1, desc2, desc3, desc4)
+    values (#{groupId}, #{groupCopy}, #{limitCopy}, #{specialId}, #{joinCopy}, #{productId}, #{desc1}, #{desc2}, #{desc3}, #{desc4})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.SysGroup" >
+    update t_sys_group
+    set 
+		group_copy=#{groupCopy},
+		limit_copy=#{limitCopy},
+		special_id=#{specialId},
+		product_id=#{productId},
+		desc1=#{desc1},
+		desc2=#{desc2},
+		desc3=#{desc3},
+		desc4=#{desc4}
+    where group_id = #{groupId}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.SysGroup">
+    update t_sys_group
+    set 
+		join_copy = #{joinCopy}
+    where group_id = #{groupId}
+  </update>
+
+</mapper>

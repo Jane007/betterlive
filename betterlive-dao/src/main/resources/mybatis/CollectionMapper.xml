@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CollectionMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Collection" >
+    <id column="collection_id" property="collectionId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="collection_type" property="collectionType" jdbcType="INTEGER" />
+    <result column="collection_time" property="collectionTime" jdbcType="TIMESTAMP" />
+    <result column="obj_id" property="objId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    	t.collection_id, t.customer_id ,t.collection_type, t.collection_time, t.obj_id
+  </sql>
+  
+   <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+   	select <include refid="Base_Column_List"/>
+   	 from t_collection t where 1=1
+   	 <if test="objId != null">
+   	 	and t.obj_id = #{objId}
+   	 </if>
+   	 <if test="collectionType != null">
+   	 	and t.collection_type = #{collectionType}
+   	 </if>
+   	 <if test="customerId != null">
+   	 	and t.customer_id = #{customerId}
+   	 </if>
+   	 limit 1
+   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_collection t
+    where t.collection_id = #{collectionId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_collection
+    where collection_id = #{collectionId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertCollection" parameterType="com.kingleadsw.betterlive.model.Collection" useGeneratedKeys="true"  keyProperty="collectionId">
+    insert into t_collection (customer_id,collection_type,collection_time,obj_id)
+    values (#{customerId}, #{collectionType}, NOW(), #{objId})
+  </insert>
+  
+  <!-- 收藏 -->
+  <select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	 from t_collection t where 1=1
+  	<if test="customerId != null">
+  		and t.customer_id=#{customerId}
+  	</if>
+ 	<if test="collectionType != null">
+  		and t.collection_type=#{collectionType}
+  	</if>
+  	<if test="objId != null">
+  		and t.obj_id = #{objId}
+  	</if>
+  	order by t.collection_id desc
+  </select>
+  
+  <select id="queryCollectionCount" parameterType="pd" resultType="java.lang.Integer">
+	  	select count(1) 
+	  	 from t_collection t where 1=1
+	  	<if test="customerId != null">
+	  		and t.customer_id=#{customerId}
+	  	</if>
+	 	<if test="collectionType != null">
+	  		and t.collection_type=#{collectionType}
+	  	</if>
+  		<if test="collectionTypes != null">
+	  		and t.collection_type in (${collectionTypes})
+	  	</if>
+  </select>
+  
+</mapper>

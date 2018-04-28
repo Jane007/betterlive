@@ -1,0 +1,262 @@
+body {
+	background: #eee;
+}
+
+.header-wrap {
+	width: 100%;
+	height: 5.92rem;
+	background: url(../../img/sociality/header-bg.png) no-repeat center
+		center;
+	background-size: 100% auto;
+}
+
+.header {
+	width: 92.22%;
+	margin: 0 auto;
+}
+
+.top {
+	height: 1.24rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.top .goback {
+	width: 0.67rem;
+	height: 0.67rem;
+	/**銆�ackground: url(../../img/sociality/goback.png) no-repeat left center;**/
+	background-size: 100% 100%;
+}
+
+.set {
+	height: 0.67rem;
+	display: flex;
+}
+
+.set .pl {
+	width: 0.67rem;
+	height: 0.67rem;
+	background: url(../../img/sociality/editl.png) no-repeat left center;
+	background-size: 100% 100%;
+	margin-right: 0.9629rem;
+}
+
+.set .oset {
+	width: 0.67rem;
+	height: 0.67rem;
+	background: url(../../img/sociality/set.png) no-repeat left center;
+	background-size: 100% 100%;
+}
+
+.bottom {
+	width: 100%;
+	color: #ede8e2;
+}
+
+.bottom .headphoto {
+	display: block;
+	width: 1.907rem;
+	height: 1.907rem;
+	margin: 0 auto;
+}
+
+.bottom .headphoto img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+
+.bottom h3 {
+	display: inline-block;
+	margin: 0.222rem 0 0 50%;
+	transform: translateX(-50%);
+	height: 0.648rem;
+	line-height: 0.648rem;
+	text-align: center;
+	font-size: 0.416rem;
+	padding: 0 0.56rem;
+}
+
+.bottom h3.man {
+	background: url(../../img/sociality/sex_man.png) no-repeat right center;
+	background-size: 0.222rem 0.333rem;
+	white-space:nowrap;
+}
+
+.bottom h3.wman {
+	background: url(../../img/sociality/sex_woman.png) no-repeat right center;
+	background-size: 0.222rem 0.333rem;
+	white-space:nowrap;
+}
+
+.bottom p {
+	height: 0.5rem;
+	line-height: 0.5rem;
+	font-size: 0.2777rem;
+}
+
+.operate {
+	width: 100%;
+	height: 0.56rem;
+	line-height: 0.56rem;
+	text-align: center;
+	display: flex;
+	margin-top: 0.398rem;
+	position: relative;
+}
+
+.operate a {
+	color: #ede8e2;
+	font-size: 0.37rem;
+}
+
+.operate .attention {
+	width: 33.33%;
+	position: relative;
+}
+.operate .attention:after{
+	width: 1px;
+	height: 0.2777rem;
+	display: block;
+	content: '';
+	background: #ede8e2;
+	transform: scaleX(0.5);
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+}
+.operate .fans {
+	width: 33.33%;
+    position: relative;
+}
+.operate .fans:after{
+	width: 1px;
+	height: 0.2777rem;
+	display: block;
+	content: '';
+	background: #ede8e2;
+	transform: scaleX(0.5);
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+}
+.operate .grade{
+	width: 33.33%;
+	position: relative;
+}
+.zanwubg{
+	font-size: 0.3888rem;
+    color: #868686;
+    text-align: center;
+    background: url(../../img/geren08.png) no-repeat center 1rem;
+  	background-size: 2.33rem;
+    padding-top: 3.9rem;
+    display:none;
+}
+.content-wrap {}
+.content {}
+.prolist {
+	width: 92.22%;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.prolist li {
+	width: 48.59%;
+	height: 7.018rem;
+	background: #fff;
+	position: relative;
+	margin-top: 0.2777rem;
+}
+.prolist li dt{}
+.prolist li dt a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	width: 100%;
+	height: 4.5rem;
+}
+.prolist li dt a img {
+	display: block;
+	width: auto;
+	height: 100%;
+}
+
+.prolist li dd {
+	margin: 0.3888rem auto 0;
+	width: 86.41%;
+}
+.prolist li dd p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	font-size: 0.3rem;
+	color: #363636;
+}
+
+.prolist li dd .dbot {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 0.231rem;
+	height: 0.462rem;
+	line-height: 0.462rem;
+	color: #868686;
+	font-size: 0.259rem;
+}
+
+.prolist li dd .dbot .dz {
+	background: url(../../img/sociality/dz-01.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+	display: block;
+	height: 100%;
+	width: 0.8148rem;
+	text-align: right;
+}
+
+.prolist li dd .dbot .dz.on {
+	background: url(../../img/sociality/dz-02.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+}
+
+.audit {
+	width: 1.277rem;
+	height: 1.56rem;
+	position: absolute;
+	right: 0;
+	bottom: 1.3888rem;
+}
+
+.audit.sed {
+	background: url(../../img/sociality/check-01.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.audit.up {
+	background: url(../../img/sociality/check-02.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.audit.pend {
+	background: url(../../img/sociality/check-03.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.initloading {
+	background: url("../../img/loading01.png") no-repeat;
+	width: 34px;
+	height: 34px;
+	background-size: 100%;
+	position: fixed;
+	top: 50%;
+	z-index: 1000;
+	margin-left: 50%;
+	left: -0.31rem;
+}

@@ -1,0 +1,78 @@
+.container{
+	padding: 1.6rem 0.5rem 0;
+	box-sizing: border-box;
+}
+.errorTop{
+	padding: 0 0 0.6rem 0;
+	border-bottom: 1px solid #c9c9c9;
+}
+.errorImg{
+	width: 1.51rem;
+	height: 1.61rem;
+	margin: 0 auto;
+}
+.errorImg img{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.errorTop p{
+	margin: 0.33rem;
+	font-size: 0.31rem;
+	color: #aa2c23;
+	text-align: center;
+}
+.errorBot{
+	font-size: 0.27rem;
+	color: #999999;
+	padding: 0.49rem 0 0 0; 
+}
+.cause{
+	overflow: hidden;
+}
+.cause label{
+	float: left;
+	width: 24%;
+	display: inline-block;
+}
+.cause span{
+	float: left;
+	width: 72%;
+	display: inline-block;
+	margin-bottom: -0.12rem;
+}
+.cause span em{
+	display: block;
+	margin-bottom: 0.12rem;
+}
+.operation{
+	margin: 0.7rem 0 0 0;
+	display: flex;
+	align-items: center;
+}
+.operation a{
+	width: 48%;
+	display: inline-block;
+	color: #aa2c23;
+	display: flex;
+	justify-content: center;
+}
+.operation em{
+	margin: 0 0 0 0.2rem;
+}
+.refreshBox i{
+	width: 0.34rem;
+	height: 0.39rem;
+	display: inline-block;
+	background: url(../img/shuaxin.png) no-repeat center center;
+	background-size: 100%;
+}
+.rollback i{
+	width: 0.39rem;
+	height: 0.33rem;
+	display: inline-block;
+	background: url(../img/huitui.png) no-repeat center center;
+	background-size: 100%;
+}
+
+

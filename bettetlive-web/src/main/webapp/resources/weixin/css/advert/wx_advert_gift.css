@@ -1,0 +1,215 @@
+
+body{
+	width: 100%;
+	/* background: url(../../img/advert/jmp-03.png) no-repeat;
+	background-size:cover ;
+	background-attachment: fixed; */
+}
+body>img{
+	display:block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width:100%;
+}
+
+#layout{
+	position: absolute;
+	z-index:2;
+}
+.dowbox-wrap{
+	background: #000;
+	position: fixed;
+	left: 0;
+	top:0;
+	width: 100%;
+	z-index: 10;
+	display: none;
+}
+.dowbox{
+	width: 92.22%;
+	margin: 0 auto;
+	overflow: hidden;
+	height: 1.48rem;
+}
+.shut{
+	width: 0.5rem;
+	height: 0.5rem;
+	margin-top: 0.49rem;
+	float: left;
+}
+.shut img{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.activitytext{
+	background: url(../../img/xxlogo.png) no-repeat left center;
+	background-size: 1.11rem 1.11rem;
+	width: 6rem;
+	height: 100%;
+	float: left;
+	margin-left: 0.3148rem;
+	color: #fff;
+}
+.activitytext h3{
+	margin-left: 1.277rem;
+	height: 0.444rem;
+	line-height: 0.444rem;
+	font-size: 0.351rem;
+	font-weight: 600;
+	margin-top: 0.333rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.activitytext p{
+	margin-left: 1.277rem;
+	line-height: 0.388rem;
+	font-size: 0.277rem;
+	height: 0.388rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.dowbtn{
+	height: 0.778rem;
+	width: 1.9537rem;
+	text-align: center;
+	line-height: 0.778rem;
+	float: right;
+	background: #E62D29;
+	border-radius: 3px;
+	margin-top: 0.351rem;
+}
+.dowbtn a{
+	display: block;
+	width: 100%;
+	height:100%;
+	color: #fff;
+	font-size: 0.3148rem;
+}
+.title-tp{
+	width:100%;
+	margin-top:1.48rem;
+}
+.tp{
+	height:1.9722rem;
+}
+.tp img{
+	display:block;
+	width:64.814%;
+	height:100%;
+	margin:0 auto;
+}
+.tpti{
+}
+.tpti img{
+	display:block;
+	width:100%;
+	height:100%;
+}
+.content-wrap{}
+.content{}
+.list{
+	width: 92.222%;
+	margin: 0 auto 0;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+.list li{
+	width: 31.3%;
+	height: 1.612rem;
+	background: url(../../img/advert/jml-04.png) no-repeat;
+	background-size:cover ;
+	text-align: center;
+	color: #fff;
+	overflow: hidden;
+	margin-top: 0.333rem;
+}
+.list li h3{
+	font-size: 0.366rem;
+	font-weight: 500;
+	height: 0.55rem;
+	line-height: 0.55rem;
+	margin-top: 0.314rem;
+	margin-left: 0.4rem;
+}
+.list li h4{
+	font-size: 0.29rem;
+/* 	height: 0.4259rem; */
+/* 	line-height: 0.4259rem; */
+	margin-left: 0.4rem;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.decode{
+	width: 85.74%;
+	height: 1.25rem;
+	margin: 0.56rem auto 0;
+	background:url(../../img/advert/jml-01.png) no-repeat;
+	background-size:100% 100%;
+}
+.decode a{
+	display:block;
+	width:100%;
+	height:100%;
+	color:#fff;
+	font-size:0.53rem;
+	text-align: center;
+    line-height: 1.25rem;
+}
+
+.rule{
+	width: 92.222%;
+	margin: 0.777rem auto 0.833rem;
+}
+.rule img{
+	width: 100%;
+	height: 11.55rem;
+	display: block;
+}
+
+.redpacket{
+	width: 6.389rem;
+	height: 7.704rem;
+	background: url(../../img/advert/jml-05.png) no-repeat;
+	background-size:cover ;
+	position: fixed;
+	top: 4.36rem;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	color: #fff;
+	font-size: 0.62rem;
+	z-index: 2;
+	display: none;
+}
+.redpacket h3{
+	margin-top: 4.58rem;
+}
+.redpacket h4{
+	margin-top: 0.277rem;
+}
+
+.shad{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.6);
+	display: none;
+}
+
+.shepassdboxs{background:#fff;position:fixed;width:70%;margin-left:15%;top:6rem;height:2.1rem;border-radius:0.3rem; z-index:300; padding-top:0.3rem; }  
+.shepassdboxs a.left{color:#333;}
+.shepassdboxs span{font-size:0.31rem; display:block;width:100%;text-align:center;height:1rem;line-height:1rem; }   
+.shepassdboxs input{background:#eee; padding:0.15rem 0;border-radius:3px;  width:80%;padding-left:3px; height:0.61rem; border:none;margin-left:10%; bordrr-radius:4px; display:block;  font-size:0.26rem; text-indent:0.2rem; }
+.shepassdboxs .qushan{overflow:hidden;zoom;1; height:0.84rem; line-height:0.84rem;border-top:1px solid #d9d9d9;margin-top:0.24rem; }
+.shepassdboxs .qushan a{display:inline-block;width:49%;text-align:center; font-size:0.31rem;float:left; position:relative; height:100%;  }
+.shepassdboxs .qushan a.left{border-right:1px solid #d9d9d9; margin-bottom:5rem;}
+.shepassdboxs .qushan a.right{color:#e62d29; }

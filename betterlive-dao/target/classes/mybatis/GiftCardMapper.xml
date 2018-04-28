@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.GiftCardMapper" >
+	
+		
+	<sql id="Base_Column_List" >
+		gc.card_id,
+		gc.card_no,
+		gc.card_pwd,
+		gc.binding_user,
+		DATE_FORMAT(gc.binding_time, '%Y-%m-%d %H:%i:%s') AS binding_time,
+		gc.status,
+		gc.card_money,
+		gc.card_use,
+    	DATE_FORMAT(gc.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+    	c.nickname  as customer_name   
+  	</sql>
+  
+  	<sql id="Base_Column_List_Card" >
+		gc.card_id,
+		gc.card_no,
+		gc.card_pwd,
+		gc.binding_user,
+		DATE_FORMAT(gc.binding_time, '%Y-%m-%d %H:%i:%s') AS binding_time,
+		gc.status,
+		gc.card_money,
+		gc.card_use,
+    	DATE_FORMAT(gc.create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+  	</sql>
+  
+	<!-- //根据条件分页查询礼品卡管理    -->
+	<select id="findGiftCardListPage" resultType="com.kingleadsw.betterlive.model.GiftCard" parameterType="pd">
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     		
+     		FROM  t_gift_card gc LEFT JOIN t_customer c ON gc.binding_user=c.customer_id
+     	
+     	WHERE gc.card_id is not null
+     	
+     	<!-- 礼品卡ID-->
+     	<if test="null != cardId  and ''!= cardId">
+     		and gc.card_id=#{cardId}
+     	</if>
+     	
+     	<!-- 礼品卡编号-->
+     	<if test="null != giftCardNo  and ''!= giftCardNo">
+     		and gc.card_no like '%${giftCardNo}%'
+     	</if>
+     	
+     	<!-- 礼品卡状态--> 
+     	<if test="null != status  and ''!= status">
+     		and gc.status=#{status}
+     	</if>
+     	
+     	<!--用户名称 --> 
+     	<if test="null != customerName  and ''!= customerName">
+     		and c.nickname=#{customerName}
+     	</if>
+     	<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and c.customer_id=#{customerId}
+     	</if>
+     	order by create_time desc
+  	</select>
+  	
+  	
+  	<!-- //根据条件查询单个礼品卡管理详细   -->
+	<select id="findGiftCard" resultType="com.kingleadsw.betterlive.model.GiftCard" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     		
+     		FROM  t_gift_card gc LEFT JOIN t_customer c ON gc.binding_user=c.customer_id
+     	
+     	WHERE 1=1
+     	
+     	<!-- 礼品卡ID-->
+     	<if test="null != cardId  and ''!= cardId">
+     		and gc.card_id=#{cardId}
+     	</if>
+     	
+     	<!-- 礼品卡编号-->
+     	<if test="null != giftCardNo  and ''!= giftCardNo">
+     		and gc.card_no=#{giftCardNo}
+     	</if>
+     	
+     	<!-- 礼品卡状态--> 
+     	<if test="null != status  and ''!= status">
+     		and gc.status=#{status}
+     	</if>
+     	
+     	<!--用户名称 --> 
+     	<if test="null != customerName  and ''!= customerName">
+     		and c.nickname=#{customerName}
+     	</if>
+     	<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and c.customer_id=#{customerId}
+     	</if>
+     	
+  	</select>
+  	
+  	<!-- //根据条件查询单个礼品卡管理详细   -->
+	<select id="queryOne" resultType="com.kingleadsw.betterlive.model.GiftCard" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List_Card" />
+     		
+     		FROM  t_gift_card gc
+     	
+     	WHERE 1=1
+     	
+     	<!-- 礼品卡ID-->
+     	<if test="null != cardId">
+     		and gc.card_id=#{cardId}
+     	</if>
+     	
+     	<!-- 礼品卡编号-->
+     	<if test="null != giftCardNo  and ''!= giftCardNo">
+     		and gc.card_no =#{giftCardNo}
+     	</if>
+   		<!-- 礼品卡密码-->
+     	<if test="null != cardPwd  and ''!= cardPwd">
+     		and gc.card_pwd =#{cardPwd}
+     	</if>
+     	
+     	<!-- 礼品卡状态--> 
+     	<if test="null != status">
+     		and gc.status=#{status}
+     	</if>
+     	
+     	<!-- 用户ID-->
+     	<if test="null != customerId">
+     		and gc.binding_user=#{customerId}
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!-- 	//根据条件查询全部礼品卡管理    -->
+  	<select id="findListGiftCard" resultType="com.kingleadsw.betterlive.model.GiftCard" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     		
+     		FROM  t_gift_card gc LEFT JOIN t_customer c ON gc.binding_user=c.customer_id
+     	
+     	WHERE gc.card_id is not null
+     	
+     	<!-- 礼品卡ID-->
+     	<if test="null != cardId  and ''!= cardId">
+     		and gc.card_id=#{cardId}
+     	</if>
+     	
+     	<!-- 礼品卡编号-->
+     	<if test="null != giftCardNo  and ''!= giftCardNo">
+     		and gc.card_no=#{giftCardNo}
+     	</if>
+     	
+     	<!-- 礼品卡状态--> 
+     	<if test="null != status  and ''!= status">
+     		and gc.status=#{status}
+     	</if>
+     	
+     	<!--用户名称 --> 
+     	<if test="null != customerName  and ''!= customerName">
+     		and c.nickname=#{customerName}
+     	</if>
+     	
+     	<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and c.customer_id=#{customerId}
+     	</if>
+  	</select>
+  	
+  	
+  	<!-- //增加礼品卡管理 -->
+  	<insert id="insertGiftCard" parameterType="com.kingleadsw.betterlive.model.GiftCard" >
+    	insert into t_gift_card ( card_id,
+								  card_no,
+								  card_pwd,
+								<!--   binding_user,
+								  binding_time, -->
+								  status,
+								  card_money,
+							<!-- 	  card_use, -->
+								  create_time
+
+    				  		)
+    				  	values (null,
+    				  	 	    #{card_no},
+    				  	 	    #{card_pwd},
+    				  	 	    <!-- #{binding_user},
+    				  	 	    #{binding_time}, -->
+    				  	 	    #{status},
+    				  	 	    #{card_money},
+    				  	 	    <!-- #{card_use}, -->
+    				  	 	    now()
+    				  	 	  )
+  	</insert>
+   	
+   	<!-- //修改礼品卡管理-->
+    <update id="updateGiftCardByGid" parameterType="pd" >
+    	update t_gift_card 
+
+			<set>
+				<!-- 绑定用户ID -->
+		     	<if test="null != customerId  and ''!= customerId">
+		     	    binding_user=#{customerId},
+		     	    binding_time=now(),
+		     	</if>
+		     	
+		     	<!-- 礼品卡金额（固定金额） -->
+		     	<if test="null != couponMoney  and ''!= couponMoney">
+		     		card_money=#{couponMoney},
+		     	</if>
+		     	
+		     	<!-- 使用金额  -->
+		     	<if test="null != cardUseMoney  and ''!= cardUseMoney">
+		     		card_use=#{cardUseMoney},
+		     	</if>
+		     	
+		     	<!-- 礼品卡状态 -->
+		     	<if test="null != status  and ''!= status">
+		     		status=#{status},
+		     	</if>
+		     	
+		     	<!-- 礼品卡卡号-->
+		     	<if test="null != giftCardNo  and ''!= giftCardNo">
+		     		card_no=#{giftCardNo},
+		     	</if>
+		     	 
+		     	<!-- 礼品卡密码 -->
+		     	<if test="null != giftCardPw  and ''!= giftCardPw">
+		     		card_pwd=#{giftCardPw},
+		     	</if>
+			</set> 
+    	where card_id=#{cardId}
+    	
+    </update> 
+    
+    <!-- //删除礼品卡管理 -->
+    <delete id="deleteGiftCardByGid" parameterType="java.lang.String" >
+    	delete from  t_gift_card where card_id=#{cardId}
+    </delete> 
+     <!-- 查出卡上所有金额 -->
+     <select id="querySumCardMoney" parameterType="java.util.Map" resultType="Decimal">
+     	select sum(card_money) from t_gift_card where 1=1
+     	<if test="null!=customerId and ''!=customerId">
+     		and binding_user=#{customerId}
+     	</if>
+     	<if test="null!=status and ''!=status">
+     		and status=#{status}
+     	</if>
+     </select>
+     <!-- 查出用过的金额 -->
+     <select id="querySumUsedMoney" parameterType="java.util.Map" resultType="Decimal">
+     	select sum(card_use) from t_gift_card where 1=1
+     	<if test="null!=customerId and ''!=customerId">
+     		and binding_user=#{customerId}
+     	</if>
+     	<if test="null!=status and ''!=status">
+     		and status=#{status}
+     	</if>
+     </select>
+     
+     
+     <!-- 查询用户剩下的可用余额 -->
+     <select id="queryCustomerCanUseTotalMoney" parameterType="java.util.Map" resultType="Decimal">
+        SELECT SUM(card_money)-SUM(card_use) as total_price from t_gift_card where binding_user=#{customerId} and status=1
+     </select>
+    
+    <!-- 合并用户时,需要合并用户的礼品卡 -->
+    <update id="modifyCustomerGiftCardBycId" parameterType="pd" >
+	    update t_gift_card set binding_user=#{newCustomerId}  where binding_user=#{customerId}
+	</update> 
+	
+	
+</mapper>

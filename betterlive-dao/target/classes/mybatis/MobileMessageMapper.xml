@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.MobileMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.MobileMessage" >
+    <id column="msg_id" property="msgId" jdbcType="INTEGER" />
+    <result column="msg_type" property="msgType" jdbcType="INTEGER" />
+    <result column="msg_content" property="msgContent" jdbcType="VARCHAR" />
+    <result column="request_ip" property="requestIp" jdbcType="VARCHAR"/>
+    <result column="request_mobile" property="requestMobile" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="send_flag" property="sendFlag" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.msg_id, t.msg_content ,t.request_ip, t.request_mobile, t.msg_type, t.send_time ,t.customer_id, t.send_flag
+  </sql>
+  
+    
+  <select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="pd" >
+       SELECT <include refid="Base_Column_List" /> FROM t_mobile_message t WHERE t.msg_id=#{msgId}
+  </select>
+    
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />,
+	    case when c.nickname is not null and c.nickname <![CDATA[ <>]]> '' then c.nickname
+	    	else c.mobile end customer_name
+	    from t_mobile_message t left join t_customer c on t.customer_id = c.customer_id
+	    where 1=1
+    <if test="customerId != null">
+    	and t.customer_id=#{customerId}
+    </if>
+    <if test="msgType != null and msgType > -1">
+    	and t.msg_type=#{msgType}
+    </if>
+    <if test="requestIp != null and requestIp != ''">
+    	and t.request_ip = #{requestIp}
+    </if>
+    <if test="requestMobile != null and requestMobile != ''">
+    	and t.request_mobile = #{requestMobile}
+    </if>
+    <if test="queryFlag != null and queryFlag == 1">
+    	and round((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(t.send_time))/60) <![CDATA[ <= ]]> #{tag}
+    </if>
+    <if test="queryFlag != null and queryFlag == 2">
+    	and DATE_FORMAT(send_time,'%Y-%c-%d') = DATE_FORMAT(NOW(),'%Y-%c-%d')
+    </if>
+    order by t.send_time desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_mobile_message where msg_id=#{msgId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.MobileMessage" >
+    	insert into t_mobile_message 
+    	(
+			msg_content
+			,request_ip
+			,request_mobile
+			,msg_type
+			,send_time
+			,customer_id
+			,send_flag
+		)
+    	values 
+    	(
+		   #{msgContent}
+		  ,#{requestIp}
+		  ,#{requestMobile}
+		  ,#{msgType}
+		  ,NOW()
+		  ,#{customerId}
+		  ,#{sendFlag}
+    	)
+  </insert>
+</mapper>

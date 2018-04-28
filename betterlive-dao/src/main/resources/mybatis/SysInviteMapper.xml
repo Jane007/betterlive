@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SysInviteMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SysInvite" >
+    <id column="sys_invite_id" property="sysInviteId" jdbcType="INTEGER" />
+    <result column="dict_type" property="dictType" jdbcType="INTEGER" />
+    <result column="obj_id" property="objId" jdbcType="INTEGER" />
+    <result column="obj_value" property="objValue" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="sys_desc" property="sysDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.sys_invite_id, t.dict_type, t.obj_id, t.obj_value,
+    DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+  </sql>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_invite t where 1=1
+    <if test="sysInviteId != null">
+    	and t.sys_invite_id = #{sysInviteId}
+    </if>
+    <if test="dictType != null">
+    	and t.dict_type = #{dictType}
+    </if>
+    <if test="objValue != null">
+    	and t.obj_value = #{objValue}
+    </if>
+    limit 1
+    
+  </select>
+  
+  <select id="queryBySortListPage" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_invite t where 1=1
+   	 <if test="dictType != null">
+    	and t.dict_type = #{dictType}
+     </if>
+     <if test="objValue != null">
+    	and t.obj_value = #{objValue}
+     </if>
+   	order by t.sorts asc
+  </select>
+  
+  <select id="queryInviteCouponsInfo" resultMap="BaseResultMap" parameterType="pd" >
+	   select t.obj_value, FORMAT(tcm.coupon_money, 0) sys_desc
+	    from t_sys_invite t, t_coupon_manager tcm where t.dict_type = 4
+				and t.obj_id = tcm.cm_id
+	    	order by t.sorts asc
+  </select>
+  
+   <select id="queryRegCouponListPage" resultType="java.util.Map" parameterType="pd" >
+	  SELECT
+			t.*, tp.product_name productName, tp.product_logo productLogo,
+			case when (t.specPrice - t.couponMoney)  <![CDATA[ < ]]> 0 then 0 else (t.specPrice - t.couponMoney) end discountPrice
+		FROM
+			(
+				SELECT
+					scs.product_id productId,
+					scs.coupon_id couponId,
+					DATE_FORMAT(sc.end_time, '%Y-%m-%d %H:%i:%s') endTime,
+					sc.coupon_money couponMoney,
+					(case when sc.end_time > NOW() and sc.`status` = 1 then 1 else 0 end) `status`,
+					(select tsp.spec_price from t_spec tsp where tsp.product_id = scs.product_id order by tsp.spec_price asc limit 1) specPrice
+				FROM
+					t_sys_invite si,
+					t_single_coupon_spec scs,
+					t_single_coupon sc
+				WHERE
+					si.dict_type = 5
+				AND si.obj_id = scs.coupon_id
+				AND scs.coupon_id = sc.coupon_id
+				GROUP BY
+					scs.product_id
+			) t,
+			t_product tp
+		WHERE
+			t.productId = tp.product_id
+    </select>
+</mapper>

@@ -1,0 +1,126 @@
+.header-wrap {
+	background: #e62d29;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index:10;
+}
+
+.header {
+	height: 44px;
+	width: 92.222%;
+	margin: 0 auto;
+	color: #fff;
+	line-height: 44px;
+	text-align: center;
+	position: relative;
+}
+
+.header h2 {
+	font-size: 16px;
+}
+
+.header .draft {
+	position: absolute;
+	right: 0;
+	top: 0;
+	text-align: right;
+	font-size: 14px;
+}
+
+form {
+	margin-top: 44px;
+}
+
+.goback {
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+}
+
+.goback img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.progress {
+	display: none;
+	position: fixed;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	width: 194px;
+	height: 70px;
+	background: rgba(0, 0, 0, 0.8);
+	border-radius: 6px;
+	margin: 0 auto;
+	color: #fff;
+	overflow: hidden;
+	text-align: center;
+}
+
+.progress h3 {
+	font-size: 16px;
+	text-align: center;
+	margin-top: 15px;
+}
+
+.plan-wrap {
+	height: 14px;
+	border-radius: 7px;
+	width: 180px;
+	margin: 12px auto 0;
+	background: #000;
+	line-height: 14px;
+}
+
+.plan {
+	width: 0;
+	overflow: hidden;
+	height: 100%;
+	border-radius: 7px;
+	background: #E62D29;
+}
+
+.plan span {
+	font-size: 12px;
+}
+.oshate-succeed{
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,0.6);
+	background-size: 100% 100%;
+	position: fixed;
+	left:0;
+	top: 0;
+	z-index: 100;
+	display:none;
+}
+
+.oshate-succeed .hold{
+	width: 3.8333rem;
+    height: 3.875rem;
+    background: url(../../img/discovery/share_16.png) no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
+    font-size:0.347rem;
+    color:#363636;
+    margin:50% auto 0;
+    overflow: hidden;
+}
+.oshate-succeed  h3{
+	height:0.569rem;
+	line-height:0.569rem;
+	margin-top: 2.08rem;
+	font-weight: 300;
+	font-size:0.3611rem;
+}
+.oshate-succeed .hold p{
+	color:#868686;
+	font-size:0.2291rem;
+}

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.OrderProductMapper" >
+	
+		
+	<sql id="Base_Column_List" >
+		op.orderpro_id,
+		op.order_id,
+		op.product_id,
+		op.product_name,
+		op.spec_id,
+		op.spec_name,
+		op.quantity,
+		op.price,
+		op.is_evaluate,
+		op.activity_price,
+		op.promotion_id,
+		op.full_money,
+		op.cut_money,
+		op.coupon_money,
+		op.user_single_coupon_id,
+		op.logistics_code,
+		op.company_code,
+		DATE_FORMAT(op.send_time, '%Y-%m-%d %H:%i:%s') AS send_time, 
+		op.status,
+		op.sub_order_code,
+		op.discount_price,
+		op.if_coupon,
+		op.redeem_integral,
+		op.gold_integral,
+		op.redeem_money,
+		op.gold_money,
+		op.redeem_spec_id,
+		op.gold_spec_id
+  	</sql>
+  
+  <select id="selectByPrimaryKey" resultType="com.kingleadsw.betterlive.model.OrderProduct" parameterType="java.lang.Integer">
+  	 SELECT
+     		<include refid="Base_Column_List" />, s.spec_img as spec_img
+     	FROM t_order_product op , t_spec s where s.spec_id = op.spec_id 
+     	
+     	and op.orderpro_id = #{orderproId}
+  
+  </select>
+
+    
+    
+    
+    <select id="queryOne" resultType="com.kingleadsw.betterlive.model.OrderProduct" parameterType="pd">
+       SELECT
+     		<include refid="Base_Column_List" />, s.spec_img as spec_img
+     	FROM t_order_product op, t_spec s where s.spec_id = op.spec_id 
+     	<!-- 订单详情ID -->
+		<if test="null != orderpro_id  and ''!= orderpro_id">
+     	    and op.orderpro_id=#{orderpro_id}
+     	</if>
+     	<if test="null != sub_order_code  and ''!= sub_order_code">
+     	    and op.sub_order_code=#{sub_order_code}
+     	</if>
+		<if test="null != logistics_code  and ''!= logistics_code">
+     	    and op.logistics_code=#{logistics_code}
+     	</if>
+     	<!-- 订单ID -->
+		<if test="null != orderId  and ''!= orderId">
+     	    and op.order_id=#{orderId}
+     	</if>
+     	<if test="null != productId  and ''!= productId">
+     	    and op.product_id=#{productId}
+     	</if>
+   	limit 1
+    </select>
+	<!-- //根据条件查询所有订单商品      -->
+	<select id="findListOrderProduct" resultType="com.kingleadsw.betterlive.model.OrderProduct" parameterType="pd">
+    	SELECT
+     		<include refid="Base_Column_List" />,
+     		tlc.company_name
+     	FROM t_order_product op  INNER JOIN t_order o ON op.order_id = o.order_id
+     		left join t_logistics_company tlc on op.company_code = tlc.company_code
+     	  WHERE op.orderpro_id IS NOT NULL
+     	
+		<!-- 订单ID -->
+		<if test="null != orderId">
+     	    and op.order_id=#{orderId}
+     	</if>
+     	
+     	<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!=orderCode ">
+     	    and o.order_code=#{orderCode}
+     	</if>
+     	<!-- 商品是否评论 -->
+		<if test="null != isEvaluate  and ''!=isEvaluate ">
+     	    and op.is_evaluate=#{isEvaluate}
+     	</if>
+     	<!-- 规格 -->
+     	<if test="null!=specId">
+     		and op.spec_id=#{specId}
+     	</if>
+     	<if test="null != customerId">
+     		and o.customer_id=#{customerId}
+     	</if>
+     	<if test="null != productId">
+     		and op.product_id=#{productId}
+     	</if>
+     	<!-- 支付成功回调小于下单时间的订单 详情-->
+     	<if test="null != startTime and ''!=startTime">
+     		and o.order_time &gt;#{startTime}
+     	</if>
+     	<if test="null != endTime and ''!=endTime">
+     		and o.order_time &lt;#{endTime}
+     	</if>
+     	<if test="null!=hasBuy and ''!=hasBuy ">
+     		and o.status&gt;=2 and o.status&lt;6
+     	</if>
+     	<if test="null!=status and ''!=status and status!=2 ">
+     		and o.status=#{status}
+     	</if>
+   		<if test="null!=sub_status">
+     		and op.status=#{sub_status}
+     	</if>
+     	 <if test="cutTime!=null">
+			<![CDATA[and op.send_time<#{cutTime}]]>
+		</if>
+  	</select>
+  	
+  	
+  	<!--  //根据条件查询订单商品    -->
+	<select id="findOrderProduct" resultType="com.kingleadsw.betterlive.model.OrderProduct" parameterType="pd" >
+    	SELECT
+     		<include refid="Base_Column_List" />
+     	FROM t_order_product op  INNER JOIN t_order o   WHERE op.orderpro_id IS NOT NULL
+     	
+		<!-- 订单ID -->
+		<if test="null != orderId  and ''!= orderId">
+     	    and op.order_id=#{orderId}
+     	</if>
+     	
+     	<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!=orderCode ">
+     	    and o.order_code=#{orderCode}
+     	</if>
+  	</select>
+  	
+  	
+  	
+  	<!--   //添加订单商品 -->
+  	<insert id="addBatchOrderProduct" parameterType="java.util.List">
+    	insert into t_order_product ( orderpro_id,
+								order_id,
+								product_id,
+								product_name,
+								spec_id,
+								spec_name,
+								quantity,
+								price,
+								is_evaluate,
+								activity_price,
+								promotion_id,
+								full_money,
+								cut_money,
+								user_single_coupon_id,
+								coupon_money,
+								logistics_code,
+								company_code,
+								send_time,
+								status,
+								sub_order_code,
+								discount_price,
+								if_coupon,
+								redeem_integral,
+								gold_integral,
+								redeem_money,
+								gold_money,
+								redeem_spec_id,
+								gold_spec_id
+    				  		)
+    				  	values 
+    				  	
+    				  	<foreach collection="list" item="l" separator=",">
+	    				  (null,
+   				  	 	    #{l.order_id},
+   				  	 	    #{l.product_id},
+   				  	 	    #{l.product_name},
+   				  	 	    #{l.spec_id},
+   				  	 	    #{l.spec_name},
+   				  	 	    #{l.quantity},
+   				  	 	    #{l.price},
+   				  	 	    #{l.is_evaluate},
+   				  	 	    #{l.activity_price},
+   				  	 	    #{l.promotion_id},
+							#{l.full_money},
+							#{l.cut_money},
+							#{l.user_single_coupon_id},
+							#{l.coupon_money},
+							#{l.logistics_code},
+							#{l.company_code},
+							#{l.send_time},
+							#{l.status},
+							#{l.sub_order_code},
+							#{l.discount_price},
+							#{l.ifCoupon},
+							#{l.redeemIntegral},
+							#{l.goldIntegral},
+							#{l.redeemMoney},
+							#{l.goldMoney},
+							#{l.redeemSpecId},
+							#{l.goldSpecId}
+   				  	 	  )
+    				  	</foreach>
+    				  	
+  	</insert>
+   	
+   	<!--   //更新订单商品  -->
+    <update id="editOrderProductById" parameterType="pd" >
+    	update t_order_product set  
+    				<!-- 是否评价  -->
+    				<if test="null!=isEvaluate and ''!=isEvaluate">
+    					 is_evaluate=#{isEvaluate} 
+    				</if>
+    	where order_id=#{orderId} 
+    	
+    </update> 
+    
+    <!--   //更新订单商品  -->
+    <update id="editOrderProductByPdId" parameterType="pd" >
+    	update t_order_product
+    	   <set>  
+    				<!-- 订单状态  -->
+    				<if test="null!=status and ''!=status">
+    					 status=#{status}, 
+    				</if>
+    				<!-- 是否评价  -->
+    				<if test="null!=isEvaluate and ''!=isEvaluate">
+    					 is_evaluate=#{isEvaluate} ,
+    				</if>
+           </set>				
+    	where order_id=#{orderId} and product_id=#{productId}
+    	
+    </update> 
+    
+    <!--   //更新订单商品  -->
+    <update id="editOrderProductByOrderProductId" parameterType="pd" >
+    	update t_order_product 
+           <set>  
+    				<if test="null!=logistics_code and ''!=logistics_code">
+    					 logistics_code=#{logistics_code} ,
+    				</if>
+    				<if test="null!=company_code and ''!=company_code">
+    					 company_code=#{company_code} ,
+    				</if>
+    				<if test="null!=send_time and ''!=send_time">
+    					 send_time=#{send_time} ,
+    				</if>
+    				<if test="null!=status and ''!=status">
+    					 status=#{status} ,
+    				</if>
+    	   </set>			
+    	where orderpro_id=#{orderpro_id}
+    </update> 
+    
+    <!--   //更新订单商品状态  -->
+    <update id="updateOrderProductStatusByOrderId" parameterType="pd" >
+    	update t_order_product 
+    	 set status=#{status}
+    	  <if test="status == 4">
+    	   	,confirm_time = now()
+    	  </if>
+    	 where order_id=#{orderId}
+    	<if test="orderpro_id != null and orderpro_id > 0">
+    		and orderpro_id = #{orderpro_id}
+    	</if>
+    </update>
+    
+   	<select id="queryMyOrderNum" parameterType="pd" resultType="java.util.Map">
+   		select 
+			count(1) cnt,
+			tod.`status`
+		 from t_order t, t_order_product tod
+		 where t.customer_id = #{customerId} and t.order_id = tod.order_id
+			and tod.`status` in (2, 3, 4, 5)
+		GROUP BY tod.`status`
+	</select> 
+	
+	<select id="queryOrderProductQuantity" parameterType="pd" resultType="java.lang.Integer">
+   		select 
+			IFNULL(sum(tod.quantity), 0) quantity
+		 from t_order t, t_order_product tod
+		 where t.order_id = tod.order_id
+		 	<if test="customerId != null">
+		 		and t.customer_id = #{customerId} 
+		 	</if>
+		 	<!-- 支付成功回调小于下单时间的订单 详情-->
+	     	<if test="null != startTime and ''!=startTime">
+	     		and t.order_time &gt;#{startTime}
+	     	</if>
+	     	<if test="null != endTime and ''!=endTime">
+	     		and t.order_time &lt;#{endTime}
+	     	</if>
+	     	<if test="checkStatus != null">
+		 		and tod.status in (${checkStatus}) 
+		 	</if>
+		 	<if test="null != productId">
+	     		and tod.product_id = #{productId}
+	     	</if>
+	     	<if test="null != specId">
+	     		and tod.spec_id = #{specId}
+	     	</if>
+	</select> 
+    
+</mapper>

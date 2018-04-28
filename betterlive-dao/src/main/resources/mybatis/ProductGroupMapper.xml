@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ProductGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ProductGroup" >
+    <result column="special_id" property="specialId" jdbcType="INTEGER" />
+    <result column="special_name" property="specialName" jdbcType="VARCHAR" />
+    <result column="special_cover" property="specialCover" jdbcType="VARCHAR" />
+    <result column="starttime" property="startTime" jdbcType="VARCHAR" />
+    <result column="endtime" property="endTime" jdbcType="VARCHAR" />
+    <result column="limit_copy" property="limitCopy" jdbcType="INTEGER" />
+    <result column="user_group_id" property="userGroupId" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="cust_num" property="custNum" jdbcType="INTEGER" />
+  </resultMap>
+
+   <select id="queryListPage"  resultMap="BaseResultMap" parameterType="pd" >
+		select pr.special_id, pr.special_name, pr.special_cover, DATE_FORMAT(pr.starttime, '%Y-%m-%d %H:%i:%s') AS starttime,
+	 	   DATE_FORMAT(pr.endtime, '%Y-%m-%d %H:%i:%s') AS endtime , sg.product_id, sg.limit_copy, ug.user_group_id, pro.product_name,sp.spec_name,
+		   (select count(1) from t_group_join tgj where tgj.status = 1 and tgj.user_group_id = ug.user_group_id) cust_num,
+		   case when cus.nickname is not null and cus.nickname <![CDATA[<> ]]>  '' then cus.nickname else cus.mobile end nickname
+		 from t_professional pr, t_sys_group sg, t_user_group ug,
+			t_product pro, t_spec sp, t_customer cus 
+		where 
+			pr.starttime <![CDATA[ < ]]>  NOW() and pr.endtime <![CDATA[ > ]]>  NOW()
+			and pr.special_id = sg.special_id
+			and pr.special_id = ug.special_id
+			and ug.group_id = sg.group_id
+			and ug.`status` = 1 and pr.`status` = 1 
+			and sg.product_id = pro.product_id
+			and sg.product_id = sp.product_id and ug.spec_id = sp.spec_id
+			and ug.originator = cus.customer_id
+			<if test="specialName != null and specialName != ''">
+			and pr.special_name like '%${specialName}%'	
+			</if>
+   </select>
+
+</mapper>

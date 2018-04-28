@@ -1,0 +1,273 @@
+body{
+	background: #eee;
+}
+.videolist{}
+.videolist li{
+	width: 100%;
+	background: #fff;
+}
+.videolist>li{
+	margin-top: 0.2777rem;
+}
+.videolist>li:first-child{
+	margin-top: 0;
+}
+.childlist li .licontent{
+	position: relative;
+}
+.childlist li .licontent:after{
+	content: '';
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 1px;
+	width: 100%;
+	transform: scaleY(0.5);
+	background: #D9D9D9;
+}
+.videolist .licontent{
+	overflow: hidden;
+}
+.licontent>h3{
+	color: #363636;
+	font-size:0.5rem;
+	font-weight: 600;
+	margin-top: 0.5rem;
+	position: relative;
+}
+.licontent h3 span{
+	display: block;
+    height: 0.48rem;
+    width: 1.286rem;
+    position: absolute;
+    background: url(../../img/home/more-02.png) no-repeat left center;
+    background-size: 100% 100%;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.licontent .video{
+	width: 100%;
+	height: 6.666rem;
+	position: relative;
+}
+.licontent .video video{
+	
+}
+.licontent .video .play-wrap{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(../../img/discovery/video-prentduflt.png) no-repeat;
+	background-size:100% 100%;
+}
+.video .play{
+	width:1.5rem;
+	height: 1.5rem;
+	background:url(../../img/discovery/video-01.png) no-repeat;
+	background-size:100% 100% ;
+	margin:2.58rem auto 0;
+}
+.video .videotime{
+	width: 1.06rem;
+	text-align: center;
+	height: 0.444rem;
+	line-height: 0.444rem;
+	background: rgba(0,0,0,0.45);
+	border-radius: 0.222rem;
+	color: #fff;
+	font-size: 0.2777rem;
+	position: absolute;
+	right:0.222rem ;
+	bottom: 0.222rem;
+}
+.licontent .bot{
+	height: 2rem;
+	width: 92.22%;
+    margin: 0 auto;
+}
+
+.bot h4{
+	margin-top: 0.444rem;
+	font-size: 0.42rem;
+	color: #363636;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.bot .botfunc{
+	width: 100%;
+	height: 0.584rem;
+	line-height: 0.584rem;
+	margin-top: 0.2777rem;
+}
+.bot .botfunc>div{
+	margin-left: 0.48rem;
+	width: 1rem;
+	height: 100%;
+}
+.bot .botfunc span{
+	margin-left: 0.5rem;
+	color: #868686;
+	font-size: 0.2777rem;
+}
+.bot .botfunc .sc{
+	margin-left: 0;
+	background: url(../../img/discovery/video-06.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem ;
+}
+.bot .botfunc .sc.on{
+	background: url(../../img/discovery/video-07.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem ;
+}
+.botfunc .msg{
+	background: url(../../img/discovery/msg-01.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem ;
+}
+.botfunc .dz{
+	background: url(../../img/discovery/dz-01.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem;
+}
+.botfunc .dz.on{
+	background: url(../../img/discovery/dz-02.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem;
+}
+.botfunc .icon{
+	background: url(../../img/discovery/ht-01.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem;
+	position: relative;
+}
+.botfunc .icon .hold{
+	position: absolute;
+	width:0.333rem;
+	height:0.333rem;
+	background:url("../../img/discovery/share_04.png") no-repeat;
+	background-size:100% 100%;
+	left: 0.16rem;
+	bottom: 0;
+}
+
+/*上啦加载结构*/
+.weui-loadmore{
+	display: none;
+}
+#cover{
+	display:none;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.6);
+	position: fixed;
+	top:0;
+	left:0;
+	z-index:10;
+}
+
+#guide{
+	margin-top:0.6rem;
+	width: 6.303rem;
+	margin-left: 30%;
+}
+#guide img{
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+
+
+.shate-succeed{
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,0.6);
+	background-size: 100% 100%;
+	position: fixed;
+	left:0;
+	top: 0;
+	z-index: 100;
+	display: none;
+}
+.shate-succeed .hold-bg{
+	width: 88.88%;
+	height: 8.88rem;
+	background: url(../../img/integral/lottery_07.png) no-repeat;
+	background-size: 100% 100%;
+	margin: 2.9629rem auto 0;
+	overflow: hidden;
+}
+.shate-succeed .hold-bg .hold{
+	width: 4.11rem;
+	height: 4.86rem;
+	background: url(../../img/integral/lottery_04.png) no-repeat;
+	background-size: 100% 100%;
+	text-align: center;
+	color:#363636;
+	margin: 1.833rem auto 0;
+	overflow: hidden;
+	font-size: 0.5rem;
+}
+.shate-succeed .hold-bg h3{
+	height:0.685rem;
+	line-height:0.685rem;
+	margin-top: 2.82rem;
+	font-weight: 300;
+}
+.shate-succeed .hold-bg p{
+	height: 1rem;
+	line-height: 1rem;
+}
+.shate-succeed .hold-bg span{
+	font-weight: 600;
+	color:#e62d29;
+}
+
+.share{
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,0.6);
+	background-size: 100% 100%;
+	position: fixed;
+	left:0;
+	top: 0;
+	z-index: 100;
+	display: none;
+}
+.rule{
+	width:77.222%;
+	height:10.91rem;
+	background:url("../../img/discovery/share_15.png") no-repeat;
+	background-size:100% 100%;
+	margin-left: 1.48rem;
+	overflow: hidden;
+	margin-top:0.166rem;
+}
+.ruletext{
+	width:5.5185rem;
+	margin:5.759rem 0 0 0.7685rem;
+}
+.ruletext h3{
+	height:0.74rem;
+	line-height:0.74rem;
+	text-align: center;
+	font-size:0.5185rem;
+	font-weight: 600;
+	color:#363636;
+}
+.ruletext p{
+	margin-top:0.398rem;
+	font-size:0.407rem;
+	line-height:0.66rem;
+}
+.ruletext .check{
+	width:2.24rem;
+	height:0.8518rem;
+	line-height:0.8518rem;
+	text-align: center;
+	color:#fff;
+	font-size:0.388rem;
+	background:#e62d29;
+	border-radius: 4px;
+	margin:0.527rem auto 0;
+}

@@ -1,0 +1,146 @@
+body{
+	background: #eee;
+}
+.banner{
+	height: 4.277rem;
+}
+.banner img{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.content .headline-wrap{
+	width: 100%;
+	background: #fff;
+}
+.content .headline{
+	width: 96.66%;
+	height: 1.11rem;
+	line-height: 1.11rem;
+	position: relative;
+	margin-left: 3.34%;
+	font-size: 0.333rem;
+}
+
+.content .headline:after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #d9d9d9;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+
+.list{}
+.list li{
+	height: 3.25rem;
+	width: 96.66%;
+	margin-left: 3.34%;
+	position: relative;
+}
+.list li:after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #d9d9d9;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+.list li dl{
+	display: flex;
+}
+.list li dt{
+	width: 2.916rem;
+	height: 2.916rem;
+	margin-top: 0.167rem;
+}
+.list li dt img{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.list li dd{
+	margin-left: 0.333rem;
+	position: relative;
+	flex: 1;
+}
+.list li dd h3{
+	height: 0.74rem;
+	line-height: 0.74rem;
+	margin-top: 0.388rem;
+	font-size: 0.4166rem;
+	width:5.96rem;
+}
+.list li dd span{
+	display: block;
+}
+.list li dd .currentprice{
+	height: 0.694rem;
+	line-height: 0.694rem;
+	font-size: 0.4166rem;
+	color: #E62D29;
+}
+.list li dd .currentprice img{
+	width: 0.5rem;
+	height: 0.5rem;
+}
+.list li dd .originalprice{
+	font-size: 0.277rem;
+	color: #868686;
+	text-decoration: line-through;
+	line-height: 1;
+}
+.list li dd .limitof{
+	color: #868686;
+	font-size: 0.277rem;
+	margin-top: 0.333rem;
+}
+.list li dd .btn{
+	width: 1.722rem;
+	height: 0.777rem;
+	line-height: 0.777rem;
+	text-align: center;
+	font-size: 0.333rem;
+	background: #E62D29;
+	border-radius: 3px;
+	position: absolute;
+	color: #fff;
+	right: 0.388rem;
+	top: 1.98rem;
+}
+.list li dd .off{
+	background: #ccc;
+}
+.nodata{
+	text-align: center;
+	display: none;
+}
+.nodata img{
+	width: 2.333rem;
+	height: 2.333rem;
+	display: block;
+	margin: 1.33rem auto 0.35rem;
+}
+.nodata span{
+	color: #868686;
+	font-size: 0.444rem;
+}
+.nodata .gomakemoney{
+	width: 2.314rem;
+	height: 0.8518rem;
+	line-height: 0.8518rem;
+	text-align: center;
+	font-size: 0.388rem;
+	background: #E62D29;
+	border-radius: 3px;
+	color: #fff;
+	margin: 0.388rem auto 0;
+}

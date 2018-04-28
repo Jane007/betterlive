@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CustomerGuideMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.CustomerGuide">
+	    <id column="customer_guide_id" property="customerGuideId" jdbcType="BIGINT" />
+	    <result column="sys_guide_id" property="sysGuideId" jdbcType="BIGINT" />
+	    <result column="guide_type" property="guideType" jdbcType="INTEGER" />
+	    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+	    <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+ 	</resultMap>
+
+	  <sql id="Base_Column_List">
+  		cg.customer_guide_id,cg.sys_guide_id,cg.guide_type,cg.customer_id,DATE_FORMAT(cg.create_time, '%Y-%m-%d %H:%i:%s') create_time
+ 	  </sql>
+ 	  
+ 	  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+		select <include refid="Base_Column_List" />
+		from t_customer_guide cg inner join t_system_guide sg on 
+		sg.system_guide_id = cg.sys_guide_id where cg.customer_id = #{customerId} and cg.guide_type = #{guideType}
+		and sg.status = #{status}
+	</select>
+	
+ 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from t_customer_guide cg
+    	where customer_id = #{customerId}
+  	</select>
+  	
+  	<insert id="insertPageData" parameterType="pd" useGeneratedKeys="true"  keyProperty="customerGuideId">
+     	insert INTO t_customer_guide (sys_guide_id,guide_type,customer_id,create_time) 
+     	VALUES ((SELECT tsg.system_guide_id FROM t_system_guide tsg WHERE tsg.guide_type = #{guideType}),#{guideType},#{customerId},now()) 
+     </insert>
+
+</mapper>

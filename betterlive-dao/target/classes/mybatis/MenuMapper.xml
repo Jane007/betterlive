@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Menu" >
+    <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_type" property="menuType" jdbcType="CHAR" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="menu_ord" property="menuOrd" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="parent_name" property="parentName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menu_id, parent_id, menu_name, menu_type, menu_url, menu_ord, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryListPage" parameterType="pd" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />,
+    (select t.menu_name from t_menu t where t.menu_id =  t_menu.parent_id and t.status =1) parent_name
+    from t_menu where 1=1
+    <if test="menuName != null and menuName != ''" >
+        and menu_name like '%${menuName}%'
+    </if>
+    <if test="null != ifParent and ifParent != ''" >
+        <if test="ifParent == 1">
+     		AND (parent_id is null or parent_id = '')
+     	</if>
+     	<if test="ifParent == 2">
+     		AND (parent_id is not null and parent_id != '')
+     	</if>
+    </if>
+    <if test="status != null and status !=''" >
+        and status = #{status,jdbcType=CHAR}
+    </if>
+    order by parent_id,menu_ord ASC
+    
+    <if test="rowStart != null">
+  		limit #{rowStart}, #{pageSize}
+  	</if>
+  </select>
+  <!-- 根据角色id查询父级菜单 -->
+  <select id="findParentMenusByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT tm.* FROM t_menu tm, t_role_menu trm WHERE tm.menu_id=trm.menu_id AND (tm.parent_id = 0 OR tm.parent_id IS NULL )
+     AND trm.role_id in 
+    <foreach item="item" index="index" collection="roleids" open="(" separator="," close=")">  
+  		#{item}  
+ 	</foreach>
+    GROUP BY tm.menu_id ORDER BY menu_ord ASC;
+  </select>
+  
+    <!-- 根据角色id查询子级菜单 -->
+  <select id="findChildrenMenusByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT tm.* FROM t_menu tm, t_role_menu trm WHERE tm.menu_id=trm.menu_id 
+      AND tm.parent_id in 
+     <foreach item="item" index="index" collection="parentMenuIds" open="(" separator="," close=")">  
+  		#{item}  
+ 	</foreach>
+      AND trm.role_id in 
+    <foreach item="item" index="index" collection="roleids" open="(" separator="," close=")">  
+  		#{item}  
+ 	</foreach>
+      
+      GROUP BY tm.menu_id ORDER BY menu_ord ASC;
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.Menu" >
+    insert into t_menu ( parent_id, menu_name, 
+      menu_type, menu_url, menu_ord, 
+      status)
+    values ( #{parentId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuType,jdbcType=CHAR}, #{menuUrl,jdbcType=VARCHAR}, #{menuOrd,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kingleadsw.betterlive.model.Menu" >
+    insert into t_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuType != null" >
+        menu_type,
+      </if>
+      <if test="menuUrl != null" >
+        menu_url,
+      </if>
+      <if test="menuOrd != null" >
+        menu_ord,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuOrd != null" >
+        #{menuOrd,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.Menu" >
+    update t_menu
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null" >
+        menu_type = #{menuType,jdbcType=CHAR},
+      </if>
+      <if test="menuUrl != null" >
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuOrd != null" >
+        menu_ord = #{menuOrd,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.Menu" >
+    update t_menu
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_type = #{menuType,jdbcType=CHAR},
+      menu_url = #{menuUrl,jdbcType=VARCHAR},
+      menu_ord = #{menuOrd,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <select id="queryMenuList" resultMap="BaseResultMap">
+  	SELECT * FROM t_menu order by menu_ord
+  </select>
+  
+  <!-- 根据权限获取菜单 -->
+  <select id="queryPowerMenuList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	SELECT * FROM t_menu WHERE status = 1 and menu_id IN (
+		SELECT menu_id FROM t_role_menu WHERE role_id = #{roleId}
+	) ORDER BY parent_id,menu_ord 
+  </select>
+  
+   <!-- 根据角色id查询父级菜单 -->
+  <select id="findParentMenus" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT tm.* FROM t_menu tm WHERE  tm.parent_id = 0 OR tm.parent_id IS NULL 
+   
+    GROUP BY tm.menu_id ORDER BY menu_ord ASC;
+  </select>
+</mapper>

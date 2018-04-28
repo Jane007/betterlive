@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+		<!--因为有其他独立组件配置文件需要加载，所以采用扫描所有classpath环境下统一文件目录下的以properties结尾的属性文件(该种方式获取属性文件的效率会较低,但不影响系统性能)
+		<context:property-placeholder location="classpath:**/*-spring.properties" file-encoding="UTF-8"/>-->
+        <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="fileEncoding" value="UTF-8"/>
+            <property name="locations">
+                <list>
+                    <value>classpath:jdbc-spring.properties</value>
+                    <value>classpath:redis-spring.properties</value>
+                    <value>classpath:web-constants.properties</value>
+                </list>
+            </property>
+        </bean>
+		<!-- 启用注解 -->
+		<context:annotation-config />
+		<tx:annotation-driven />
+		<!-- 启动组件扫描，排除@Controller组件，该组件由SpringMVC配置文件扫描，如果不去除会影响事务管理 -->
+		<context:component-scan base-package="com.kingleadsw.betterlive">
+			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		</context:component-scan>
+
+		<aop:aspectj-autoproxy proxy-target-class="true"/>
+		<!--引入事物配置-->
+		<import resource="classpath*:transaction-spring.xml"/>
+		<!-- enable transaction demarcation with annotations-->
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+		<!--引入redis文件-->
+		<import resource="classpath*:redis-spring/redis.xml"/>
+		
+		<bean id="initSysData" class="com.kingleadsw.betterlive.init.InitSysData"></bean>
+		
+		<bean id="SpringContextHolder" class="com.kingleadsw.betterlive.init.SpringContextHolder"/>
+	 
+</beans>

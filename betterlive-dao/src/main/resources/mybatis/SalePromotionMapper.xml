@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SalePromotionMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SalePromotion">
+		<id column="promotion_id" property="promotionId" jdbcType="INTEGER" />
+		<result column="promotion_id" property="promotionId" jdbcType="INTEGER"/>
+		<result column="promotion_name" property="promotionName" jdbcType="VARCHAR"/>
+		<result column="full_money" property="fullMoney" jdbcType="DECIMAL"/>
+		<result column="cut_money" property="cutMoney" jdbcType="DECIMAL"/>
+		<result column="promotion_content" property="promotionContent" jdbcType="VARCHAR"/>
+		<result column="start_time" property="startTime" jdbcType="DATE"/>
+		<result column="end_time" property="endTime" jdbcType="DATE"/>
+		<result column="create_time" property="createTime" jdbcType="DATE"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		
+		<collection property="listSpec" column="promotion_id" select="findPromotionSpeces"></collection>
+	</resultMap>
+	
+	
+	<resultMap  id="BaseSpecResultMap" type="com.kingleadsw.betterlive.model.PromotionSpec" >
+		<id column="promotion_spec_id"  property="promotionSpecId"   jdbcType="INTEGER" />
+		<result column="promotion_id" property="promotionId" jdbcType="INTEGER" /> 
+		<result column="product_id" property="productId" jdbcType="INTEGER" /> 
+		<result column="spec_id" property="specId" jdbcType="INTEGER" />
+	    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+	    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+	</resultMap> 
+	
+	<sql id="Base_Column_List">
+		promotion_id,
+		promotion_name,
+		full_money,
+		cut_money,
+		promotion_content,
+		status,
+		DATE_FORMAT(start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+		DATE_FORMAT(end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+		DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+	</sql>
+	
+	<select id="findPromotionSpeces" resultMap="BaseSpecResultMap"  parameterType="java.lang.Integer" flushCache="true" >
+		 select ps.promotion_spec_id,ps.promotion_id,ps.product_id,ps.spec_id,p.product_name,s.spec_name 
+		 	from t_promotion_spec ps inner join t_sale_promotion sp on ps.promotion_id=sp.promotion_id
+		 	inner join t_product p on p.product_id=ps.product_id 
+		 	inner join t_spec s on s.spec_id=ps.spec_id
+		 	where ps.promotion_id=#{promotion_id}
+	</select>
+	
+	
+	<!-- 分页查询  -->
+	<select id="queryListPage" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_sale_promotion where 1=1
+		<if test="null!=promotionId and ''!=promotionId">
+			and promotion_id=#{promotionId}
+		</if>
+		<if test="null!=promotionName and ''!=promotionName ">
+			and promotion_name like '%${promotionName}%'
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and start_time<![CDATA[ >= ]]> #{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and end_time<![CDATA[ <= ]]> #{endTime}
+		</if>
+		<if test="null!=status and ''!=status">
+			and status=#{status}
+		</if>
+		order by create_time desc
+	</select>
+	
+	<!-- 不分页查询  -->
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_sale_promotion where 1=1
+		<if test="null!=promotionId and ''!=promotionId">
+			and promotion_id=#{promotionId}
+		</if>
+		<if test="null!=promotionName and ''!=promotionName ">
+			and promotion_name like '%${promotionName}%'
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and start_time&lt;=#{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and end_time&gt;#{endTime}
+		</if>
+		<if test="null!=status">
+			and status=#{status}
+		</if>
+		order by create_time desc
+	</select>
+	<!-- 根据主键查出一条记录 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select <include refid="Base_Column_List" />
+		from t_sale_promotion where 
+		promotion_id=#{promotionId,jdbcType=INTEGER}
+		
+	</select>
+	
+	
+	<!-- 插入数据  -->
+	 <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SalePromotion" useGeneratedKeys="true" keyColumn="promotion_id" keyProperty="promotionId">
+	 	insert into t_sale_promotion
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+    		<if test="promotionId != null and ''!=promotionId" >
+        		promotion_id,
+      		</if>
+      		<if test="promotionName != null and ''!=promotionName" >
+        		promotion_name,
+      		</if>
+      		<if test="fullMoney != null and ''!=fullMoney" >
+        		full_money,
+      		</if>
+      		<if test="cutMoney != null and ''!=cutMoney" >
+        		cut_money,
+      		</if>
+      		<if test="promotionContent != null and ''!=promotionContent" >
+        		promotion_content,
+      		</if>
+      		<if test="startTime != null and ''!=startTime" >
+        		start_time,
+      		</if>
+      		<if test="endTime != null and ''!=endTime" >
+        		end_time,
+      		</if>
+      		status,
+      		create_time
+	 	</trim>
+	 	<trim prefix="values (" suffix=")" suffixOverrides="," >
+	 		<if test="promotionId != null and ''!=promotionId" >
+	 			#{promotionId},
+	 		</if>
+	 		<if test="promotionName != null and ''!=promotionName" >
+	 			#{promotionName},
+	 		</if>
+	 		<if test="fullMoney != null and ''!=fullMoney" >
+	 			#{fullMoney},
+	 		</if>
+	 		<if test="cutMoney != null and ''!=cutMoney" >
+	 			#{cutMoney},
+	 		</if>
+	 		<if test="promotionContent != null and ''!=promotionContent" >
+	 			#{promotionContent},
+	 		</if>
+	 		<if test="startTime != null and ''!=startTime" >
+	 			#{startTime},
+	 		</if>
+	 		<if test="endTime != null and ''!=endTime" >
+	 			#{endTime},
+	 		</if>
+	 			1,
+	 			NOW()
+	 	</trim>
+	 </insert>
+	 
+	 
+	 
+	 <!-- 更新 -->
+	 <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.SalePromotion">
+	 	update t_sale_promotion
+	 		 <set>
+	 		 	<if test="promotionName!=null and ''!=promotionName">
+	 		 		promotion_name=#{promotionName},
+	 		 	</if>
+	 		 	<if test="fullMoney != null and ''!=fullMoney" >
+	 		 		full_money=#{fullMoney},
+	 		 	</if>
+	 		 	<if test="cutMoney != null and ''!=cutMoney" >
+	 		 		cut_money=#{cutMoney},
+	 		 	</if>
+	 		 	<if test="promotionContent != null and ''!=promotionContent" >
+	 				promotion_content=#{promotionContent},
+	 			</if>
+	 			<if test="startTime != null and ''!=startTime" >
+	 				start_time=#{startTime},
+	 			</if>
+	 			<if test="endTime != null and ''!=endTime" >
+	 				end_time=#{endTime},
+	 			</if>
+	 			<if test="null!=status">
+    				status=#{status},
+    			</if>
+	 		 </set>
+	 		 where promotion_id=#{promotionId}
+	 </update>
+	
+	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd">
+		SELECT sp.* FROM t_promotion_spec p INNER JOIN t_sale_promotion sp ON p.promotion_id = sp.promotion_id 
+		where sp.`status` = 1
+		AND NOW() <![CDATA[ > ]]> sp.start_time
+		AND NOW() <![CDATA[ < ]]> sp.end_time
+		<if test="productId != null and productId != '' ">
+			AND p.product_id = #{productId}
+		</if>
+		<if test="specId != null and specId != '' ">
+			AND p.spec_id = #{specId}
+		</if>
+		
+	</select>
+	
+</mapper>

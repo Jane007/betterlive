@@ -1,0 +1,96 @@
+body{
+	background: url(../img/hongbaoBg.png) center center;
+	background-size:cover;
+	
+}
+.container{
+	padding-top: 1.6rem;
+	box-sizing: border-box;
+	position: relative;
+}
+.hongbaoPic{
+	width: 3.58rem;
+	height: 4.39rem;
+	margin: 0 auto;
+}
+.hongbaoPic img{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.getRed{
+	margin: 0.5rem 0 0 0;
+	text-align: center;
+	font-size: 0.28rem;
+	color: #b28850;
+}
+.shareWith{
+	margin: 0.2rem 0 0 0;
+	text-align: center;
+	font-size: 0.28rem;
+	color: #b28850;
+}
+.shareRedpacket{
+	width: 3.81rem;
+	height: 0.71rem;
+	color: white;
+	font-size: 0.28rem;
+	text-align: center;
+	line-height: 0.74rem;
+	background: #cfa972;
+	margin: 0.7rem auto 0;
+	border-radius: 2px;
+}
+.red-back{
+	width: 0.2rem;
+	height: 0.36rem;
+	position: absolute;
+	left: 0.5rem;
+	top:0.44rem;
+}
+.red-back img{
+	width: 100%;
+	height:100%;
+	display: block;
+}
+.dia-share{
+	width: 50%;
+	position: fixed;
+	top: 0.1rem;
+	right: 0.27rem;
+	z-index: 115;
+	color: white;
+	font-size: 0.28rem;
+	padding-top: 0.9rem;
+	text-align: end;
+	font-family: "微软雅黑";
+	display: none;
+}
+.dia-share .can-get{
+	margin: 0.15rem 0 0 0;
+}
+.i-see{
+	width: 1.91rem;
+	height: 0.55rem;
+	color: white;
+	text-align: center;
+	line-height: 0.54rem;
+	background: #cfa972;
+	margin: 0.55rem 0 0 0;
+	border-radius: 2px;
+	float: right;
+}
+.zhiyin{
+	width: 0.29rem;
+	height: 2.36rem;
+	background: url(../img/zhiyin.png) no-repeat center center;
+	background-size:100%;
+	position: absolute;
+	top: 0;
+	right: 0.07rem;
+}
+
+
+
+
+

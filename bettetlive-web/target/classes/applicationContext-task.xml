@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+
+	<!--运行时请将方式一注释掉！ -->
+	<!-- 方式二：使用MethodInvokingJobDetailFactoryBean，任务类可以不实现Job接口，通过targetMethod指定调用方法 -->
+	<!-- 定义目标bean和bean中的方法 
+	<bean id="productSpecJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="productSpecJob" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	-->
+	<bean id="orderJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="orderJob" />
+		</property>
+		<property name="targetMethod">  <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+	</bean>
+
+	<bean id="orderFinshJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="orderFinshJob" />
+		</property>
+		<property name="targetMethod">  <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+	</bean>
+	
+	<bean id="messageJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="messageJob" />
+		</property>
+		<property name="targetMethod">  <!-- 要执行的方法名称 -->
+			<value>execute</value>
+		</property>
+	</bean>
+ 
+	<!--触发器-->
+	<bean id="orderJobMethodCronTrigger"
+		  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderJobMethod" />
+		
+		<!-- 1分钟执行一次 -->
+		<property name="cronExpression" value="0 */1 * * * ?" />
+	</bean>
+
+	<bean id="orderFinshJobMethodCronTrigger"
+		  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="orderFinshJobMethod" />
+		
+		<!-- 1分钟执行一次 -->
+		<property name="cronExpression" value="0 */1 * * * ?" />
+	</bean>
+	
+	<bean id="messageJobMethodCronTrigger"
+		  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="messageJobMethod" />
+		
+		<!-- 1分钟执行一次 -->
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+	
+	<!--
+	<bean id="productSpecJobMethodCronTrigger"
+		  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="productSpecJobMethod" />
+	 -->
+		<!-- 1小时执行一次 
+		<property name="cronExpression" value="0 0 * * * ?" />
+	</bean>
+	-->
+	 
+	<!-- 调度器 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- 触发器列表 -->
+<!-- 				<ref bean="orderJobMethodCronTrigger" /> -->
+<!-- 				<ref bean="orderFinshJobMethodCronTrigger" /> -->
+<!-- 				<ref bean="messageJobMethodCronTrigger" /> -->
+<!-- 				<ref bean="productSpecJobMethodCronTrigger" /> -->
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:quartz.properties" />
+	</bean>
+</beans>

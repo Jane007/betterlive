@@ -1,0 +1,373 @@
+
+body{
+	background: #eee;
+}
+
+
+.head-wrap{
+	width:100%;
+	height:1.694rem;
+	background: url(../../img/integral/header_01.png) no-repeat;
+	background-size:100% 100%;
+}
+.head{
+	line-height:1.694rem;
+	color:#fff;
+	width:92.22%;
+	margin:0 auto;
+	position:relative;
+}
+.head .goback{
+	height:0.66rem;
+	width:0.66rem;
+	background: url(../../img/goback.png) no-repeat;
+	background-size:100% 100% ;
+	position:absolute;
+	left:0;
+	top:0.517rem;
+}
+.head h3{
+	text-align: center;
+	font-size:0.444rem;
+}
+.head .help{
+	position:absolute;
+	height:100%;
+	right:0;
+	top:0;
+	font-size:0.388rem;
+}
+
+.header-wrap{
+	width: 100%;
+	height: 8.916rem;
+	background: url(../../img/integral/mygold_bg.png) no-repeat;
+	background-size:100% 100% ;
+}
+.header{
+	overflow: hidden;
+}
+.user{
+	margin: 0.61rem auto 0;
+	display: flex;
+    justify-content: center;
+	height: 2.27rem;
+	color: #fff;
+}
+.user .text{
+	text-align: right;
+}
+.gold{
+	height: 0.814rem;
+	line-height: 0.814rem;
+	font-size: 0.66rem;
+	font-weight:600 ;
+}
+.name{
+	height: 0.527rem;
+	line-height: 0.527rem;
+	font-size: 0.388rem;
+}
+
+.user .medal{
+	margin-left: 0.416rem;
+	width: 1.66rem;
+	height: 2.27rem;
+}
+
+.growup{
+	width:92.22%;
+	margin: 0.9629rem auto 0;
+	color: #fff;
+	line-height: 1;
+}
+.growwidth{
+	width:0.2778rem;
+	margin-top:0.34rem;
+	position: absolute;
+}
+.graph-wrap{
+	width:9rem;
+	position: relative;
+	overflow-x: scroll;
+}
+.currentvalue{
+	position: absolute;
+	top: 0;
+	width:1.34rem;
+	height:0.473rem ;
+	text-align: center;
+	left:4.8rem;
+	transform: translateX(-50%);
+}
+.currentvalue .currbg{
+	width:1.34rem;
+	height:0.473rem ;
+	position: relative;
+	margin: 0 auto;
+}
+.currentvalue .currbg.zero{
+	width:0.833rem;
+}
+.currentvalue img{
+	width:100%;
+	height:100%;
+	position: absolute;
+	display: block;
+	left: 0;
+	top: 0;
+}
+.currentvalue span{
+	display: block;
+	width: 100%;
+	position: absolute;
+	font-size: 0.22rem;
+	line-height: 0.379rem;
+	height: 0.379rem;
+}
+
+.grapph{
+	height:0.388rem;
+	margin-top:0.59rem ;
+	position: relative;
+	width: 11.84rem;
+	margin-left:0.4259rem;
+}
+.grapph .measure{
+	height: 0.056rem;
+	background: #fff;
+	position: absolute;
+	width: 11.84rem;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.grapph .onspan{
+	position: absolute;
+	width: 0.388rem;
+	height: 0.388rem;
+	background: url(../../img/integral/head_03.png) no-repeat;
+	background-size: 100% 100%;
+	top: 0;
+	left:0;
+	transform: translateX(-50%);
+}
+.grapph span{
+	position: absolute;
+	display: block;
+	width: 0.388rem;
+	height: 0.388rem;
+	background: url(../../img/integral/head_02.png) no-repeat;
+	background-size: 100% 100%;
+	top: 0;
+	
+}
+
+.grapph span:nth-of-type(1){
+	transform: translateX(-50%);
+	left: 0;
+}
+.grapph span:nth-of-type(2){
+	left: 1.48rem;
+	transform: translateX(-50%);
+}
+.grapph span:nth-of-type(3){
+	left: 2.96rem;
+	transform: translateX(-50%);
+}
+.grapph span:nth-of-type(4){
+	left:4.44rem;
+	transform: translateX(-50%);
+}
+.grapph span:nth-of-type(5){
+	left:5.92rem;
+	transform: translateX(-50%);
+}
+.grapph span:nth-of-type(6){
+	left:7.4rem;
+	transform: translateX(-50%);
+}
+.grapph span:nth-of-type(7){
+	left:8.88rem;
+	transform: translateX(-50%);
+}
+.grapph span:nth-of-type(8){
+	left:10.36rem;
+	transform: translateX(-50%);
+}
+.grapph span:nth-of-type(9){
+	left:11.84rem;
+	transform: translateX(-50%);
+}
+.textnum{
+	height: 0.3796rem;
+	line-height: 0.3796rem;
+	position: relative;
+}
+.textnum span{
+	display: block;
+	height: 100%;
+	font-size: 0.277rem;
+	position: absolute;
+	top: 0;
+	margin-left:0.4259rem;
+}
+.textnum span:nth-of-type(1){
+	transform: translateX(-50%);
+	left: 0;
+}
+.textnum span:nth-of-type(2){
+	left: 1.48rem;
+	transform: translateX(-50%);
+}
+.textnum span:nth-of-type(3){
+	left: 2.96rem;
+	transform: translateX(-50%);
+}
+.textnum span:nth-of-type(4){
+	left:4.44rem;
+	transform: translateX(-50%);
+}
+.textnum span:nth-of-type(5){
+	left:5.92rem;
+	transform: translateX(-50%);
+}
+.textnum span:nth-of-type(6){
+	left:7.4rem;
+	transform: translateX(-50%);
+}
+.textnum span:nth-of-type(7){
+	left:8.88rem;
+	transform: translateX(-50%);
+}
+.textnum span:nth-of-type(8){
+	left:10.36rem;
+	transform: translateX(-50%);
+}
+.textnum span:nth-of-type(9){
+	left:11.84rem;
+	transform: translateX(-50%);
+}
+
+.link{
+	width: 92.22%;
+	margin: 1.703rem auto 0;
+	display: flex;
+	justify-content: space-between;
+}
+.link .box{
+	display: block;
+	width: 3.06rem;
+	height: 1.66rem;
+	position: relative;
+}
+.link .box img{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.link .box span{
+	display: none;
+	width: 0.388rem;
+	height: 0.388rem;
+	background: #E62D29;
+	color: #FFFFFF;
+	text-align: center;
+	line-height: 0.388rem;
+	font-size: 0.277rem;
+	border-radius: 50%;
+	position: absolute;
+	right: 0.111rem;
+	top: -0.05rem;
+}
+.link .box .show{
+	display: block;
+}
+
+.content{
+	margin-top: 0.277rem;
+}
+.content .headline-wrap{
+	width: 100%;
+	background: #fff;
+}
+.content .headline{
+	width: 96.66%;
+	height: 1.277rem;
+	line-height: 1.277rem;
+	text-align: center;
+	position: relative;
+	margin-left: 3.34%;
+	font-size: 0.388rem;
+}
+
+.content .headline:after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #d9d9d9;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+
+.list{}
+.list li{
+	height: 1.944rem;
+	width: 96.66%;
+	margin-left: 3.34%;
+	position: relative;
+	overflow: hidden;
+}
+.list li:after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #d9d9d9;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+.list li h3{
+	height: 0.6296rem;
+	font-size: 0.388rem;
+	line-height: 0.6296rem;
+	margin-top: 0.388rem;
+}
+.list li .time{
+	color: #868686;
+	height: 0.5rem;
+	line-height: 0.5rem;
+	font-size: 0.277rem;
+}
+.list li .money{
+	color: #E62D29;
+	font-size: 0.444rem;
+	position: absolute;
+	right: 0.388rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.list li .minus{
+	color: #868686;
+}
+
+.nodata{
+	text-align: center;
+	display: none;
+	padding:1rem 0;
+}
+.nodata img{
+	width: 2.333rem;
+	height: 2.333rem;
+	display: block;
+	margin: 1.33rem auto 0.35rem;
+}
+.nodata span{
+	color: #868686;
+	font-size: 0.444rem;
+}

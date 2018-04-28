@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ProductSpecMapper" >
+		
+	<sql id="Base_Column_List" >
+		s.spec_id,
+		s.product_id,
+		s.spec_name,
+		s.spec_price,
+		s.spec_img,
+		s.status,
+		s.stock_copy,
+		s.sales_copy,
+		s.limit_max_copy,
+		DATE_FORMAT(s.limit_start_time, '%Y-%m-%d %H:%i:%s') AS limit_start_time,
+		DATE_FORMAT(s.limit_start_time, '%Y-%m-%d %H:%i:%s') AS limit_end_time,
+		s.package_desc,
+		s.discount_price,
+    	DATE_FORMAT(s.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+    	p.product_name,
+    	p.share_explain,
+    	p.product_logo
+  	</sql>
+  
+  
+	<!-- 根据条件分页查询商品    -->
+	<select id="queryProductSpecListPage" resultType="com.kingleadsw.betterlive.model.ProductSpec" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     	FROM  t_spec s INNER JOIN t_product p  ON s.product_id=p.product_id
+     	
+     	WHERE s.spec_id IS NOT NULL
+     	
+     	<!-- 商品ID -->
+     	<if test="null != productId  and ''!= productId">
+     		and s.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 规格状态 -->
+     	<if test="null != specStatus  and ''!= specStatus">
+     		and s.status=#{specStatus}
+     	</if>
+     	
+     	<!-- 规格名称 -->
+     	<if test="null != specName  and ''!= specName">
+     	    and s.spec_name like '%${specName}%'
+     	</if>
+     	
+     	<!-- 基础价格-->
+     	<if test="null != startSpecPrice  and ''!=startSpecPrice  and null != endSpecPrice and  ''!=endSpecPrice ">
+     	    and  s.spec_price like  between  startSpecPrice and  endSpecPrice
+     	</if>
+     	
+     	<!-- 规格ID--> 
+     	<if test="null != specId  and ''!= specId">
+     	    and s.spec_id=#{specId}
+     	</if>
+  	</select>
+  	
+  	
+  	<!--查询单个商品规格   -->
+	<select id="queryProductSpecByOption" resultType="com.kingleadsw.betterlive.model.ProductSpec" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />,
+     		p.status productStatus,
+     		<if test="activityId != null">
+     			(select ap.activity_price from t_activity_product ap where ap.activity_id = #{activityId} and s.product_id = product_id and ap.spec_id = s.spec_id) activity_price,
+     		</if>
+     		(select ifnull(sum(op.quantity), 0) from t_order_product op where op.product_id = p.product_id and op.`STATUS` in (2,3,4,5)) total_sales_copy,
+     		p.if_coupon ifCoupon
+     	FROM  t_spec s INNER JOIN t_product p  ON s.product_id=p.product_id
+     	
+     	WHERE 1=1
+     		
+    
+     	<if test="null != productId  and ''!= productId">
+     		and s.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 规格名称--> 
+     	<if test="null != specName  and ''!= specName">
+     	    and s.spec_name like '%${specName}%'
+     	</if>
+     	
+     	<!-- 规格ID--> 
+     	<if test="null != specId  and ''!= specId">
+     	    and s.spec_id=#{specId}
+     	</if>
+     	
+     	<!-- 商品上下架状态--> 
+     	<if test="null != proStatus  and ''!= proStatus">
+     	    and p.status=#{proStatus}
+     	</if>
+     	
+     	<!-- 商品规格状态--> 
+     	<if test="null != specStatus  and ''!= specStatus">
+     	    and s.status=#{specStatus}
+     	</if>
+     	 order by s.spec_price asc
+     	limit 1 
+  	</select>
+  	
+  	
+  	<!--根据条件查询全部商品规格    -->
+  	<select id="queryListProductSpec" resultType="com.kingleadsw.betterlive.model.ProductSpec" parameterType="pd" >
+    	SELECT DISTINCT 
+     		<include refid="Base_Column_List" />,ap.activity_price,s.limit_max_copy,
+			s.limit_start_time, s.limit_end_time 
+     	FROM  t_spec s INNER JOIN t_product p  ON s.product_id=p.product_id
+     	
+     	 LEFT JOIN  t_activity_product ap ON s.spec_id=ap.spec_id 
+     	 
+     	WHERE s.spec_id IS NOT NULL
+     		
+     	<!-- 商品ID -->
+     	<if test="null != productId  and ''!= productId">
+     		and s.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 商品状态 -->
+     	<if test="null != pStatus  and '' != pStatus">
+     		and p.status=#{pStatus}
+     	</if>
+     	
+     	<!-- 规格状态 -->
+     	<if test="null != specStatus  and ''!= specStatus">
+     		and s.status=#{specStatus}
+     	</if>
+     	
+     	<!-- 规格名称 -->
+     	<if test="null != specName  and ''!= specName">
+     	    and s.spec_name like '%${specName}%'
+     	</if>
+     	
+     	<!-- 基础价格-->
+     	<if test="null != startSpecPrice  and ''!=startSpecPrice  and null != endSpecPrice and  ''!=endSpecPrice ">
+     	    and  s.spec_price like  between  #{startSpecPrice} and  #{endSpecPrice}
+     	</if>
+     	
+     	<!-- 规格ID--> 
+     	<if test="null != specId  and ''!= specId">
+     	    and s.spec_id=#{specId}
+     	</if>
+     	<!-- 多个规格ID -->
+     	
+     	<if test="null != specIds  and ''!= specIds">
+     	and s.spec_id in (${specIds})
+     	    
+     	</if>
+     	<!-- 预售活动id--> 
+     	<if test="null != activityId  and ''!= activityId">
+     	    and ap.activity_id=#{activityId}
+     	</if>
+  	</select>
+  	
+  	
+  	<!-- 新增商品规格 -->
+  	<insert id="addBatchProductSpec" parameterType="java.util.List" >
+    	insert into t_spec (spec_id,
+							product_id,
+							spec_name,
+							spec_price,
+							spec_img,
+							status,
+							create_time,
+							stock_copy,
+							sales_copy,
+							limit_max_copy,
+							limit_start_time,
+							limit_end_time,
+							package_desc,
+							discount_price
+    				  		)
+    				  	values 
+    				  	<foreach collection="list" item="l" separator=",">
+    				  		(NULL,
+    				  	 	    #{l.product_id},
+    				  	 	    #{l.spec_name},
+    				  	 	    #{l.spec_price},
+    				  	 	    #{l.spec_img},
+    				  	 	    #{l.status},
+    				  	 	    now(),
+    				  	 	    #{l.stock_copy},
+								0,
+								#{l.limit_max_copy},
+								#{l.limit_start_time},
+								#{l.limit_end_time},
+								#{l.package_desc},
+								#{l.discount_price}
+    				  	 	 )
+    				  	</foreach> 	  
+    				  	 	  
+  	</insert>
+  <!--  	
+   	编辑商品规格 -->   
+    <update id="updateProductSpecBySid" parameterType="com.kingleadsw.betterlive.model.ProductSpec" >
+    	update t_spec
+    		<set>
+    			<if test="null!=product_id">
+    				 product_id=#{product_id},
+    			</if>
+    			<if test="null!=spec_name">
+    				spec_name=#{spec_name},
+    			</if>
+    			<if test="null!=spec_price">
+    				spec_price=#{spec_price},
+    			</if>
+    			<if test="null!=status">
+    				status=#{status},
+    			</if>
+    			<if test="null!=spec_img and ''!=spec_img">
+    				spec_img=#{spec_img},
+    			</if>
+    			<if test="discount_price != null">
+    				discount_price = #{discount_price},
+    			</if>
+    			<if test="stock_copy != null">
+    				stock_copy=#{stock_copy},
+    			</if>
+   				<if test="sales_copy != null">
+    				sales_copy=#{sales_copy},
+    			</if>
+    			<if test="limit_max_copy != null">
+    				limit_max_copy=#{limit_max_copy},
+    			</if>
+    			<if test="package_desc != null">
+    				package_desc=#{package_desc},
+    			</if>
+   				<if test="limit_start_time != null">
+   					limit_start_time=#{limit_start_time},
+    			</if>
+    			<if test="limit_end_time != null">
+   					limit_end_time=#{limit_end_time},
+    			</if>
+    		</set>
+    	where spec_id=#{spec_id}
+    	
+    </update> 
+ 
+    <!-- 删除商品-->
+    <update id="deleteProductSpecBySid" parameterType="java.lang.String" >
+    	delete from  t_spec where product_id=#{specId}
+    </update> 
+    
+    
+    <select id="queryList" resultType="com.kingleadsw.betterlive.model.ProductSpec" parameterType="pd" >
+    	SELECT DISTINCT 
+     		<include refid="Base_Column_List" />
+     	FROM  t_spec s INNER JOIN t_product p  ON s.product_id=p.product_id
+     	WHERE 1=1
+     		
+     	<!-- 商品ID -->
+     	<if test="null != productId  and ''!= productId">
+     		and s.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 规格状态 -->
+     	<if test="null != specStatus  and ''!= specStatus">
+     		and s.status=#{specStatus}
+     	</if>
+     	
+     	<!-- 规格名称 -->
+     	<if test="null != specName  and ''!= specName">
+     	    and s.spec_name like '%${specName}%'
+     	</if>
+     	
+     	<!-- 基础价格-->
+     	<if test="null != startSpecPrice  and ''!=startSpecPrice  and null != endSpecPrice and  ''!=endSpecPrice ">
+     	    and  s.spec_price like  between  startSpecPrice and  endSpecPrice
+     	</if>
+     	
+     	<!-- 规格ID--> 
+     	<if test="null != specId  and ''!= specId">
+     	    and s.spec_id=#{specId}
+     	</if>
+     	<if test="checkNum != null and checkNum == 1">
+     		and s.stock_copy <![CDATA[ <= ]]>   20
+     		   
+     	</if>
+     	
+   		<!-- 商品状态 -->
+     	<if test="null != pStatus  and '' != pStatus">
+     		and p.status=#{pStatus}
+     	</if>
+    </select>
+    
+     
+</mapper>

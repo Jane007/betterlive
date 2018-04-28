@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingleadsw.betterlive.dao.AgentProductMapper">
+
+	<resultMap  id="BaseResultMap" type="com.kingleadsw.betterlive.model.AgentProduct">
+		<id column="agent_pro_id"  property="agentProId" jdbcType="BIGINT" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" /> 
+    	<result column="status" property="status" jdbcType="INTEGER" />
+   	   <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		  a.agent_pro_id, a.status, a.product_id,
+	   	  DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') create_time  
+  	</sql>
+	
+	<sql id="Join_Pro_Column_List">
+		p.product_code AS "productCode",
+		p.product_name AS "productName",
+		p.product_logo AS "productLogo",
+		p.status AS "productStatus",
+		p.share_explain AS "shareExplain",
+		p.fake_sales_copy AS "fakeSalesCopy"
+  	</sql>
+  	
+  	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd">
+  		SELECT <include refid="Base_Column_List"/>
+  		 FROM t_agent_product_relation a
+  		WHERE 1=1
+  			<if test="productId != null">
+  				and a.product_id = #{productId}
+  			</if> 
+  			<if test="status != null">
+  				and a.status = #{status}
+  			</if>
+  		 limit 1
+  	</select>
+    
+    <select id="queryAgentProductListPage" resultMap="BaseResultMap" parameterType="pd">
+  		SELECT <include refid="Base_Column_List"/>,
+  				<include refid="Join_Pro_Column_List" />,
+  				SUM(s.stock_copy) AS "totalStockCopy"
+  		 from t_agent_product_relation a INNER JOIN t_product p on a.product_id = p.product_id,t_spec s where a.product_id = s.product_id
+  		and p.status=1
+		and p.is_online=1
+		and a.`status` = 0
+		and s.status = 1
+		GROUP BY a.product_id
+		order by a.create_time desc
+  	</select>
+
+</mapper>

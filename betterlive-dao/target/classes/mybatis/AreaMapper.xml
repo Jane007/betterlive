@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.AreaMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Area">
+		<id column="area_id" property="areaId" jdbcType="INTEGER" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="area_name" property="areaName" jdbcType="VARCHAR" />
+		<result column="postal_code" property="postalCode" jdbcType="VARCHAR" />
+		<result column="keyword" property="keyword" jdbcType="VARCHAR" />
+		<result column="i_framework" property="iFramework" jdbcType="VARCHAR" />
+		<!-- <result column="is_online" property="isOnline" jdbcType="INTEGER" /> -->
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		area_id, parent_id,
+		area_name, postal_code, keyword,
+		i_framework
+	</sql>
+	<insert id="insert" parameterType="com.kingleadsw.betterlive.model.Area">
+		insert into t_area (area_id, parent_id,
+		area_name, postal_code, keyword,
+		i_framework)
+		values (#{areaId,jdbcType=INTEGER}, #{areaCode,jdbcType=VARCHAR},
+		#{parentId,jdbcType=VARCHAR},
+		#{areaName,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR},
+		#{iFramework,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.kingleadsw.betterlive.model.Area">
+		insert into t_area
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="areaId != null">
+				area_id,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="areaName != null">
+				area_name,
+			</if>
+			<if test="postalCode != null">
+				postal_code,
+			</if>
+			<if test="keyword != null">
+				keyword,
+			</if>
+			<if test="iFramework != null">
+				i_framework,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="areaId != null">
+				#{areaId,jdbcType=INTEGER},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="areaName != null">
+				#{areaName,jdbcType=VARCHAR},
+			</if>
+			<if test="postalCode != null">
+				#{postalCode,jdbcType=VARCHAR},
+			</if>
+			<if test="keyword != null">
+				#{keyword,jdbcType=VARCHAR},
+			</if>
+			<if test="iFramework != null">
+				#{iFramework,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<update id="updateIsOnlineById" parameterType="com.kingleadsw.betterlive.model.Area">
+		update t_area
+		<set>
+			<if test="isOnline != null">
+				is_online = #{isOnline,jdbcType=INTEGER},
+			</if>
+		</set>
+		where area_id = #{areaId,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 查询省 -->
+	<select id="findAllAreaInfo" parameterType="pd" resultMap="BaseResultMap">
+		SELECT * FROM t_area where parent_id=#{parentId}
+		<if test="isOnline !=null and ''!=isOnline">
+			and is_online=#{isOnline}
+		</if>
+		
+		<if test="notAreaIds !=null and ''!=notAreaIds">
+			and area_id not in (${notAreaIds})
+		</if>
+	</select>
+
+	<!-- 根据id查询地区记录 -->
+	<select id="findAreaById" parameterType="pd" resultMap="BaseResultMap">
+		SELECT * FROM t_area where area_id=#{areaId}
+	</select>
+
+	<select id="queryByName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_area where #{areaName} like CONCAT('%' ,keyword,'%')
+	</select>
+	<select id="queryList" parameterType="pd" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_area
+		where 1=1
+		<if test="areaId != null">
+			area_id= #{areaId,jdbcType=INTEGER}
+		</if>
+		<if test="parentId != null">
+			and parent_id= #{parentId,jdbcType=VARCHAR}
+		</if>
+		<if test="areaName != null">
+			and area_name= #{areaName,jdbcType=VARCHAR}
+		</if>
+		<if test="postalCode != null">
+			and postal_code= #{postalCode,jdbcType=VARCHAR}
+		</if>
+		<if test="keyword != null">
+			and keyword= #{keyword,jdbcType=VARCHAR}
+		</if>
+
+		<!-- 根据ID -->
+		<if test="areaIdStr != null and areaIdStr !='' ">
+			and area_id in (${areaIdStr})
+		</if>
+	</select>
+	
+	
+	<!-- 根据地区Id查询本省的地区 -->
+	<select id="queryAreaByCid" parameterType="pd" resultMap="BaseResultMap">
+		select * from t_area where parent_id=(SELECT parent_id FROM t_area where area_id=#{areaId})
+	</select>
+	
+	
+	<!-- 根据产品Id查询配送镇区的上一级 -->
+	<select id="queryCityByPid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select  *  from t_area where area_id in(SELECT area_code from t_deliver_area where product_id=#{productId}) and parent_id >0
+
+		GROUP BY parent_id and SUBSTR(i_framework,10) is not null
+	</select>
+	
+</mapper>

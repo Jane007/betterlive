@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.UserGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.UserGroup" >
+    <id column="user_group_id" property="userGroupId" jdbcType="INTEGER" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="special_id" property="specialId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="originator" property="originator" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="spec_id" property="specId" jdbcType="INTEGER" />
+        
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="cust_img" property="custImg" jdbcType="VARCHAR" />
+    <result column="cust_num" property="custNum" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.user_group_id, t.group_id, t.special_id, t.status, t.originator, t.create_time, t.product_id, t.spec_id
+
+  </sql>
+  
+      <select id="queryOne"  resultMap="BaseResultMap" parameterType="pd" >
+       SELECT <include refid="Base_Column_List"/>,
+       		case when tc.nickname is not null and tc.nickname  <![CDATA[ <> ]]> ''   then tc.nickname
+       			else mosaic(tc.mobile) end nick_name,
+   			tc.head_url cust_img,
+       		(select sum(1) from t_group_join gj where gj.user_group_id = t.user_group_id and gj.status=1) cust_num
+         FROM t_user_group t, t_sys_group sg, t_professional ts, t_customer tc
+         	where t.group_id = sg.group_id
+         		and t.special_id = ts.special_id
+         		and t.originator = tc.customer_id
+
+         	<if test="productId != null and productId > 0">
+         		and t.product_id = #{productId}
+         	</if>
+      		<if test="specialId != null and specialId > 0">
+         		and t.special_id = #{specialId}
+         	</if>
+         	<if test="status != null">
+         		and t.status = #{status}
+         	</if>
+       	  	<if test="userGroupId != null">
+         		and t.user_group_id = #{userGroupId}
+         	</if>
+         	<if test="isProgress != null and isProgress == 1">
+         		and sg.limit_copy > (select ifnull(sum(1), 0) from t_group_join where user_group_id = t.user_group_id and status = 0)
+         	</if>
+         	order by t.create_time asc
+         	limit 1
+   </select>
+   <select id="queryList"  resultMap="BaseResultMap" parameterType="pd" >
+       SELECT <include refid="Base_Column_List"/>,
+       		case when tc.nickname is not null and tc.nickname  <![CDATA[ <> ]]> ''   then tc.nickname
+       			else mosaic(tc.mobile) end nick_name,
+       				tc.head_url cust_img,
+			(select sum(1) from t_group_join gj where gj.user_group_id = t.user_group_id and gj.status=1) cust_num
+         FROM t_user_group t, t_sys_group sg, t_professional ts, t_customer tc
+         	where t.group_id = sg.group_id
+         		and t.special_id = ts.special_id
+         		and t.originator = tc.customer_id
+
+			<if test="groupId != null and groupId > 0">
+         		and t.group_id = #{groupId}
+         	</if>
+         	<if test="productId != null and productId > 0">
+         		and t.product_id = #{productId}
+         	</if>
+      		<if test="specialId != null and specialId > 0">
+         		and t.special_id = #{specialId}
+         	</if>
+      		<if test="status != null">
+         		and t.status = #{status}
+         	</if>
+       		<if test="statusLine != null and statusLine == 1">
+         		and (t.status = 1 or t.status = 2)
+         	</if>
+         	<if test="checkUserGroup != null and checkUserGroup == 1">
+         		and (t.status = 0 or t.status = 1) 
+         	</if>
+         	<if test="isProgress != null and isProgress == 1">
+         		and sg.limit_copy > (select ifnull(sum(1), 0) from t_group_join where user_group_id = t.user_group_id and status = 1)
+         	</if>
+         	order by t.status asc
+         	
+         	<if test="rowStart != null">
+         		limit ${rowStart}, ${pageSize}
+         	</if>
+   </select>
+   <select id="queryListPage"  resultMap="BaseResultMap" parameterType="pd" >
+       SELECT <include refid="Base_Column_List"/>,
+       		case when tc.nickname is not null and tc.nickname  <![CDATA[ <> ]]> ''   then tc.nickname
+       			else mosaic(tc.mobile) end nick_name,
+       				tc.head_url cust_img,
+			(select sum(1) from t_group_join gj where gj.user_group_id = t.user_group_id and gj.status=1) cust_num
+         FROM t_user_group t, t_sys_group sg, t_professional ts, t_customer tc
+         	where t.group_id = sg.group_id
+         		and t.special_id = ts.special_id
+         		and t.originator = tc.customer_id
+
+			<if test="groupId != null and groupId > 0">
+         		and t.group_id = #{groupId}
+         	</if>
+         	<if test="productId != null and productId > 0">
+         		and t.product_id = #{productId}
+         	</if>
+      		<if test="specialId != null and specialId > 0">
+         		and t.special_id = #{specialId}
+         	</if>
+      		<if test="status != null">
+         		and t.status = #{status}
+         	</if>
+       		<if test="statusLine != null and statusLine == 1">
+         		and (t.status = 1 or t.status = 2)
+         	</if>
+         	<if test="checkUserGroup != null and checkUserGroup == 1">
+         		and (t.status = 0 or t.status = 1) 
+         	</if>
+         	<if test="isProgress != null and isProgress == 1">
+         		and sg.limit_copy > (select ifnull(sum(1), 0) from t_group_join where user_group_id = t.user_group_id and status = 1)
+         	</if>
+         	order by t.status asc
+         	
+         	<if test="rowStart != null">
+         		limit ${rowStart}, ${pageSize}
+         	</if>
+   </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_group
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertUserGroup" parameterType="com.kingleadsw.betterlive.model.UserGroup" useGeneratedKeys="true"  keyProperty="userGroupId">
+    insert into t_user_group (group_id, special_id, originator, create_time, status, product_id, spec_id)
+    values (#{groupId}, #{specialId}, #{originator}, NOW(), #{status}, #{productId}, #{specId})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.UserGroup" >
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.UserGroup" >
+    update t_user_group
+    set 
+		status=#{status}
+    where user_group_id = #{userGroupId}
+  </update>
+
+</mapper>

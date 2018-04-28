@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SpecialArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SpecialArticle" >
+    <id column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="VARCHAR" />
+    <result column="article_type_id" property="articleTypeId" jdbcType="INTEGER" />
+    <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="article_introduce" property="articleIntroduce" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="article_cover" property="articleCover" jdbcType="VARCHAR" />
+    <result column="home_flag" property="homeFlag" jdbcType="INTEGER" />
+   	<result column="periodical_id" property="periodicalId" jdbcType="INTEGER" />
+   	<result column="article_from" property="articleFrom" jdbcType="INTEGER" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="recommend_more" property="recommendMore" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="home_cover" property="homeCover" jdbcType="VARCHAR" />
+    <result column="opinion" property="opinion" jdbcType="VARCHAR" />  
+    <result column="home_sorts" property="homeSorts" jdbcType="INTEGER" />
+    <result column="recommend_flag" property="recommendFlag" jdbcType="INTEGER" />
+      
+ 	<result column="collection_count" property="collectionCount" jdbcType="INTEGER" />
+ 	<result column="praise_count" property="praiseCount" jdbcType="INTEGER" />
+ 	<result column="comment_count" property="commentCount" jdbcType="INTEGER"/>
+	<result column="share_count" property="shareCount" jdbcType="INTEGER"/>
+	<result column="is_collection" property="isCollection" jdbcType="INTEGER"/>
+	<result column="is_praise" property="isPraise" jdbcType="INTEGER" />
+    <result column="article_type_name" property="articleTypeName" jdbcType="VARCHAR" />
+    <result column="head_url" property="headUrl" jdbcType="VARCHAR" />
+    <result column="fomart_time" property="fomartTime" jdbcType="VARCHAR" />
+	<result column="pic_width" property="picWidth" jdbcType="INTEGER" />
+	<result column="pic_height" property="picHeight" jdbcType="INTEGER" />
+    <result column="periodical" property="periodical" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    t.article_id, t.article_type_id, t.article_title, t.status, t.article_cover, t.article_introduce, t.home_flag,t.article_from,t.recommend_more,
+    DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') create_time, DATE_FORMAT(t.publish_time, '%Y-%m-%d %H:%i:%s') publish_time, t.periodical_id, t.customer_id
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+		<include refid="Base_Column_List"/>
+	FROM
+		t_special_article t
+	WHERE t.article_id = #{articleId}
+  </select>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    SELECT
+		<include refid="Base_Column_List"/>, 
+		<if test="homeFlagShow == null">
+			t.content,
+		</if>
+		t.home_cover,
+		t.home_sorts,
+		t.recommend_flag,
+		(select count(1) from t_collection where obj_id = t.article_id and collection_type = 4) collection_count,
+   		(select count(1) from t_praise where obj_id = t.article_id and praise_type = 4) praise_count,
+   		(select count(1) from t_special_comment where special_type=5 and special_id = t.article_id and (parent_id is null or parent_id = 0) and status = 2) comment_count,
+		(select count(1) from t_share where obj_id=t.article_id  and share_type=4) share_count
+		<if test="customerId != null and customerId > 0">
+		,(select collection_id from t_collection where obj_id = t.article_id and collection_type = 4 and customer_id = #{customerId}) is_collection
+		,(select praise_id from t_praise where obj_id = t.article_id and praise_type = 4 and customer_id=#{customerId}) is_praise
+   		</if>
+		<if test="customerId == null or customerId == 0">
+ 		,0 is_collection
+		,0 is_praise
+    	</if>
+    	,(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+   			   when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+   			  else t.author end
+     		) author
+     	,tc.head_url
+     	,CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END fomart_time
+	FROM
+		t_special_article t left join t_customer tc on t.customer_id = tc.customer_id and t.customer_id is not null and t.customer_id > 0
+		
+	WHERE 1=1
+		<if test="articleId != null">
+  		and t.article_id = #{articleId}
+		</if>
+		<if test="status != null">
+  		and t.status = #{status}
+		</if>
+		<if test="homeFlag != null">
+  		and t.home_flag = #{homeFlag}
+		</if>
+		<if test="recommendFlag != null">
+  		and t.recommend_flag = #{recommendFlag}
+		</if>
+		limit 1
+  </select>
+  
+   <select id="queryCircleOne" resultMap="BaseResultMap" parameterType="pd" >
+    SELECT
+		<include refid="Base_Column_List"/>, 
+		<if test="homeFlag == null or homeFlag == 0">
+			t.content,
+		</if>
+		(select count(1) from t_collection where obj_id = t.article_id and collection_type = 4) collection_count,
+   		(select count(1) from t_praise where obj_id = t.article_id and praise_type = 4) praise_count,
+   		(select count(1) from t_special_comment where special_type=5 and special_id = t.article_id and (parent_id is null or parent_id = 0) and status = 2) comment_count,
+		(select count(1) from t_share where obj_id=t.article_id  and share_type=4) share_count
+		<if test="customerId != null and customerId > 0">
+		,(select collection_id from t_collection where obj_id = t.article_id and collection_type = 4 and customer_id = #{customerId}) is_collection
+		,(select praise_id from t_praise where obj_id = t.article_id and praise_type = 4 and customer_id=#{customerId}) is_praise
+   		</if>
+		<if test="customerId == null or customerId == 0">
+ 		,0 is_collection
+		,0 is_praise
+    	</if>
+    	,(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+   			   when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+   			  else t.author end
+     		) author
+     	,tc.head_url
+     	,CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END fomart_time
+        ,tp.pic_width, tp.pic_height
+	FROM
+		t_special_article t left join t_customer tc on t.customer_id = tc.customer_id and t.customer_id is not null and t.customer_id > 0
+		  left join t_pictures tp on tp.object_id = t.article_id and tp.picture_type = 5 and tp.original_img = t.article_cover
+	WHERE 1=1
+		<if test="articleId != null">
+  		and t.article_id = #{articleId}
+		</if>
+		<if test="status != null">
+  		and t.status = #{status}
+		</if>
+		<if test="homeFlag != null">
+  		and t.home_flag = #{homeFlag}
+		</if>
+		limit 1
+  </select>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SpecialArticle" useGeneratedKeys="true"  keyProperty="articleId">
+    insert into t_special_article 
+    	(
+    		article_id,
+			content,
+			create_time,
+			publish_time,
+			author,
+			article_type_id,
+			article_title,
+			article_introduce,
+			status,
+			article_cover,
+			home_cover,
+			home_flag,
+			periodical_id,
+			article_from,
+			recommend_more,
+			customer_id,
+			home_sorts,
+			recommend_flag
+		)
+    values 
+    	(
+    	    #{articleId},
+			#{content},
+			now(),
+			#{publishTime},
+			#{author},
+			#{articleTypeId},
+			#{articleTitle},
+			#{articleIntroduce},
+			#{status},
+			#{articleCover},
+			#{homeCover},
+			#{homeFlag},
+			#{periodicalId},
+			#{articleFrom},
+			#{recommendMore},
+			#{customerId},
+			#{homeSorts},
+			#{recommendFlag}
+    	)
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.SpecialArticle" >
+  	update t_special_article
+  		<set>
+  			publish_time = #{publishTime},
+  			author = #{author},
+  			article_type_id = #{articleTypeId},
+  			article_title = #{articleTitle},
+  			article_introduce = #{articleIntroduce},
+			status = #{status},
+			article_cover = #{articleCover},
+			home_flag = #{homeFlag},
+			content = #{content},
+			periodical_id = #{periodicalId}
+  		</set>
+  	 where
+  	 	article_id = #{articleId}
+   </update>
+   
+    <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.SpecialArticle" >
+	  	update t_special_article
+	  		<set>
+	  			<if test="publishTime != null">
+	  				publish_time = #{publishTime},
+	  			</if>
+  				<if test="author != null and author != ''">
+	  				author = #{author},
+	  			</if>
+	  			<if test="articleTypeId != null">
+	  				article_type_id = #{articleTypeId},
+	  			</if>
+	  			<if test="articleTitle != null and articleTitle != ''">
+	  				article_title = #{articleTitle},
+	  			</if>
+	  			<if test="articleIntroduce != null and articleIntroduce != ''">
+	  				article_introduce = #{articleIntroduce},
+	  			</if>
+	  			<if test="status != null">
+					status = #{status},
+				</if>
+				<if test="articleCover != null and articleCover != ''">
+					article_cover = #{articleCover},
+				</if>
+				<if test="homeCover != null and homeCover != ''">
+					home_cover = #{homeCover},
+				</if>
+				<if test="homeSorts != null">
+					home_sorts = #{homeSorts},
+				</if>
+				<if test="homeFlag != null">
+					home_flag = #{homeFlag},
+				</if>
+				<if test="content != null and content != ''">
+					content = #{content},
+				</if>
+				<if test="periodicalId != null">
+					periodical_id = #{periodicalId},
+				</if>
+				<if test="articleFrom != null">
+					article_from = #{articleFrom},
+				</if>
+				<if test="recommendMore != null">
+					recommend_more = #{recommendMore},
+				</if>
+				<if test="opinion != null and opinion != ''">
+					opinion = #{opinion},
+				</if>
+				<if test="recommendFlag != null">
+					recommend_flag = #{recommendFlag}
+				</if>
+	  		</set>
+	  	 where
+	  	 	article_id = #{articleId}
+   </update>
+   
+   <select id="querySpecialArticleListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />,
+     		t.home_cover,
+     		t.home_sorts,
+     		(select count(1) from t_collection where obj_id = t.article_id and collection_type = 4) collection_count,
+     		(select count(1) from t_praise where obj_id = t.article_id and praise_type = 4) praise_count,
+     		(select count(1) from t_special_comment where special_type=5 and special_id = t.article_id and status = 2 and (parent_id is null or parent_id = 0)) comment_count,
+   			(select count(1) from t_share where obj_id=t.article_id  and share_type=4) share_count
+   			<if test="customerId != null and customerId > 0">
+   			,(select collection_id from t_collection where obj_id = t.article_id and collection_type = 4 and customer_id = #{customerId}) is_collection
+			,(select praise_id from t_praise where obj_id = t.article_id and praise_type = 4 and customer_id=#{customerId}) is_praise
+     		</if>
+   			<if test="customerId == null or customerId == 0">
+  			,0 is_collection
+			,0 is_praise
+     		</if>
+     		,tsa.type_name article_type_name
+     		,tap.periodical
+     		,(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+     			  when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+     			  else t.author end
+     		) author
+     		,tc.head_url
+     		,CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END fomart_time
+     	from t_special_article t 
+     	  left join t_special_article_type tsa on t.article_type_id = tsa.type_id and  tsa.status = 1
+     	  left join t_customer tc on t.customer_id = tc.customer_id and t.customer_id is not null and t.customer_id > 0
+     	  left join t_article_periodical tap on tap.periodical_id = t.periodical_id and tap.status = 1
+     	where 1=1
+     	<if test="null != articleId  and articleId !=0">
+     		and t.article_id=#{articleId}
+     	</if>
+     	<if test="null!=status and status > -1">
+			and t.status=#{status}
+		</if>
+		<if test="null != articleTypeId and articleTypeId > -1">
+     		and t.article_type_id=#{articleTypeId}
+     	</if>
+     	<if test="null != articleFrom">
+     		and t.article_from=#{articleFrom}
+     	</if>
+   		<if test="periodicalId != null and periodicalId > 0">
+			and tap.periodical_id = #{periodicalId}
+		</if>
+     	<if test="null != articleTypeName and articleTypeName !=''">
+     		and tsa.type_name like '%${articleTypeName}%'
+     	</if>
+     	<if test="authorId != null and authorId > 0">
+     		and t.customer_id = #{authorId}
+     	</if>
+     	<if test="recommendMore !=null">
+     		and t.recommend_more = #{recommendMore}
+     	</if>
+     	<if test="articleTitle != null and articleTitle != ''">
+     		and t.article_title like '%${articleTitle}%'
+     	</if>
+   		<if test="removeId !=null and removeId > 0">
+     		and t.article_id <![CDATA[ <> ]]> #{removeId}
+     	</if>
+   		<if test="homeFlag !=null">
+     		and t.home_flag = #{homeFlag}
+     	</if>
+     	<if test="homeFlag != null and homeFlag == 1">
+			order by t.home_sorts asc
+		</if>
+		<if test="homeFlag == null or homeFlag == 0">
+			order by t.article_id desc
+		</if>
+  	</select>
+  	
+  	<select id="queryCircleArticleListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />,t.content,
+     		(select count(1) from t_collection where obj_id = t.article_id and collection_type = 4) collection_count,
+     		(select count(1) from t_praise where obj_id = t.article_id and praise_type = 4) praise_count,
+     		(select count(1) from t_special_comment where special_type=5 and special_id = t.article_id and status = 2 and (parent_id is null or parent_id = 0)) comment_count,
+   			(select count(1) from t_share where obj_id=t.article_id  and share_type=4) share_count
+   			<if test="customerId != null and customerId > 0">
+   			,(select collection_id from t_collection where obj_id = t.article_id and collection_type = 4 and customer_id = #{customerId}) is_collection
+			,(select praise_id from t_praise where obj_id = t.article_id and praise_type = 4 and customer_id=#{customerId}) is_praise
+     		</if>
+   			<if test="customerId == null or customerId == 0">
+  			,0 is_collection
+			,0 is_praise
+     		</if>
+     		,(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+     			  when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+     			  else t.author end
+     		) author
+     		,tc.head_url
+     		,CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END fomart_time
+            ,tp.pic_width, tp.pic_height
+     	from t_special_article t 
+     	  left join t_customer tc on t.customer_id = tc.customer_id and t.customer_id is not null and t.customer_id > 0
+     	  left join t_pictures tp on tp.object_id = t.article_id and tp.picture_type = 5 and tp.original_img = t.article_cover
+     	where 1=1
+     	<if test="null != articleId  and articleId !=0">
+     		and t.article_id=#{articleId}
+     	</if>
+     	<if test="null!=status and status > -1">
+			and t.status=#{status}
+		</if>
+     	<if test="null != articleFrom">
+     		and t.article_from=#{articleFrom}
+     	</if>
+     	<if test="authorId != null and authorId > 0">
+     		and t.customer_id = #{authorId}
+     	</if>
+     	<if test="recommendMore !=null">
+     		and t.recommend_more = #{recommendMore}
+     	</if>
+   		<if test="removeId !=null and removeId > 0">
+     		and t.article_id <![CDATA[ <> ]]> #{removeId}
+     	</if>
+   		<if test="null!=checkStatus and checkStatus == 1">
+			and t.status != 0
+		</if>
+		order by t.article_id desc
+  	</select>
+   
+   	<!-- 取消推荐至首页 -->
+  	<update id="hideSpecialHomeFlag" parameterType="pd">
+  		  update t_special_article set home_flag = 0 where 1=1
+  		   <if test="articleId != null and articleId > 0"> 
+  		   	and article_id <![CDATA[ <> ]]>  #{articleId}
+  		   </if>
+  		   	and home_flag = 1;
+  	</update>
+  	
+  	<!-- 审核动态文章 -->
+  	<update id="auditArticle" parameterType="pd">
+  		  update t_special_article 
+  		  <set>
+	  			<if test="status != null">
+					status = #{status},
+				</if>
+				<if test="opinion != null and opinion != ''">
+					opinion = #{opinion}
+				</if>
+	  		</set>	  	 
+  		    where article_id = #{articleId}
+  	</update>
+  	<!-- 根据状态查询动态文章条数 -->
+  	<select id="querySpecialArticleCount" resultType="INTEGER" parameterType="pd" >
+  		SELECT COUNT(*) FROM `t_special_article` where 1 = 1
+  		<if test="articleFrom != null">
+  			AND article_from = #{articleFrom}
+  		</if>
+  		<if test="status != null and status !='' "> 
+  		   	 AND `status` = #{status}
+  		</if>
+  		<if test="statusLine != null and statusLine !='' "> 
+  		   	 AND `status` in (${statusLine})
+  		</if>
+  		<if test="customerId != null"> 
+  		   	 AND customer_id = #{customerId}
+  		</if>
+  	</select>
+  	
+  	<select id="queryTopThreeArticle" resultMap="BaseResultMap" parameterType="pd">
+  		select 
+     		<include refid="Base_Column_List" />,t.content
+     	from t_special_article t 
+     	 where t.customer_id = #{customerId} and t.article_from = 1 and t.status = 1
+     		order by create_time desc limit 3
+  	
+  	</select>
+  	
+  	
+</mapper>

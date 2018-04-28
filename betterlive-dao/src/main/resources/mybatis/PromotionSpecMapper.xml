@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.PromotionSpecMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.PromotionSpec">
+		<id column="promotion_spec_id"  property="promotionSpecId"   jdbcType="INTEGER" />
+		<result column="promotion_id" property="promotionId" jdbcType="INTEGER" /> 
+		<result column="product_id" property="productId" jdbcType="INTEGER" /> 
+		<result column="spec_id" property="specId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		promotion_spec_id,
+		promotion_id,
+		product_id,
+		spec_id
+	</sql>
+	
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd">
+		select 
+			ps.promotion_spec_id,
+			ps.promotion_id,
+			ps.product_id,
+			ps.spec_id
+		from t_promotion_spec ps left join t_sale_promotion sp on ps.promotion_id = sp.promotion_id
+		where 1=1
+		<if test="promotionSpecId!=null and ''!=promotionSpecId">
+			and ps.promotion_spec_id=#{promotionSpecId}
+		</if>
+		<if test="promotionId!=null and ''!=promotionId">
+			and ps.promotion_id=#{promotionId}
+		</if>
+		<if test="productId!=null and ''!=productId">
+			and ps.product_id=#{productId}
+		</if>
+		<if test="specId!=null and ''!=specId">
+			and ps.spec_id=#{specId}
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and sp.start_time&lt;#{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and sp.end_time&gt;#{endTime}
+		</if>
+		<if test="null!=status and ''!=status">
+			and sp.status=#{status}
+		</if>
+	</select>
+	
+	
+	
+	<select id="queryOne" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_promotion_spec
+		where 1=1
+		<if test="promotionSpecId!=null and ''!=promotionSpecId">
+			and promotion_spec_id=#{promotionSpecId}
+		</if>
+		<if test="promotionId!=null and ''!=promotionId">
+			and promotion_id=#{promotionId}
+		</if>
+		<if test="productId!=null and ''!=productId">
+			and product_id=#{productId}
+		</if>
+		<if test="specId!=null and ''!=specId">
+			and spec_id=#{specId}
+		</if>
+		limit 1;
+	</select>
+	
+	<delete id="delete" parameterType="pd">
+		delete from t_promotion_spec where 1=1
+		<if test="promotionSpecId!=null and ''!=promotionSpecId">
+			and promotion_spec_id=#{promotionSpecId}
+		</if>
+		<if test="promotionId!=null and ''!=promotionId">
+			and promotion_id=#{promotionId}
+		</if>
+		<if test="editSpec!=null and ''!=editSpec">
+			and spec_id not in    
+			<foreach collection="ids" item="id" separator="," open="(" close=")">
+            	#{id}
+        	</foreach>
+		</if>
+	
+	</delete>
+	
+	
+	
+	<insert id="insert" parameterType="com.kingleadsw.betterlive.model.PromotionSpec">
+		insert into t_promotion_spec
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="promotionId!=null and ''!=promotionId">
+				promotion_id,
+			</if>
+			<if test="productId!=null and ''!=productId">
+				product_id,
+			</if>
+			<if test="specId!=null and ''!=specId">
+				spec_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="promotionId!=null and ''!=promotionId">
+				#{promotionId},
+			</if>
+			<if test="productId!=null and ''!=productId">
+				${productId},
+			</if>
+			<if test="specId!=null and ''!=specId">
+				#{specId},
+			</if>
+		</trim>
+	</insert>
+</mapper>
+	

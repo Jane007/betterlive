@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SpecialMapper" >
+	 <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Special" >
+	 	<id column="special_id" property="specialId" jdbcType="INTEGER" />
+	 	<result column="special_name" property="specialName" jdbcType="VARCHAR" />
+	 	<result column="special_cover" property="specialCover" jdbcType="VARCHAR" />
+	 	<result column="special_title" property="specialTitle" jdbcType="VARCHAR" />
+	 	<result column="special_introduce" property="specialIntroduce" jdbcType="VARCHAR" />
+	 	<result column="special_type" property="specialType" jdbcType="TINYINT" />
+	 	<result column="special_page" property="specialPage" jdbcType="VARCHAR" />
+	 	<result column="starttime" property="startTime" jdbcType="VARCHAR" />
+	 	<result column="endtime" property="endTime" jdbcType="VARCHAR" />
+	 	<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	 	<result column="status" property="status" jdbcType="INTEGER" />
+	 	<result column="home_flag" property="homeFlag" jdbcType="INTEGER" />
+	 	<result column="fake_sales_copy" property="fakeSalesCopy" jdbcType="INTEGER" />
+	 	<result column="collection_count" property="collectionCount" jdbcType="INTEGER" />
+	 	<result column="praise_count" property="praiseCount" jdbcType="INTEGER" />
+	 	<result column="comment_count" property="commentCount" jdbcType="INTEGER"/>
+		<result column="share_count" property="shareCount" jdbcType="INTEGER"/>
+		<result column="is_collection" property="isCollection" jdbcType="INTEGER"/>
+		<result column="is_praise" property="isPraise" jdbcType="INTEGER" />
+		<result column="list_img" property="listImg" jdbcType="VARCHAR" />
+		<result column="obj_value" property="objValue" jdbcType="VARCHAR" />
+		<result column="obj_type_id" property="objTypeId" jdbcType="INTEGER" />
+		<result column="special_sort" property="specialSort" jdbcType="INTEGER"/>
+	 </resultMap>
+	 
+	  <resultMap id="BaseJoinResultMap" extends="BaseResultMap" type="com.kingleadsw.betterlive.model.Special">
+  			<collection property="productSpecVo" column="special_id"  select="findRelationMinProductSpec" /> 
+	  </resultMap>
+    
+	 <sql id="Base_Column_List" >
+	 	p.special_id,p.special_name,p.special_cover, p.special_title,p.special_introduce,p.special_type,p.special_page,p.status,p.home_flag,
+	 	p.fake_sales_copy,p.list_img,p.special_sort,
+	 	DATE_FORMAT(p.starttime, '%Y-%m-%d %H:%i:%s') AS starttime,
+	 	DATE_FORMAT(p.endtime, '%Y-%m-%d %H:%i:%s') AS endtime,
+	 	DATE_FORMAT(p.create_time, '%Y-%m-%d %H:%i') AS create_time
+	 </sql>
+	 
+ 	 <!-- 关联查询活动规格信息 -->
+	 <select id="findRelationMinProductSpec" resultType="com.kingleadsw.betterlive.model.ProductSpec" parameterType="java.lang.Integer" >
+		 SELECT
+		 		p.product_id,
+				p.product_name,
+				p.product_code,
+				p.fake_sales_copy,
+				p.share_explain package_desc,
+				p.product_logo,
+				s.spec_id,
+				s.spec_price,
+				s.stock_copy,
+				s.discount_price,
+				ifnull(s.sales_copy, 0) sales_copy,
+				(select IFNULL(sum(op1.quantity), 0) from t_order_product op1
+     			where op1.product_id = ap.product_id and op1.`status` in (2,3,4,5)) total_sales_copy,
+				(select IFNULL(sum(ts1.stock_copy), 0) from t_activity_product ap2, t_spec ts1 
+     			where ap2.activity_id = ap.activity_id and ap2.product_id = ts1.product_id and ap2.spec_id = ts1.spec_id) total_stock_copy,
+				ap.activity_price
+			FROM
+				t_activity_product ap,
+				t_product p,
+				t_spec s
+			WHERE
+				ap.product_id = p.product_id
+			AND ap.activity_id = #{special_id}
+			and ap.spec_id = s.spec_id
+			and p.status = 1
+			and s.status = 1
+			ORDER BY
+				ap.activity_price ASC
+			LIMIT 1
+  	</select>
+  	
+	 <!-- 根据主键查询单个专题 -->
+	 <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+		    select 
+		    <include refid="Base_Column_List" />
+		    from t_professional p
+		    where p.special_id =#{specialId}
+  	</select>
+  	
+	 <!-- 根据条件查询单个专题 -->
+	 <select id="selectSpecialByOption" resultMap="BaseResultMap" parameterType="pd" >
+		    select 
+		    <include refid="Base_Column_List" />,
+		    p.obj_type_id,
+		    p.obj_value
+		    from t_professional p
+		    where p.special_id =#{specialId}
+		    <if test="null!=status and ''!=status">
+		    	and p.status=#{status}
+		    </if>
+  	</select>
+  	
+  	<!-- 根据条件分页查询专题    -->
+	<select id="querySpecialListPage" resultMap="BaseJoinResultMap"  parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     		<if test="collectionType != null and collectionType > 0">
+     		,(select count(1) from t_collection where obj_id = p.special_id and collection_type = #{collectionType}) collection_count
+     		</if>
+   			<if test="customerId != null and customerId > 0">
+   			,(select collection_id from t_collection where obj_id = p.special_id and collection_type = #{collectionType} and customer_id = #{customerId}) is_collection
+     		</if>
+     	from t_professional p
+     	where 1=1
+     	<if test="null != specialId  and specialId!=0">
+     		and p.special_id=#{specialId}
+     	</if>
+     	
+     	<if test="null != specialName  and ''!= specialName">
+     		and p.special_name like '%${specialName}%'
+     	</if>
+     	<if test="null != specialType  and ''!=specialType">
+     	    and p.special_type=#{specialType}
+     	</if>
+     	<if test="null != startTime  and ''!= startTime">
+     		and DATE_FORMAT(p.starttime,'%Y-%m-%d') <![CDATA[ < ]]> DATE_FORMAT('${startTime}','%Y-%m-%d')
+     	</if>
+     	<if test="null != endTime  and ''!=endTime">
+     	    and DATE_FORMAT(p.endtime,'%Y-%m-%d') <![CDATA[ > ]]> DATE_FORMAT('${endTime}','%Y-%m-%d')	
+     	</if>
+     	<if test="null != status  and ''!=status">
+     	    and p.status = #{status}
+     	</if>
+   	 	<if test="homeFlag != null and homeFlag >= 0">
+     	    and p.home_flag = #{homeFlag}
+     	</if>
+     	<if test="specialType == 2 or specialType == 3">
+     		order by p.special_sort asc
+     	</if>
+   		<if test="specialType != 2 and specialType != 3">
+     		order by p.create_time desc
+     	</if>
+     	<if test="rowStart != null">
+     		limit #{rowStart}, #{pageSize}
+     	</if>
+  	</select>
+  	
+  	<!-- 根据条件查询专题    -->
+	<select id="querySpecialList" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_professional p
+     	where 1=1
+     	<if test="null != specialId  and specialId!=0">	
+     		and p.special_id=#{specialId}
+     	</if>
+     	
+     	<if test="null != specialName  and ''!= specialName">
+     		and p.special_name like '%${specialName}%'
+     	</if>
+     	<if test="null != specialType  ">
+     	    and p.special_type =#{specialType}
+     	</if>
+     	<if test="null!=status and ''!=status">
+			and p.status=#{status}
+		</if>
+<!-- 		order by p.starttime desc -->
+  	</select>
+  	
+	<select id="queryTutorialListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />,
+     		p.obj_value,
+     		(select count(1) from t_collection where obj_id = p.special_id and collection_type = #{collectionType}) collection_count,
+     		(select count(1) from t_praise where obj_id = p.special_id and praise_type = #{praiseType}) praise_count,
+     		(select count(1) from t_special_comment tsc where tsc.special_id = p.special_id and tsc.special_type = #{specialType} and tsc.status = 2 and (tsc.parent_id is null or tsc.parent_id = 0)) comment_count,
+   			(select count(1) from t_share where p.special_id = obj_id and share_type=#{shareType}) share_count
+   			<if test="customerId != null and customerId > 0">
+   			,(select collection_id from t_collection where obj_id = p.special_id and collection_type = #{collectionType} and customer_id = #{customerId}) is_collection
+			,(select praise_id from t_praise where obj_id = p.special_id and praise_type = #{praiseType} and customer_id=#{customerId}) is_praise
+     		</if>
+   			<if test="customerId == null or customerId == 0">
+  			,0 is_collection
+			,0 is_praise
+     		</if>
+     	from t_professional p
+     	where 1=1
+     	<if test="null != specialId  and specialId!=0">
+     		and p.special_id=#{specialId}
+     	</if>
+     	<if test="null != specialType  ">
+     	    and p.special_type =#{specialType}
+     	</if>
+     	<if test="null!=status">
+			and p.status=#{status}
+		</if>
+		<if test="objTypeId != null and objTypeId > 0">
+			and p.obj_type_id = #{objTypeId}
+		</if>
+		
+			order by p.starttime desc
+		<if test="rowStart != null">
+			limit #{rowStart}, #{pageSize}
+		</if>
+  	</select>
+  	
+	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_professional p
+     	where 1=1
+     	<if test="null != specialId  and specialId!=0">
+     		and p.special_id=#{specialId}
+     	</if>
+     	
+     	<if test="null != specialName  and ''!= specialName">
+     		and p.special_name like '%${specialName}%'
+     	</if>
+     	<if test="null != specialType  ">
+     	    and p.special_type =#{specialType}
+     	</if>
+     	<if test="null!=status">
+			and p.status=#{status}
+		</if>
+		<if test="homeFlag != null">
+			and p.home_flag = #{homeFlag}
+		</if>
+		<if test="starttime != null">
+			and p.starttime <![CDATA[ <= ]]> #{starttime}
+		</if>
+		<if test="endTime != null">
+			and p.endtime > #{endTime}
+		</if>
+		<if test="activityFlag != null and activityFlag == 1">
+			and (p.special_type = 1 or p.special_type = 2 or p.special_type = 4)
+		</if>
+<!-- 		order by p.starttime desc -->
+		limit 1
+  	</select>
+  	
+  	<select id="queryOneByProductId" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+   			<include refid="Base_Column_List" />
+     	from t_professional p,t_activity_product ap
+     	where p.special_id = ap.activity_id
+     	<if test="null != specialId  and specialId!=0">
+     		and p.special_id=#{specialId}
+     	</if>
+     	<if test="null != specialType  ">
+     	    and p.special_type =#{specialType}
+     	</if>
+     	<if test="null!=status">
+			and p.status=#{status}
+		</if>
+		<if test="homeFlag != null">
+			and p.home_flag = #{homeFlag}
+		</if>
+		<if test="starttime != null">
+			and p.starttime <![CDATA[ <= ]]> #{starttime}
+		</if>
+		<if test="endTime != null">
+			and p.endtime > #{endTime}
+		</if>
+		<if test="activityFlag != null and activityFlag == 1">
+			and (p.special_type = 1 or p.special_type = 2 or p.special_type = 4)
+		</if>
+		<if test="productId != null and productId > 0">
+			and ap.product_id = #{productId}
+		</if>
+		order by ap.activity_price asc
+		limit 1
+  	</select>
+  	
+  		<select id="queryOneSpecByProductId" resultMap="BaseJoinResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_professional p left join t_activity_product ap on p.special_id = ap.activity_id
+     	where 1=1
+     	<if test="null != specialId  and specialId!=0">
+     		and p.special_id=#{specialId}
+     	</if>
+     	<if test="null != specialType  ">
+     	    and p.special_type =#{specialType}
+     	</if>
+     	<if test="null!=status">
+			and p.status=#{status}
+		</if>
+		<if test="homeFlag != null">
+			and p.home_flag = #{homeFlag}
+		</if>
+		<if test="starttime != null">
+			and p.starttime <![CDATA[ <= ]]> #{starttime}
+		</if>
+		<if test="endTime != null">
+			and p.endtime > #{endTime}
+		</if>
+		<if test="activityFlag != null and activityFlag == 1">
+			and (p.special_type = 1 or p.special_type = 2 or p.special_type = 4)
+		</if>
+		<if test="productId != null and productId > 0">
+			and ap.product_id = #{productId}
+		</if>
+		limit 1
+  	</select>
+  	
+  	<select id="queryOneByTutorial" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     		,p.obj_value
+     		,(select count(1) from t_collection where obj_id = p.special_id and collection_type = #{collectionType}) collection_count
+     		<if test="specialType != null">
+     		,(select count(1) from t_special_comment where special_id = p.special_id and status = 2 and special_type = #{specialType} and (parent_id is null or parent_id = 0)) comment_count
+     		</if>
+   			,(select count(1) from t_share where p.special_id = obj_id and share_type=#{shareType}) share_count
+			<if test="praiseType != null">
+     		,(select count(1) from t_praise where obj_id = p.special_id and praise_type = #{praiseType}) praise_count
+     		</if>
+   			<if test="customerId != null and customerId > 0">
+   			,(select collection_id from t_collection where obj_id = p.special_id and collection_type = #{collectionType} and customer_id = #{customerId}) is_collection
+	   			<if test="praiseType != null">
+				,(select praise_id from t_praise where obj_id = p.special_id and praise_type = #{praiseType} and customer_id=#{customerId}) is_praise
+				</if>
+     		</if>
+   			<if test="customerId == null or customerId == 0">
+  			,0 is_collection
+			,0 is_praise
+     		</if>
+     	from t_professional p
+     	where 1=1
+     	<if test="null != specialId  and specialId!=0">
+     		and p.special_id=#{specialId}
+     	</if>
+     	<if test="null != specialType  ">
+     	    and p.special_type =#{specialType}
+     	</if>
+     	<if test="null!=status">
+			and p.status=#{status}
+		</if>
+		<if test="homeFlag != null">
+			and p.home_flag = #{homeFlag}
+		</if>
+		<if test="objTypeId != null">
+			and p.obj_type_id = #{objTypeId}
+		</if>
+		<if test="starttime != null">
+			and p.starttime <![CDATA[ <= ]]> #{starttime}
+		</if>
+		<if test="endTime != null">
+			and p.endtime > #{endTime}
+		</if>
+		<if test="activityFlag != null and activityFlag == 1">
+			and (p.special_type = 1 or p.special_type = 2 or p.special_type = 4)
+		</if>
+		order by p.starttime desc
+		limit 1
+  	</select>
+  	
+  	 <insert id="insert" parameterType="com.kingleadsw.betterlive.model.Special" >
+		    insert into t_professional (special_id, special_name, special_cover, 
+		      special_title, special_introduce, special_type,special_page,
+		      starttime,endtime,create_time,status)
+		    values (#{specialId,jdbcType=INTEGER}, #{specialName,jdbcType=INTEGER},#{specialCover,jdbcType=VARCHAR},
+		     #{specialTitle,jdbcType=VARCHAR}, #{specialIntroduce,jdbcType=VARCHAR}, #{specialType,jdbcType=TINYINT}, #{specialPage,jdbcType=VARCHAR}, 
+		      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{createTime,jdbcType=DATE},1)
+  	</insert>
+  	<!-- 添加专题 -->
+  	<insert id="insertSpecial"  parameterType="com.kingleadsw.betterlive.model.Special" useGeneratedKeys="true"  keyProperty="specialId">
+  		insert into t_professional ( special_id,
+  							    	 special_name,
+  							    	 special_cover, 
+		      					  	 special_title, 
+		      						 special_introduce, 
+		      					 	 special_type,
+		      						 special_page,
+		      						 starttime,
+		      						 endtime,
+		      						 create_time,
+									 <if test="specialSort != null and specialSort != ''">
+										 special_sort,
+									</if>
+									home_flag,
+									status,
+									obj_type_id,
+									obj_value 
+		      					)
+		    				values( #{specialId}, 
+		    						#{specialName},
+		    						#{specialCover},
+		     						#{specialTitle},
+		     					    #{specialIntroduce}, 
+		     					    #{specialType}, 
+		     					    #{specialPage}, 
+		      						#{startTime}, 
+		      						#{endTime},
+		      						NOW(),
+									<if test="specialSort != null and specialSort != ''">
+										 #{specialSort},
+									</if>
+									#{homeFlag},
+									1,
+									#{objTypeId},
+									#{objValue}
+		      						)
+  	</insert>
+  	
+  	<delete id="deleteSpecialById" parameterType="java.lang.Integer" >
+	    delete from t_professional 
+	     where special_id = #{special_id,jdbcType=INTEGER}
+  	</delete>
+  	
+  	<!-- 取消推荐至首页 -->
+  	<update id="hideSpecialHomeFlag" parameterType="pd">
+  		  update t_professional set home_flag = 0 where 1=1
+  		   <if test="specialId != null and specialId > 0"> 
+  		   	and special_id <![CDATA[ <> ]]>  #{specialId}
+  		   </if>
+  		   <if test="specialType != null">
+  		   and special_type = #{specialType}
+  		   </if>
+  		   	and home_flag = 1;
+  	</update>
+  	<!-- 修改专题 -->
+  	<update id="updateSpecial" parameterType="com.kingleadsw.betterlive.model.Special" >
+	    update t_professional
+	    set special_name=#{specialName,jdbcType=INTEGER},
+	      special_cover=#{specialCover,jdbcType=VARCHAR},
+	      special_title=#{specialTitle,jdbcType=CHAR},
+	      special_introduce=#{specialIntroduce,jdbcType=VARCHAR},
+	      special_page=#{specialPage,jdbcType=VARCHAR},
+	      special_type=#{specialType,jdbcType=INTEGER},
+	      starttime=#{startTime,jdbcType=CHAR},
+	      endtime=#{endTime,jdbcType=CHAR},
+	      special_sort=#{specialSort},
+  		  home_flag = #{homeFlag},
+	      status=#{status},
+	      obj_type_id=#{objTypeId},
+	      obj_value=#{objValue}
+	    where special_id = #{specialId,jdbcType=INTEGER}
+  </update>
+</mapper>

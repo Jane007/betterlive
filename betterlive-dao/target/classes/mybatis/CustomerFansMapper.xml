@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CustomerFansMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.CustomerFans" >
+    <id column="fans_id" property="fansId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="concerned_id" property="concernedId" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="head_url" property="headUrl" jdbcType="VARCHAR" />
+    <result column="is_concerned" property="isConcerned" jdbcType="INTEGER" />
+    <result column="is_concerned_me" property="isConcernedMe" jdbcType="INTEGER" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="CountResultMap" type="com.kingleadsw.betterlive.model.CustomerFans" >
+    <result column="customer_count" property="customerCount" jdbcType="INTEGER" />
+    <result column="concerned_count" property="concernedCount" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.fans_id, t.customer_id, t.concerned_id
+  </sql>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer_fans t where 1=1
+    <if test="customerId != null and customerId > 0">
+    	and t.customer_id = #{customerId}
+    </if>
+    <if test="concernedId != null and concernedId > 0">
+    	and t.concerned_id = #{concernedId}
+    </if>
+    limit 1
+    
+  </select>
+  
+   <select id="queryMyFansListPage" resultMap="BaseResultMap" parameterType="pd" >
+	    select 
+	    	<include refid="Base_Column_List" />,
+	    	(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+   			   when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+   			  else '' end
+     		) nickname,
+     		tc.head_url,
+     		tc.signature,
+     		(select tt.fans_id from t_customer_fans tt where tt.customer_id = t.concerned_id and tt.concerned_id = t.customer_id) is_concerned
+	    from t_customer_fans t, t_customer tc 
+	      where t.customer_id = tc.customer_id
+	    <if test="concernedId != null and concernedId > 0">
+	    	and t.concerned_id = #{concernedId}
+	    </if>
+    	order by t.create_time desc
+  	</select>
+  	
+  	<select id="queryMyConcernedListPage" resultMap="BaseResultMap" parameterType="pd" >
+	    select 
+	    	<include refid="Base_Column_List" />,
+	    	(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+   			   when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+   			  else '' end
+     		) nickname,
+     		tc.head_url,
+   			tc.signature,
+     		(select tt.fans_id from t_customer_fans tt where tt.customer_id = t.concerned_id and tt.concerned_id = t.customer_id) is_concerned
+	    from t_customer_fans t, t_customer tc 
+	     where t.concerned_id = tc.customer_id
+	    <if test="customerId != null and customerId > 0">
+	    	and t.customer_id = #{customerId}
+	    </if>
+	    order by t.create_time desc
+  	</select>
+  	
+  	<select id="queryOtherFansListPage" resultMap="BaseResultMap" parameterType="pd" >
+	    select 
+	    	<include refid="Base_Column_List" />,
+	    	(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+   			   when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+   			  else '' end
+     		) nickname,
+     		tc.head_url,
+     		tc.signature,
+     		(select tt.fans_id from t_customer_fans tt where tt.customer_id = t.customer_id and tt.concerned_id = #{myCustId}) is_concerned_me,
+     		(select ttt.fans_id from t_customer_fans ttt where ttt.customer_id = #{myCustId} and ttt.concerned_id = t.customer_id) is_concerned
+	    from t_customer_fans t, t_customer tc 
+	      where t.customer_id = tc.customer_id
+	    <if test="concernedId != null and concernedId > 0">
+	    	and t.concerned_id = #{concernedId}
+	    </if>
+    	order by t.create_time desc
+  	</select>
+  	
+  	<select id="queryOtherConcernedListPage" resultMap="BaseResultMap" parameterType="pd" >
+	    select 
+	    	<include refid="Base_Column_List" />,
+	    	(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname
+   			   when tc.mobile is not null and tc.mobile <![CDATA[ <> ]]> '' then mosaic(tc.mobile)
+   			  else '' end
+     		) nickname,
+     		tc.head_url,
+   			tc.signature,
+     		(select tt.fans_id from t_customer_fans tt where tt.customer_id = t.concerned_id and tt.concerned_id = #{myCustId}) is_concerned_me,
+     		(select ttt.fans_id from t_customer_fans ttt where ttt.customer_id = #{myCustId} and ttt.concerned_id = t.concerned_id) is_concerned
+	    from t_customer_fans t, t_customer tc 
+	     where t.concerned_id = tc.customer_id
+	    <if test="customerId != null and customerId > 0">
+	    	and t.customer_id = #{customerId}
+	    </if>
+	    order by t.create_time desc
+  	</select>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.CustomerFans" useGeneratedKeys="true"  keyProperty="fansId">
+    insert into t_customer_fans (customer_id ,concerned_id, create_time)
+    values (#{customerId}, #{concernedId}, NOW())
+  </insert>
+  
+  <select id="queryFansCount" resultMap="CountResultMap" parameterType="pd" >
+    select 
+    	<if test="customerId != null and customerId > 0">
+		 	IFNULL((select sum(1) from t_customer_fans where customer_id = #{customerId}), 0) customer_count,
+		 	IFNULL((select sum(1) from t_customer_fans where concerned_id = #{customerId}), 0) concerned_count
+		 </if>
+		 <if test="customerId == null or customerId == 0">
+		 	0 customer_count, 0 concerned_count
+		 </if>
+     from t_customer_fans
+    limit 1
+    
+  </select>
+  
+  <select id="queryFindFriendListPage" resultMap="BaseResultMap" parameterType="pd" >
+ 		select tt.*,
+ 			<if test="customerId != null and customerId > 0">
+	 			(select ttt.fans_id from t_customer_fans ttt where ttt.customer_id = #{customerId} and ttt.concerned_id = tt.customer_id) is_concerned,
+				(select ttt.fans_id from t_customer_fans ttt where ttt.customer_id = tt.customer_id and ttt.concerned_id = #{customerId}) is_concerned_me
+ 			</if>
+			<if test="customerId == null || customerId == 0">
+				0 is_concerned,
+				0 is_concerned_me
+			</if>
+ 		 from (
+			select 
+				t.customer_id,
+				(case when ((t.nickname is not null) and (t.nickname <![CDATA[<>]]> '')) then t.nickname 
+							when ((t.mobile is not null) and (t.mobile <![CDATA[<>]]> '')) then mosaic(t.mobile) else '' end) AS nickname,
+				t.head_url,
+				t.signature,
+				(select vac.art_count from vi_article_count vac where (vac.customer_id = t.customer_id)) AS article_count,
+				(select vapc.art_praise_count from vi_article_praise_count vapc where (vapc.customer_id = t.customer_id)) AS praise_count,
+				(select vapc.fs_count from vi_customer_fans_count vapc where (vapc.concerned_id = t.customer_id)) AS fans_count 
+			from t_customer t where 1=1
+				<if test="customerId != null and customerId > 0">
+					and t.customer_id <![CDATA[<>]]> #{customerId}
+				</if>
+				) tt 
+				where (tt.fans_count+tt.praise_count+tt.fans_count) > 0 
+					
+			 ORDER BY tt.fans_count+tt.praise_count+tt.fans_count desc
+ </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_customer_fans
+    where fans_id = #{fansId,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>

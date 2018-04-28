@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="1b17f00c-a595-4120-b15a-65d019d3db3c" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/Testssss.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bettetlive-web/src/test/java/TestC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/annotation/ConvertMapping.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/annotation/ConvertMapping.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/biz/BaseManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/biz/BaseManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/constant/SysDictKey.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/constant/SysDictKey.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/AbstractDataTypeConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/AbstractDataTypeConverter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/BeanConverterConfig$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/BeanConverterConfig$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/BeanConverterConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/BeanConverterConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/BooleanConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/BooleanConverter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/ContextClassLoaderLocal.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/ContextClassLoaderLocal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/DataTypeConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/DataTypeConverter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/DefinitionEnumConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/convert/DefinitionEnumConverter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/ctl/AbstractWebController.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/ctl/AbstractWebController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/ctl/WebController.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/ctl/WebController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dao/BaseMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dao/BaseMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/BasePO.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/BasePO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/BaseVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/BaseVO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/GenericObjectTranslator.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/GenericObjectTranslator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/ObjectTranslator.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/dto/ObjectTranslator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/enums/EnumAware.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/enums/EnumAware.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/enums/PayStatusEnums.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/enums/PayStatusEnums.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/enums/SmsTempleEnums.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/enums/SmsTempleEnums.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/exception/ConvertException.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/exception/ConvertException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/ComboBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/ComboBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/EasyUIPageBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/EasyUIPageBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/EasyUITreeGrid.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/EasyUITreeGrid.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/PageData.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/PageData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/PageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/PageView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/ResultBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/page/ResultBean.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/jdbc/dialet/Dialect.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/jdbc/dialet/Dialect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/jdbc/dialet/MySQLDialect.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/jdbc/dialet/MySQLDialect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/mybatis/PagePlugin.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/mybatis/PagePlugin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/mybatis/ReflectHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/plugin/mybatis/ReflectHelper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/service/BaseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/service/BaseService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CamelCaseUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CamelCaseUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/ClientOsInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/ClientOsInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CodeGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CustomDateDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CustomDateDeserializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CustomDateSerializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/CustomDateSerializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/EnumConvert.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/EnumConvert.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil$StringConvert.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil$StringConvert.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/FileUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/HeaderUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/HeaderUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/IpAndMac.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/IpAndMac.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/JacksonUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/JacksonUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/MD5.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/MD5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/MapKeyComparator.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/MapKeyComparator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/Md5Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/Md5Utils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/SerializeUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/SerializeUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/SignUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/SignUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/ZipUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-core/target/classes/com/kingleadsw/betterlive/core/util/ZipUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-dao/target/classes/mybatis/ShoppingCartMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-dao/target/classes/mybatis/ShoppingCartMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-pay/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-pay/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-redis/target/classes/com/kingleadsw/betterlive/redis/Keys.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-redis/target/classes/com/kingleadsw/betterlive/redis/Keys.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-redis/target/classes/com/kingleadsw/betterlive/redis/RedisService.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-redis/target/classes/com/kingleadsw/betterlive/redis/RedisService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-redis/target/classes/com/kingleadsw/betterlive/redis/impl/RedisServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-redis/target/classes/com/kingleadsw/betterlive/redis/impl/RedisServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ActivityProductVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ActivityProductVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ActivityVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ActivityVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/AreaVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/AreaVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/BannerInfoVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/BannerInfoVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/DeliverAreaVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/DeliverAreaVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/FreightVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/FreightVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/GiftCardRecordVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/GiftCardRecordVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/GiftCardVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/GiftCardVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/LogisticsCompanyVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/LogisticsCompanyVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/LogisticsVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/LogisticsVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/NoticeVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/NoticeVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/PreProductVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/PreProductVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/PromotionSpecVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/PromotionSpecVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ReceiverAddressVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ReceiverAddressVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ReplyVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/ReplyVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/RoleMenuVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/RoleMenuVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/RoleVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/RoleVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/SalePromotionVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/SalePromotionVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/SysDictVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/SysDictVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/UseLockVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/UseLockVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/UserRoleVo.class" beforeDir="false" afterPath="$PROJECT_DIR$/betterlive-vo/target/classes/com/kingleadsw/betterlive/vo/UserRoleVo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/bin/" />
+    <ignored path="$PROJECT_DIR$/betterlive-biz/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-core/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-dao/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-model/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-parent/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-pay/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-redis/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-service/target/" />
+    <ignored path="$PROJECT_DIR$/betterlive-vo/target/" />
+    <ignored path="$PROJECT_DIR$/bettetlive-web/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/betterlive-pay/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="702">
+              <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TestC.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bettetlive-web/src/test/java/TestC.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MessageHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/MessageHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Testssss.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/Testssss.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/betterlive-vo/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="13" column="16" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/betterlive-pay/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/betterlive-pay/src/main/java/com/kingleadsw/betterlive/common/util/HttpClientTool.java" />
+        <option value="$PROJECT_DIR$/bettetlive-web/src/test/java/TestC.java" />
+        <option value="$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/TestBBBB.java" />
+        <option value="$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/Testssss.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\maven\repository" />
+        <option name="mavenHome" value="D:/maven/apache-maven-3.3.9-bin/apache-maven-3.3.9" />
+        <option name="userSettingsFile" value="D:\maven\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="10" />
+    <option name="y" value="20" />
+    <option name="width" value="1346" />
+    <option name="height" value="688" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bean" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="betterlive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="betterlive" type="462c0819:PsiDirectoryNode" />
+              <item name="bettetlive-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="fileTemplates" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+    <configuration name="Unnamed" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.24" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="C:/Program Files/Java/jre7">
+      <option name="OPEN_IN_BROWSER_URL" value="http://192.168.1.62:8082/bettetlive-web/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="bettetlive-web:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/bettetlive-web" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_betterlive" />
+        <option name="HTTP_PORT" value="8082" />
+      </server-settings>
+      <predefined_log_file id="Tomcat" enabled="true" />
+      <predefined_log_file id="Tomcat Catalina" enabled="true" />
+      <predefined_log_file id="Tomcat Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Host Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="61966" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="C:/Program Files/Java/jre7">
+      <option name="OPEN_IN_BROWSER_URL" value="http://192.168.1.62:8082/bettetlive-web/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="bettetlive-web:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/bettetlive-web" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="_betterlive" />
+      </server-settings>
+      <predefined_log_file id="Tomcat" enabled="true" />
+      <predefined_log_file id="Tomcat Catalina" enabled="true" />
+      <predefined_log_file id="Tomcat Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Host Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="61966" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method>
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="bettetlive-web:war" />
+        </option>
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\Administrator\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\00007\betterlive" />
+          <option name="myCopyRoot" value="F:\00007\betterlive" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="F:\00007\betterlive" />
+          <option name="myCopyRoot" value="F:\00007\betterlive" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1b17f00c-a595-4120-b15a-65d019d3db3c" name="Default" comment="" />
+      <created>1523268345043</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1523268345043</updated>
+      <workItem from="1523268353536" duration="1628000" />
+      <workItem from="1524740921749" duration="2941000" />
+      <workItem from="1524808754926" duration="3737000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="8306000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <editor active="true" />
+    <layout>
+      <window_info anchor="right" id="Palette" order="5" />
+      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50076336" side_tool="true" weight="0.50343645" />
+      <window_info anchor="bottom" id="Application Servers" order="7" weight="0.6597938" />
+      <window_info anchor="right" id="Maven Projects" order="4" visible="true" weight="0.19694656" />
+      <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info id="Designer" order="1" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32977098" />
+      <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Debug" order="13" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="14" />
+      <window_info anchor="right" id="Palette&#9;" order="1" />
+      <window_info id="Image Layers" order="6" />
+      <window_info anchor="bottom" id="Java Enterprise" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Run" order="8" sideWeight="0.49923664" weight="0.50343645" />
+      <window_info anchor="bottom" id="Spring" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="2" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.16870229" />
+      <window_info id="Web" order="0" side_tool="true" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.7113402" />
+      <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="6" />
+      <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/betterlive-pay/src/main/java/com/kingleadsw/betterlive/common/util/HttpClientTool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="999">
+          <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="37" lean-forward="true" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/betterlive-vo/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="13" column="16" lean-forward="true" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/betterlive-pay/src/main/java/com/kingleadsw/betterlive/common/util/HttpClientTool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="999">
+          <caret line="37" column="18" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/betterlive-core/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/betterlive-core/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/betterlive-vo/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="13" column="16" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/betterlive-pay/src/main/java/com/kingleadsw/betterlive/common/util/HttpClientTool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="581">
+          <caret line="228" column="7" lean-forward="true" selection-start-line="228" selection-start-column="7" selection-end-line="228" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/betterlive-pay/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bettetlive-web/src/test/java/TestC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/TestBBBB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/MessageHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bettetlive-web/src/main/java/com/kingleadsw/betterlive/bean/Testssss.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>bettetlive-web:war</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Web (bettetlive-web)|Web</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>betterlive</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: com.alipay:sdk-java:20171027120314</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

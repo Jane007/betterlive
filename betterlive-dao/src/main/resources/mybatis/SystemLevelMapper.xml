@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SystemLevelMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SystemLevel">
+		<id column="system_Level_id" property="systemLevelId" jdbcType="INTEGER" />
+	    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="create_time" property="createTime" jdbcType="DATE" />
+	    <result column="modify_time" property="modifyTime" jdbcType="DATE" />
+	    <result column="creator" property="creator" jdbcType="INTEGER" />
+	    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+	    <result column="requirement_integral" property="requirementIntegral" jdbcType="INTEGER" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+   	    <result column="level" property="level" jdbcType="INTEGER" />
+   	    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		t.system_Level_id,
+		t.level_name,
+		t.status,
+		DATE_FORMAT(t.modify_time, '%Y-%m-%d %H:%i:%s') AS modify_time,
+		DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+		t.creator,
+		t.modifier,
+		t.requirement_integral,
+		t.remark,
+		t.level,
+		t.img_url
+	</sql>
+	
+	
+	<select id="queryListPage" resultMap="BaseResultMap" parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_system_level t where 1=1
+	</select>
+	
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+		select <include refid="Base_Column_List" />
+		from t_system_level t where t.system_Level_id = #{systemLevelId}
+	</select>
+	
+	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+		select <include refid="Base_Column_List" />
+		from t_system_level t where 1=1 
+		<if test="systemLevelId != null">
+			and t.system_Level_id = #{systemLevelId}
+		</if>
+		<if test="status != null">
+			and t.status = #{status}
+		</if>
+		<if test="level != null">
+			and t.level = #{level}
+		</if>
+	</select>
+	
+	
+	<insert id="insertPageData" parameterType="java.lang.Integer" useGeneratedKeys="true" keyProperty="systemLevelId">
+			insert into t_system_level
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="levelName!=null">
+				level_name,
+			</if>
+			<if test="requirementIntegral!=null">
+				requirement_integral,
+			</if>
+			<if test="creator!=null">
+				creator,
+			</if>
+			<if test="remark!=null">
+				remark,
+			</if>
+			<if test="modifier!=null">
+				modifier,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="imgUrl != null">
+				img_url,
+			</if>
+			status,
+			create_time,
+			modify_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="levelName!=null">
+				#{levelName},
+			</if>
+			<if test="requirementIntegral!=null">
+				${requirementIntegral},
+			</if>
+			<if test="creator!=null">
+				#{creator},
+			</if>
+			<if test="remark!=null">
+				#{remark},
+			</if>
+			<if test="modifier!=null">
+				#{modifier},
+			</if>
+			<if test="level != null">
+				#{level},
+			</if>
+			<if test="imgUrl != null">
+				#{imgUrl},
+			</if>
+			0,
+			NOW(),
+			NOW()
+		</trim>
+	</insert>
+	
+	
+	
+	 <!-- 更新 -->
+	 <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.SystemLevel">
+	 	update t_system_level
+	 		 <set>
+	 		 	<if test="levelName!=null and ''!=levelName"> 
+	 		 		level_name=#{levelName},
+	 		 	</if>
+	 		 	<if test="status != null " >
+	 		 		`status`=#{status},
+	 		 	</if>
+	 		 	<if test="modifier!=null">
+	 		 		modifier=#{modifier}
+	 		 	</if>
+	 		 	modify_time=NOW()
+	 		 </set>
+	 		 where system_Level_id=#{system_Level_id}
+	 </update>
+	
+	
+	
+</mapper>

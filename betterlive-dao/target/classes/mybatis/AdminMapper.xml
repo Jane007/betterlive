@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Admin" >
+    <id column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="loginname" property="loginname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="head_url" property="headUrl" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
+    <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+    <result column="roleType" property="roleType" jdbcType="INTEGER" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    staff_id, username, loginname, password, sex, mobile, head_url, create_by, create_time, 
+    update_by, update_time
+  </sql>
+  
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_admin
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </select>
+   <!-- 校验用户登陆信息 -->
+  <select id="checkLoginInfo" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />,(SELECT role_id FROM t_user_role WHERE user_id = t.staff_id) roleId ,
+    (SELECT role_type FROM t_role WHERE role_id = (SELECT role_id FROM t_user_role WHERE user_id = t.staff_id)) roleType
+    from t_admin t
+    where loginname = #{loginname} and password =#{password}
+  </select>
+  
+  <!-- 根据用户名称查询是否是平台运营人员 -->
+  <select id="findplatformYunyingByPageData" resultMap="BaseResultMap" parameterType="pd" >
+    SELECT ta.* FROM t_admin ta, t_user_role tur, t_role tr 
+      WHERE ta.staff_id=tur.user_id AND tur.role_id=tr.role_id AND tr.role_type=1 AND ta.username = #{username}
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  	delete t.*,tu.* from t_admin t,t_user_role tu where t.staff_id = tu.user_id and t.staff_id = #{staffId,jdbcType=INTEGER} 
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.Admin" useGeneratedKeys="true" keyProperty="staffId">
+    insert into t_admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="loginname != null" >
+        loginname,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="sex != null and sex !=''" >
+        sex,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="headUrl != null" >
+        head_url,
+      </if>
+      <if test="createBy != null and createBy !=''" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null and updateBy !=''" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="loginname != null" >
+        #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null and sex !=''" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="headUrl != null" >
+        #{headUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null and createBy !=''" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null and updateBy !=''" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.Admin" >
+    update t_admin
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="loginname != null" >
+        loginname = #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="headUrl != null" >
+        head_url = #{headUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.Admin" >
+    update t_admin
+    set username = #{username,jdbcType=VARCHAR},
+      loginname = #{loginname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      head_url = #{headUrl,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getListPage" resultMap="BaseResultMap" parameterType="pd" >
+  	SELECT * FROM (SELECT * ,(SELECT role_name FROM t_role WHERE role_id = (SELECT role_id FROM t_user_role WHERE user_id = t.staff_id)) roleName,
+	(SELECT role_type FROM t_role WHERE role_id = (SELECT role_id FROM t_user_role WHERE user_id = t.staff_id)) roleType,
+	(SELECT role_id FROM t_user_role WHERE user_id = t.staff_id) roleId FROM t_admin t) a
+	WHERE 1=1
+	<if test="keyword != null and keyword != ''">
+		and loginname LIKE '%${keyword}%' or username LIKE '%${keyword}%'
+	</if>
+	<if test="roleId != null and roleId != ''">
+		and roleId = #{roleId}
+	</if>
+	ORDER BY roleId
+  </select>
+  
+<!--   根据登录账号获取admin -->
+   <select id="queryAdminByLoginname" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select*,(SELECT role_name FROM t_role WHERE role_id = (SELECT role_id FROM t_user_role WHERE user_id = t.staff_id)) roleName,
+	(SELECT role_id FROM t_user_role WHERE user_id = t.staff_id) roleId 
+    from t_admin t where loginname = #{loginname}
+  </select>
+  
+  <!--   根据姓名获取admin -->
+   <select id="queryAdminByUsernamee" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from t_admin where username = #{username}
+  </select>
+  
+  <!--   查询全部admin -->
+   <select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" />,(SELECT role_name FROM t_role WHERE role_id = (SELECT role_id FROM t_user_role WHERE user_id = t.staff_id)) roleName,
+	(SELECT role_id FROM t_user_role WHERE user_id = t.staff_id) roleId,
+    (SELECT username FROM t_admin  WHERE staff_id = t.create_by) createName  FROM t_admin t where 1=1
+  	
+  	
+  	<if test="username != null and username != ''">
+		and t.username LIKE '%${username}%'
+	</if>
+	<if test="startTime != null and startTime != ''">
+  		and t.create_time &gt;= #{startTime}
+  	</if>
+  	 <if test="endTime != null and endTime != ''">
+  		and t.create_time &lt;= #{endTime}
+  	</if>
+  	 order by staff_id asc
+  	
+  	<if test="rowStart != null">
+  		limit #{rowStart}, #{pageSize}
+  	</if>
+  </select>
+  <!--   根据主键ID查询admin -->
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />,(SELECT role_id FROM t_user_role WHERE user_id = t.staff_id) roleId
+    from t_admin t
+    where t.staff_id = #{staffId,jdbcType=INTEGER}
+  </select>
+</mapper>

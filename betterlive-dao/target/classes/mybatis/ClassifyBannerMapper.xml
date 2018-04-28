@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ClassifyBannerMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ClassifyBanner" >
+    <id column="classify_banner_id" property="classifyBannerId" jdbcType="INTEGER" />
+    <result column="banner_title" property="bannerTitle" jdbcType="VARCHAR" />
+    <result column="banner_img" property="bannerImg" jdbcType="VARCHAR" />
+    <result column="banner_type" property="bannerType" jdbcType="INTEGER" />
+    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    classify_banner_id, banner_title, banner_img, banner_type, banner_url, DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time , status,product_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_classify_banner
+    where classify_banner_id = #{classifyBannerId,jdbcType=INTEGER}
+  </select>
+
+
+
+	<select id="queryclassifybannerListPage" resultMap="BaseResultMap" parameterType="pd" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from t_classify_banner where 1=1
+	    	<if test="bannerTitle != null and bannerTitle != '' ">
+	     		and banner_title like '%${bannerTitle}%'
+	     	</if>
+	   	 	<if test="status != null and status != '' ">
+	     		and status=#{status}
+	     	</if>
+  </select>
+
+
+  
+  	<!-- 根据条件查询单个广告Banner    -->
+	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_classify_banner where  1=1 
+     	<if test="classifyBannerId != null">
+     		and classify_banner_id=#{classifyBannerId}
+     	</if>
+     	<if test="bannerType != null">
+     		and banner_type=#{bannerType}
+     	</if>
+   	 	<if test="status != null">
+     		and status=#{status}
+     	</if>
+     	order by create_time DESC 
+     	limit 1
+  	</select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_classify_banner
+    where classify_banner_id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="addclassifybanner" parameterType="com.kingleadsw.betterlive.model.ClassifyBanner" >
+  	insert into t_classify_banner(banner_title,banner_img,banner_type,create_time,status,product_id)
+	values (#{bannerTitle},#{bannerImg},#{bannerType},NOW(),#{status},#{productId})
+  
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.ClassifyBanner" >
+  	UPDATE t_classify_banner
+	SET banner_title = #{bannerTitle},
+	 banner_img = #{bannerImg},
+	 banner_type = #{bannerType},
+	 STATUS = #{status},
+	 product_id = #{productId}
+	WHERE
+	classify_banner_id = #{classifyBannerId}
+  </update>
+  
+</mapper>

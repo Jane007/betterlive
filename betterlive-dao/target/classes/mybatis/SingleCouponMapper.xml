@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SingleCouponMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SingleCoupon">
+		<id column="coupon_id" property="couponId" jdbcType="INTEGER" />
+		<result column="coupon_id" property="couponId" jdbcType="INTEGER"/>
+		<result column="coupon_name" property="couponName" jdbcType="VARCHAR"/>
+		<result column="full_money" property="fullMoney" jdbcType="DECIMAL"/>
+		<result column="coupon_content" property="couponContent" jdbcType="VARCHAR"/>
+		<result column="coupon_money" property="couponMoney" jdbcType="DECIMAL"/>
+		<result column="start_time" property="startTime" jdbcType="DATE"/>
+		<result column="end_time" property="endTime" jdbcType="DATE"/>
+		<result column="create_time" property="createTime" jdbcType="DATE"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		<result column="coupon_spec_id" property="couponSpecId" jdbcType="INTEGER"/>
+		<result column="home_flag" property="homeFlag" jdbcType="INTEGER"/>
+		<result column="product_id" property="productId" jdbcType="INTEGER"/>
+		<result column="coupon_banner" property="couponBanner" jdbcType="VARCHAR"/>
+		<result column="limit_copy" property="limitCopy" jdbcType="INTEGER"/>
+		<result column="jump_to_page" property="jumpToPage" jdbcType="INTEGER"/>
+		<collection property="listSpec" column="coupon_id" select="findCouponSpeces"></collection>
+	</resultMap>
+	<resultMap  id="BaseCouponSpecResultMap" type="com.kingleadsw.betterlive.model.SingleCouponSpec">
+		<id column="coupon_spec_id"  property="couponSpecId"   jdbcType="INTEGER" />
+		<result column="coupon_id" property="couponId" jdbcType="INTEGER" /> 
+		<result column="product_id" property="productId" jdbcType="INTEGER" /> 
+		<result column="spec_id" property="specId" jdbcType="INTEGER" />
+		<result column="link_url" property="linkUrl" jdbcType="VARCHAR" />
+	    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+	    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+	</resultMap> 
+	<sql id="Base_Column_List">
+		coupon_id,
+		coupon_name,
+		full_money,
+		coupon_content,
+		coupon_money,
+		status,
+		DATE_FORMAT(start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+		DATE_FORMAT(end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+		DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+		home_flag,
+		coupon_banner,
+		limit_copy,
+		jump_to_page
+	</sql>
+	
+	<select id="findCouponSpeces" resultMap="BaseCouponSpecResultMap"  parameterType="java.lang.Integer" flushCache="true" >
+		 select ps.coupon_spec_id,ps.coupon_id,ps.product_id,ps.spec_id,ps.link_url,p.product_name,s.spec_name 
+		 	from t_single_coupon_spec ps inner join t_single_coupon sp on ps.coupon_id=sp.coupon_id
+		 	inner join t_product p on p.product_id=ps.product_id 
+		 	inner join t_spec s on s.spec_id=ps.spec_id
+		 	where ps.coupon_id=#{coupon_id}
+	</select>
+	
+	<!-- 分页查询  -->
+	<select id="queryListPage" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_single_coupon where 1=1
+		<if test="null!=couponId and ''!=couponId">
+			and coupon_id=#{couponId}
+		</if>
+		<if test="null!=couponName and ''!=couponName ">
+			and coupon_name like '%${couponName}%'
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and start_time<![CDATA[ >= ]]>#{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and end_time<![CDATA[ <= ]]>#{endTime}
+		</if>
+		<if test="null!=status and ''!=status">
+			and status=#{status}
+		</if>
+		order by create_time desc
+	</select>
+	
+	<!-- 不分页查询  -->
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_single_coupon where 1=1
+		<if test="null!=couponId and ''!=couponId">
+			and coupon_id=#{couponId}
+		</if>
+		<if test="null!=couponName and ''!=couponName ">
+			and coupon_name=#{couponName}
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and start_time&lt;#{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and end_time&gt;#{endTime}
+		</if>
+		<if test="null!=status and ''!=status">
+			and status=#{status}
+		</if>
+		order by create_time desc
+	</select>
+	
+	<!-- 根据主键查出一条记录 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select <include refid="Base_Column_List" />
+		from t_single_coupon where 
+		coupon_id=#{couponId,jdbcType=INTEGER}
+	</select>
+	
+	
+	<!-- 插入数据  -->
+	 <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SingleCoupon" useGeneratedKeys="true" keyColumn="coupon_id" keyProperty="couponId">
+	 	insert into t_single_coupon
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+    		<if test="couponId != null and ''!=couponId" >
+        		coupon_id,
+      		</if>
+      		<if test="couponName != null and ''!=couponName" >
+        		coupon_name,
+      		</if>
+      		<if test="fullMoney != null and ''!=fullMoney" >
+        		full_money,
+      		</if>
+      		<if test="couponMoney != null and ''!=couponMoney" >
+        		coupon_money,
+      		</if>
+      		
+      		<if test="couponContent != null and ''!=couponContent" >
+        		coupon_content,
+      		</if>
+      		<if test="startTime != null and ''!=startTime" >
+        		start_time,
+      		</if>
+      		<if test="endTime != null and ''!=endTime" >
+        		end_time,
+      		</if>
+      		<if test="homeFlag != null">
+      			home_flag,
+      		</if>
+      		<if test="jumpToPage!=null and jumpToPage>0">
+      			jump_to_page,
+      		</if>
+      		<if test="limitCopy!=null">
+      			limit_copy,
+      		</if>
+      		status,
+      		create_time,
+      		coupon_banner
+	 	</trim>
+	 	<trim prefix="values (" suffix=")" suffixOverrides="," >
+	 		<if test="couponId != null and ''!=couponId" >
+	 			#{couponId},
+	 		</if>
+	 		<if test="couponName != null and ''!=couponName" >
+	 			#{couponName},
+	 		</if>
+	 		<if test="fullMoney != null and ''!=fullMoney" >
+	 			#{fullMoney},
+	 		</if>
+	 		<if test="couponMoney != null and ''!=couponMoney" >
+	 			#{couponMoney},
+	 		</if>
+	 		<if test="couponContent != null and ''!=couponContent" >
+	 			#{couponContent},
+	 		</if>
+	 		<if test="startTime != null and ''!=startTime" >
+	 			#{startTime},
+	 		</if>
+	 		<if test="endTime != null and ''!=endTime" >
+	 			#{endTime},
+	 		</if>
+	 		<if test="homeFlag != null">
+      			#{homeFlag},
+      		</if>
+      		<if test="jumpToPage!=null and jumpToPage>0">
+      			#{jumpToPage},
+      		</if>
+      		<if test="limitCopy!=null">
+      			#{limitCopy},
+      		</if>
+	 			1,
+	 			NOW(),
+	 			#{couponBanner}
+	 	</trim>
+	 </insert>
+	 
+	 
+	 
+	 <!-- 更新 -->
+	 <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.SingleCoupon">
+	 	update t_single_coupon
+	 		 <set>
+	 		 	<if test="couponName!=null and ''!=couponName">
+	 		 		coupon_name=#{couponName},
+	 		 	</if>
+	 		 	<if test="fullMoney != null and ''!=fullMoney" >
+	 		 		full_money=#{fullMoney},
+	 		 	</if>
+	 		 	
+	 		 	<if test="couponContent != null and ''!=couponContent" >
+	 				coupon_content=#{couponContent},
+	 			</if>
+	 			<if test="startTime != null and ''!=startTime" >
+	 				start_time=#{startTime},
+	 			</if>
+	 			<if test="endTime != null and ''!=endTime" >
+	 				end_time=#{endTime},
+	 			</if>
+	 			<if test="null!=status">
+    				status=#{status},
+    			</if>
+    			<if test="homeFlag != null">
+		     		home_flag = #{homeFlag},
+		     	</if>
+		     	<if test="couponMoney != null">
+		     		coupon_money = #{couponMoney},
+		     	</if>
+		     	<if test="couponBanner != null">
+		     		coupon_banner = #{couponBanner},
+		     	</if>
+		     	<if test="jumpToPage!=null and jumpToPage>0">
+      				jump_to_page = #{jumpToPage},
+      			</if>
+      			<if test="limitCopy!=null">
+      				limit_copy = #{limitCopy}
+      			</if>
+	 		 </set>
+	 		 where coupon_id=#{couponId}
+	 </update>
+	 
+	 <select id="queryEffectiveCouponList" resultMap="BaseResultMap" parameterType="pd">
+	 	select 
+				t.coupon_id,
+				t.coupon_name,
+				t.full_money,
+				(select case when ts.spec_name is not null then ts.spec_name
+							 when ts.package_desc is not null then ts.package_desc
+							 else tp.product_name end 
+					from t_product tp, t_spec ts where tp.product_id = ts.product_id 
+					and tp.product_id=scs.product_id and ts.spec_id = scs.spec_id) coupon_content,
+				t.coupon_money,
+				t.status,
+				DATE_FORMAT(t.start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+				DATE_FORMAT(t.end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+				DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+				scs.coupon_spec_id,
+				scs.product_id as productId
+		 from t_single_coupon t, t_single_coupon_spec scs
+		where t.coupon_id = scs.coupon_id and t.`status` = 1 and t.end_time > NOW() and t.home_flag=1
+			and scs.coupon_spec_id not in (
+				select scs1.coupon_spec_id from t_single_coupon t1, t_single_coupon_spec scs1, t_user_single_coupon tsc1
+				  where t1.coupon_id = scs1.coupon_id and t1.`status` = 1 and t1.end_time > NOW() 
+					and t1.coupon_id = tsc1.coupon_id and scs1.spec_id = tsc1.spec_id 
+					
+						and tsc1.customer_id = #{customerId}
+					
+					)
+			and scs.spec_id in (select spec_id from t_spec where status =1)
+			and scs.product_id in (select product_id from t_product where STATUS = 1)
+		order by t.end_time asc
+		<if test="rowStart != null">
+			limit #{rowStart}, #{pageSize}
+		</if>
+	 </select>
+	 
+	 
+	 
+	 <select id="queryEffectiveCouponListNew" resultMap="BaseResultMap" parameterType="pd">
+	 	select 
+				t.coupon_id,
+				t.coupon_name,
+				t.full_money,
+				(select case when ts.spec_name is not null then ts.spec_name
+							 when ts.package_desc is not null then ts.package_desc
+							 else tp.product_name end 
+					from t_product tp, t_spec ts where tp.product_id = ts.product_id 
+					and tp.product_id=scs.product_id and ts.spec_id = scs.spec_id) coupon_content,
+				t.coupon_money,
+				t.status,
+				DATE_FORMAT(t.start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+				DATE_FORMAT(t.end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+				DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+				scs.coupon_spec_id,
+				scs.product_id as productId
+		 from t_single_coupon t, t_single_coupon_spec scs
+		where t.coupon_id = scs.coupon_id and t.`status` = 1 and t.end_time > NOW() 
+		<if test="homeFlag!=null">
+			and t.home_flag=#{homeFlag}
+		</if>
+		
+			and scs.coupon_spec_id not in (
+				select scs1.coupon_spec_id from t_single_coupon t1, t_single_coupon_spec scs1, t_user_single_coupon tsc1
+				  where t1.coupon_id = scs1.coupon_id and t1.`status` = 1 and t1.end_time > NOW() 
+					and t1.coupon_id = tsc1.coupon_id and scs1.spec_id = tsc1.spec_id 
+						<if test="customerId != null and customerId > 0">
+							and tsc1.customer_id = #{customerId}
+						</if>
+						<if test="showSpec!=null and showSpec!=''">
+							and tsc1.status > 0
+						</if>
+					)
+			and scs.spec_id in (select spec_id from t_spec where status =1)
+			and scs.product_id in (select product_id from t_product where STATUS = 1)
+			<if test="productId != null and productId > 0">
+				and scs.product_id = #{productId}
+			</if>
+			<if test="specId != null and specId>0">
+				and scs.spec_id=#{specId}
+			</if>
+			GROUP BY t.coupon_id
+		order by t.end_time asc
+		<if test="rowStart != null">
+			limit #{rowStart}, #{pageSize}
+		</if>
+	 </select>
+	
+</mapper>

@@ -1,0 +1,273 @@
+body{
+	background: #eee;
+}
+#layout{}
+.content-wrap{}
+.content{
+	overflow: hidden;
+}
+
+
+
+
+.recommendation-wrap{
+	background: #FFFFFF;
+	position: relative;
+}
+
+.recommendation{
+	width: 92.222%;
+	margin: 0 auto;
+}
+
+.previous{
+	width: 1.19444rem;
+	height: 0.444rem;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	background: url(../../img/discovery/pre-01.png) no-repeat;
+	background-size:100% 100% ;
+}
+
+.recommendation .bot{
+	position:relative;
+}
+.bot::after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #D9D9D9;
+	position: absolute;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+.recommendation .bot .bottitle{
+	position: relative;
+	height: 1.444rem;
+}
+.bot .bottitle span{
+	display: block;
+	float: left;
+	height: 0.42rem;
+	line-height: 0.42rem;
+	min-width: 1.056rem;
+	text-align: center;
+	background: url(../../img/discovery/pre-02.png) no-repeat;
+	background-size: 100% 100%;
+	margin-top: 0.5277rem;
+	color: #fff;
+	font-size: 0.3rem;
+}
+.bot .bottitle h3{
+	font-size: 0.444rem;
+	color: #363636;
+	line-height: 1.444rem;
+	float: left;
+	margin-left: 0.111rem;
+}
+
+.botcontent{}
+.botcontent .picture{
+	padding-bottom:0.5rem;
+}
+.botcontent .bor{
+	position:relative;
+}
+.botcontent .bor:after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #D9D9D9;
+	position: absolute;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+.botcontent .picture a{
+	display: flex;
+	width: 100%;
+	height: 5.111rem;
+	justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.botcontent .picture a img{
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.botcontent .botbottom{
+	position: relative;
+	min-height: 1.9166rem;
+	
+}
+/*.botcontent .botbottom::after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #D9D9D9;
+	position: absolute;
+	bottom: 0;
+	transform: scaleY(0.5);
+}*/
+.botcontent .botbottom h4{
+	margin-top: 0.3888rem;
+	font-size: 0.3888rem;
+	color: #363636;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.botcontent .func{
+	height: 0.3888rem;
+	line-height: 0.3888rem;
+	margin-top: 0.2777rem;
+}
+.botcontent .botbottom .comment{
+	width: 1rem;
+	float: left;
+	background: url(../../img/discovery/pre-04.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+}
+.botcontent .botbottom .dz{
+	margin-left: 0.4rem;
+	width: 1rem;
+	float: left;
+	background: url(../../img/discovery/pre-06.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+}
+.botcontent .botbottom .dz.on{
+	background: url(../../img/discovery/pre-07.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+}
+.botcontent .botbottom span{
+	color: #868686;
+	font-size: 0.2777rem;
+	margin-left: 0.5rem;
+}
+
+.botlist{
+	padding-bottom: 0.6296rem;
+	overflow: hidden;
+	position: relative;
+}
+.botlist::after{
+	display: block;
+	content: '';
+	height: 1px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	transform: scaleY(0.5);
+	background: #d9d9d9;
+}
+.botlist li{
+	width: 2.833rem;
+	float: left;
+	margin-left: 0.333rem;
+}
+.botlist li:first-child{
+	margin-left: 0;
+}
+.botlist li dl{}
+.botlist li dt{}
+.botlist li dt a{
+	display:flex;
+    width:2.833rem;
+    height:2.833rem;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+.botlist li dt a img{
+	display:block;
+	width:auto;
+	height:100%;
+}
+
+.botlist li dd{
+	margin-top: 0.296rem;
+}
+.botlist li dd p{
+	line-height:0.5rem ;
+	font-size: 0.333rem;
+	color: #363636;
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.chilist{}
+.chinode{
+	display: flex;
+	justify-content: space-between;
+	height: 3.66rem;
+	position: relative;
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.chinode:last-child{
+	border-bottom: 0;
+}
+.chinode .chintext{
+	width: 5.87rem;
+}
+.chintext h3{
+	height: 0.7rem;
+	line-height: 0.7rem;
+	margin-top: 0.592rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	font-size: 0.3888rem;
+	color: #363636;
+}
+.chintext p{
+	line-height: 0.5rem;
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	font-size: 0.333rem;
+	color: #868686;
+}
+.chintext .func{}
+.chintext .func .pl{}
+.chintext .func .dz{}
+.chintext .func span{}
+.chinode .chiimg{}
+.chinode .chiimg a{
+	width: 2.833rem;
+	height: 2.833rem;
+	margin-top: 0.41335rem;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.chinode .chiimg a img{
+	display: block;
+	width: auto;
+	height: 100%;
+}
+
+.zanwubg{
+	font-size: 0.26rem;
+	color:#868686; 
+	text-align:center;
+	background:url(../../img/zhuantizanwu.png) no-repeat center 1rem; 
+	background-size:1.66rem; 
+	padding-top:2.9rem; 
+}
+

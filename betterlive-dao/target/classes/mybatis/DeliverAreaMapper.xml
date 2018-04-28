@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.DeliverAreaMapper" >
+
+	
+	<resultMap type="com.kingleadsw.betterlive.model.DeliverArea" id="BaseResultMap">
+		<id  column="deliver_area_id"  property="deliverAreaId"  jdbcType="INTEGER"/>
+		
+		<result column="product_id"  property="productId"  jdbcType="INTEGER"/>
+		<result column="deliver_type"  property="deliverType"  jdbcType="INTEGER"/>
+		<result column="area_code"  property="areaCode"  jdbcType="VARCHAR"/>
+		<result column="all_child"  property="allChild"  jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+		deliver_area_id,
+		product_id,
+		deliver_type,
+		area_code,
+		all_child
+    	<!-- DATE_FORMAT(s.create_time, '%Y-%m-%d %H:%i:%s') AS create_time -->
+  	</sql>
+  
+  
+	<!-- 根据商品id，地区编码查询商品的配送信息     -->
+	<select id="queryDeliverByAreaCode" resultMap="BaseResultMap" parameterType="pd">
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     	FROM  t_deliver_area WHERE 1=1
+     	
+     	<!-- 商品ID -->
+     	<if test="null != productId  and ''!= productId">
+     		and product_id = #{productId}
+     	</if>
+     	<!-- 商品ID -->
+     	<if test="null != areaCode and '' != areaCode">
+     		and area_code = #{areaCode}
+     	</if>
+     	LIMIT 1
+  	</select>
+  	
+  	<!-- 根据条件查询商品全部配送地区     -->
+	<select id="queryListDeliverArea" resultMap="BaseResultMap" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />
+     	FROM  t_deliver_area WHERE 1=1
+     	
+     	<!-- 商品ID -->
+     	<if test="null != productId  and ''!= productId">
+     		and product_id=#{productId}
+     	</if>
+  	</select>
+  	
+  	
+  	<!-- 批量新增商品配送地区-->
+  	<insert id="addBatchDeliverArea" parameterType="java.util.List" >
+    	insert into t_deliver_area (deliver_area_id,
+									product_id,
+									deliver_type,
+									area_code,
+									all_child
+
+    				  		)
+    				  	values 
+    				  	<foreach collection="list" item="l" separator=",">
+    				  		(NULL,
+    				  	 	    #{l.productId},
+    				  	 	    #{l.deliverType},
+    				  	 	    #{l.areaCode},
+    				  	 	    #{l.allChild}
+    				  	 	 )
+    				  	</foreach> 	  
+    				  	 	  
+  	</insert>
+  
+   	<!-- 修改商品配送地区 -->   
+    <update id="updateDeliverAreaByDid" parameterType="com.kingleadsw.betterlive.model.DeliverArea" >
+    	update t_deliver_area
+    		<set>
+    			<if test="null!=product_id">
+    				 product_id=#{product_id},
+    			</if>
+    			<if test="null!=deliver_type">
+    				deliver_type=#{deliver_type},
+    			</if>
+    			<if test="null!=area_code and ''!=area_code">
+    				area_code=#{area_code},
+    			</if>
+    			<if test="null!=all_child and ''!=all_child">
+    				all_child=#{all_child}
+    			</if>
+    		</set>
+    	where deliver_area_id=#{deliver_area_id} 
+    </update> 
+ 
+    <!-- 删除商品-->
+    <update id="deleteDeliverAreaByPid" parameterType="java.lang.String" >
+    	delete from  t_deliver_area where product_id=#{productId}
+    </update> 
+    
+</mapper>

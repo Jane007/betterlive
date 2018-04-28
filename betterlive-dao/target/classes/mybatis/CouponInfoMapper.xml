@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CouponInfoMapper" >
+	
+		
+	<sql id="Base_Column_List" >
+		ci.coupon_id,
+		ci.cm_id,
+		ci.mobile,
+		ci.customer_id,
+		ci.coupon_money,
+		DATE_FORMAT(ci.starttime, '%Y-%m-%d %H:%i:%s' ) AS starttime,
+		DATE_FORMAT(ci.endtime, '%Y-%m-%d %H:%i:%s') AS endtime,
+		ci.start_money,
+		ci.coupon_from,
+		ci.used_time,
+		ci.status,
+		ci.order_code,
+		ci.from_user_id,
+		ci.from_order_id,
+    	DATE_FORMAT(ci.create_time, '%Y-%m-%d %H:%i:%s') AS create_time    
+  	</sql>
+  	
+  	<!-- 优惠卷专用--> 
+  	<sql id="Base_Column_List1" >
+		ci.mobile,
+		ci.coupon_money,
+		DATE_FORMAT(ci.endtime, '%Y-%m-%d') AS endtime,
+		ci.start_money 
+  	</sql>
+  	
+  		<!-- //根据条件查询单个用户领取优惠券详细    -->
+	<select id="queryOne" resultType="com.kingleadsw.betterlive.model.CouponInfo" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     	FROM t_coupon_info ci
+     	 WHERE  ci.coupon_id is not null
+
+     	<!-- 优惠券ID--> 
+     	<if test="null !=couponId">
+     		and ci.coupon_id=#{couponId}
+     	</if>
+     	
+     	<!-- 用户ID-->
+     	<if test="null != customerId">
+     		and ci.customer_id=#{customerId}
+     	</if>
+     	
+     	<if test=" null != cmId">
+   			AND ci.cm_id = #{cmId}
+   		</if>
+     	
+     	<!-- 优惠券状态-->
+     	<if test="null != status">
+     		and ci.status=#{status}
+     	</if>
+     	limit 1
+  	</select>
+  	
+  
+	<!-- //根据条件分页查询用户领取优惠券    -->
+	<select id="findUserCouponListPage" resultType="com.kingleadsw.betterlive.model.CouponInfo" parameterType="pd">
+    	select 
+     		<include refid="Base_Column_List" />,cm.coupon_name, cm.coupon_content, c.nickname
+     	
+     	FROM t_coupon_info ci INNER JOIN t_coupon_manager cm ON  ci.cm_id=cm.cm_id
+     						  INNER JOIN t_customer c ON  ci.customer_id = c.customer_id
+		<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and ci.customer_id = #{customerId}
+     	</if>
+     	WHERE 1=1
+     	
+     	<!-- 手机号--> 
+     	<if test="null != mobile  and ''!= mobile">
+     		and ci.mobile=#{mobile}
+     	</if>
+     	
+     	<!-- 订单Id--> 
+     	<if test="null !=orderId  and ''!= orderId">
+     		and ci.from_order_id=#{orderId}
+     	</if>
+     	
+     	<!-- 用户昵称--> 
+     	<if test="null != customerName  and ''!= customerName">
+     		and c.nickname=#{customerName}
+     	</if>
+     	
+     	<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and c.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 优惠券状态-->
+     	<if test="null != status  and ''!= status">
+     		and ci.status=#{status}
+     	</if>
+     	
+     	<!-- 优惠券名称 -->
+     	<if test="null != couponName  and ''!= couponName">
+     	    and cm.coupon_name like '%${couponName}%'
+     	</if>
+     	<!-- 待使用 -->
+     	<if test="useFlag != null and useFlag == 0">
+     	</if>
+     	
+     	<!-- 已使用 -->
+     	<if test="useFlag != null and useFlag == 1">
+     	</if>
+   	  	<!-- 已过期 -->
+     	<if test="useFlag != null and useFlag == 3">
+     	</if>
+     	
+     	<!-- 可使用优惠券 -->
+     	<if test="0 == canusecoupon">
+     	    <![CDATA[   and ci.status = 0  and ci.endtime > now() ]]>   
+     	</if>
+     	
+     	<!-- 已过期优惠券 -->
+   		<if test="3 == canusecoupon">
+     	    <![CDATA[  and  ( ci.status=2 or (ci.status = 0 and ci.endtime < now())) ]]>   
+     	</if>
+     	
+     	<!-- 旧版已过期或者已使用优惠券 -->
+     	<if test="2 == notusecoupon">
+     	    <![CDATA[  and  ( ci.status=0 and ci.endtime < now() ) or ci.status=1  ]]>    
+     	</if>
+  	</select>
+  	
+  	
+  	<!-- //根据条件查询单个用户领取优惠券详细    -->
+	<select id="findUserCoupon" resultType="com.kingleadsw.betterlive.model.CouponInfo" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />,cm.coupon_name,c.nickname
+     	
+     	FROM t_coupon_info ci INNER JOIN t_coupon_manager cm ON  ci.cm_id=cm.cm_id
+     						  INNER JOIN t_customer c ON  ci.customer_id=c.customer_id
+     						  	
+     	WHERE  ci.coupon_id is not null
+     	
+     	
+     	<!-- 优惠券ID--> 
+     	<if test="null !=couponId  and ''!= couponId">
+     		and ci.coupon_id=#{couponId}
+     	</if>
+     	
+     	
+     	<!-- 手机号--> 
+     	<if test="null != mobile  and ''!= mobile">
+     		and ci.mobile=#{mobile}
+     	</if>
+     	
+     	
+     	<!-- 订单Id--> 
+     	<if test="null !=orderId  and ''!= orderId">
+     		and ci.from_order_id=#{orderId}
+     	</if>
+     	
+     	
+     	<!-- 用户昵称--> 
+     	<if test="null != customerName  and ''!= customerName">
+     		and c.nickname=#{customerName}
+     	</if>
+     	
+     	<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and c.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 优惠券状态-->
+     	<if test="null != status  and ''!= status">
+     		and ci.status=#{status}
+     	</if>
+     	
+     	<!-- 优惠券名称 -->
+     	<if test="null != couponName  and ''!= couponName">
+     	    and cm.coupon_name like '%${couponName}%'
+     	</if>
+     	
+     	
+     	<!-- 可使用优惠券 -->
+     	<if test=" 0== canusecoupon">
+     	    <![CDATA[    and ci.status=0  and ci.endtime  > now() ]]>   
+     	</if>
+     	
+     	<!-- 价格 : 下单时查询 -->
+     	<if test=" null !=price  and  ''!= price ">
+     	    <![CDATA[  and ci.start_money<=#{price}  
+     	    
+     	    	AND NOT EXISTS (
+					SELECT use_coupon_id FROM t_use_lock WHERE customer_id =#{customerId}  AND ci.coupon_id=use_coupon_id  AND lock_status = 1
+				)
+     	    		
+     	     ]]>    
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!-- //根据条件查询单个用户有效或无效优惠券详细    -->
+	<select id="findCouponListPage" resultType="com.kingleadsw.betterlive.model.CouponInfo" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />,cm.coupon_name,c.nickname
+     	
+     	FROM t_coupon_info ci INNER JOIN t_coupon_manager cm ON  ci.cm_id=cm.cm_id
+     						  INNER JOIN t_customer c ON  ci.mobile=c.mobile
+     						  	
+     	WHERE c.customer_id=#{customerId}  
+     	
+     	<if test="null !=status  and ''!= status">
+     	 and ci.status=0 and ci.endtime > now()
+     	</if>
+     	
+     	<if test="null !=notusecoupon  and ''!= notusecoupon">
+		 and ci.coupon_id not in (
+		select ci.coupon_id FROM t_coupon_info ci 
+		INNER JOIN t_coupon_manager cm ON ci.cm_id=cm.cm_id 
+		INNER JOIN t_customer c ON ci.mobile=c.mobile 
+		WHERE ci.coupon_id is not null and c.customer_id=#{customerId} and ci.status=0 and ci.endtime > now()
+		)
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	
+  	
+  	<!-- //根据条件查询全部用户领取优惠券   -->
+  	<select id="findListUserCoupon" resultType="com.kingleadsw.betterlive.model.CouponInfo" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />,cm.coupon_name,c.nickname
+     	
+     	FROM t_coupon_info ci INNER JOIN t_coupon_manager cm ON  ci.cm_id=cm.cm_id
+     						  INNER JOIN t_customer c ON  ci.customer_id=c.customer_id
+	  	<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and ci.customer_id = #{customerId}
+     	</if>
+     						  	
+     	WHERE 1 = 1
+     	
+     	<!-- 优惠券ID -->
+     	<if test="null != couponId  and ''!= couponId">
+     		and ci.coupon_id=#{couponId}
+     	</if>
+     	
+     	<!-- 手机号--> 
+     	<if test="null != mobile  and ''!= mobile">
+     		and ci.mobile=#{mobile}
+     	</if>
+     	
+     	<!-- 用户昵称--> 
+     	<if test="null != customerName  and ''!= customerName">
+     		and c.nickname=#{customerName}
+     	</if>
+     	
+     	<!-- 用户ID-->
+     	<if test="null != customerId  and ''!= customerId">
+     		and c.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 优惠券状态，0：未使用，1：已使用，2：已过期-->
+     	<if test="null != status  and ''!= status">
+     		and ci.status=#{status}
+     	</if>
+     	
+     	<!-- 优惠券名称 -->
+     	<if test="null != couponName  and ''!= couponName">
+     	    and cm.coupon_name like '%${couponName}%'
+     	</if>
+     	
+     	<if test="couponIds!=null and ''!=couponIds">
+			and ci.cm_id in 
+			<foreach collection="couponIds" index="index" item="item" open="(" separator="," close=")">  
+        		#{item}  
+    		</foreach>
+		</if>
+     	
+     	<!-- 可使用优惠券 -->
+     	<if test="0 == canusecoupon">
+     	    <![CDATA[    and ci.status=0 and ci.endtime  > now() ]]>  
+     	    AND NOT EXISTS (
+				SELECT use_coupon_id FROM t_use_lock WHERE customer_id =#{customerId} AND ci.coupon_id=use_coupon_id  AND lock_status = 1
+			) 
+     	</if>
+     	
+     	<!-- 已过期或者已使用优惠券 -->
+     	<if test="2 == notusecoupon">
+     	    <![CDATA[  and  ( ci.status=0 and ci.endtime <= now() ) or ci.status=1  ]]>    
+     	</if>
+     	
+     	<!-- 价格 : 下单时查询 -->
+     	<if test=" null !=price  and  ''!= price ">
+     	    <![CDATA[  and ci.start_money <= #{price}   ]]>
+     	</if>
+     	
+     	
+     	<!-- 价格 : 下单时选择价格没达到门槛的优惠券 -->
+     	<if test=" null !=abovePrice  and  ''!=abovePrice">
+     	    <![CDATA[  and ci.start_money>#{abovePrice}  
+     	    
+     	    	AND NOT EXISTS (
+					SELECT use_coupon_id FROM t_use_lock WHERE customer_id =#{customerId} AND ci.coupon_id=use_coupon_id  AND lock_status = 1
+				)
+     	    		
+     	     ]]>    
+     	</if>
+     	
+   		<if test=" null != cmId">
+   			AND ci.cm_id = #{cmId}
+   		</if>
+   		
+     	order by ci.coupon_money desc
+  	</select>
+  	
+  	
+  	<!-- //增加用户领取优惠券 -->
+  	<insert id="insertUserCoupon" parameterType="com.kingleadsw.betterlive.model.CouponInfo" useGeneratedKeys="true"  keyProperty="coupon_id">
+    	insert into t_coupon_info (coupon_id,
+									cm_id,
+									mobile,
+									customer_id,
+									coupon_money,
+									starttime,
+									endtime,
+									start_money,
+									coupon_from,
+									status,
+									order_code,
+									from_user_id,
+									from_order_id,
+									create_time
+    				  			)
+    				  		values (null,
+	    				  	 	    #{cm_id},
+	    				  	 	    #{mobile},
+	    				  	 	    #{customer_id},
+	    				  	 	    #{coupon_money}, 
+	    				  	 	    #{starttime},
+	    				  	 	    #{endtime},
+	    				  	 	    #{start_money},
+	    				  	 	    #{coupon_from},
+	    				  	 	    #{status},
+	    				  	 	    #{order_code}, 
+	    				  	 	    #{from_user_id},
+	    				  	 	    #{from_order_id},
+	    				  	 	    now()
+	    				  	 	  )
+  	</insert>
+   	
+   	<!--//修改用户领取优惠券-->
+    <update id="updateUserCouponByCid" parameterType="pd" >
+    	update t_coupon_info 
+
+			<set>
+				<!-- 优惠券状态-->
+		     	<if test="null != status  and ''!= status">
+		     		 status=#{status},
+		     	</if>
+									
+		     	<!-- 订单编号 -->
+		     	<if test="null != orderCode  and ''!= orderCode">
+		     		order_code=#{orderCode},
+		     	</if>
+		     	
+		     	<!-- 订单ID -->
+		     	<if test="null != orderId and ''!= orderId">
+		     		from_order_id=#{orderId},
+		     	</if>
+		     	
+		     	<!-- 使用优惠券时间  -->
+		     	<if test="null != usedTime  and ''!= usedTime">
+		     		used_time=#{usedTime},
+		     	</if>
+		     	
+			</set> 
+    	where coupon_id=#{couponId}
+    	
+    </update> 
+    
+    <!-- //删除用户领取优惠券  -->
+    <delete id="deleteByCid" parameterType="java.lang.String" >
+    	delete from  t_coupon_info where coupon_id=#{cId}
+    </delete> 
+   
+   
+   <!-- 根据订单ID查询分享券（优惠券）领取   -->
+    <select id="findShareCountByOrderId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(*) as count from t_coupon_info
+			where from_order_id=#{orderId}
+  	</select>
+    
+    
+    <!-- 查询用户是否已经领取了红包 -->
+    <select id="findUserShareCount" resultType="java.lang.Integer" parameterType="pd">
+		select count(*) as count from t_coupon_info
+			where from_order_id=#{orderId} and  (customer_id=#{customerId}  or  mobile=#{mobile} )
+  	</select>
+  	  
+  	  
+  	<!-- 合并用户时,需要合并用户的优惠券 -->
+    <update id="modifyCustomerCouponBycId" parameterType="pd" >
+	    update t_coupon_info set customer_id=#{newCustomerId}  where customer_id=#{customerId}
+	</update> 
+	
+		<!-- //即将过期的优惠券    -->
+	<select id="queryExpiringList" resultType="com.kingleadsw.betterlive.model.CouponInfo" parameterType="pd">
+		select 
+			<include refid="Base_Column_List" />,
+			cm.coupon_type,
+			cm.coupon_content,
+			cm.coupon_name
+		from t_coupon_info ci, t_coupon_manager cm 
+		 where ci.cm_id = cm.cm_id
+			   and ci.`status` = 0 
+			   and ci.endtime > now()
+			   and datediff(ci.endtime, NOW()) <![CDATA[ <= ]]> 3
+		   <if test="customerId != null and customerId > 0">
+		  	   and ci.customer_id = #{customerId}
+		   </if>
+		   	<if test="rowStart != null">
+		  		 limit #{rowStart}, #{pageSize}
+		  	</if>
+   </select>
+</mapper>

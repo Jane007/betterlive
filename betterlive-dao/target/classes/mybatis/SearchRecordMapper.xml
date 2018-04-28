@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SearchRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SearchRecord" >
+    <id column="search_id" property="searchId" jdbcType="INTEGER" />
+    <result column="label_type" property="labelType" jdbcType="INTEGER" />
+    <result column="label_id" property="labelId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    search_id, label_id, label_type, customer_id, create_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_search_record
+    where search_id = #{searchId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_search_record
+    where search_id = #{searchId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.Label" >
+    insert into t_search_record (label_type, customer_id, label_id, create_time)
+    values (#{labelType}, #{customerId}, #{labelId}, NOW())
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.Label" >
+  </update>
+  
+  <select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" /> FROM t_search_record where 1=1
+  	
+  	<if test="labelType != null">
+  		and label_type = #{labelType}
+  	</if>
+  	
+  	 order by search_id desc
+  	
+  	<if test="rowStart != null">
+  		limit #{rowStart}, #{pageSize}
+  	</if>
+  </select>
+  
+</mapper>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SysDictMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SysDict" >
+    <id column="sys_dict_id" property="sysDictId" jdbcType="INTEGER" />
+    <result column="dict_code" property="dictCode" jdbcType="VARCHAR" />
+    <result column="dict_name" property="dictName" jdbcType="VARCHAR" />
+    <result column="dict_type" property="dictType" jdbcType="TINYINT" />
+    <result column="dict_value" property="dictValue" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    sys_dict_id, dict_code, dict_name, dict_type, dict_value, status, description
+  </sql>
+  
+    
+	<select id="querySysDictListPage"  resultMap="BaseResultMap" parameterType="pd" >
+        SELECT *
+          FROM t_sys_dict
+         WHERE TRUE
+         <if test="dict_code != null and dict_code != ''">
+                AND dict_code LIKE '%${dict_code}%'
+         </if>
+         <if test="dict_name != null and dict_name != ''">
+                AND dict_name LIKE '%${dict_name}%'
+         </if>
+         <if test="dict_type != null and dict_type != ''">
+                AND dict_type  = #{dict_type}
+         </if>
+         <if test="status != null and status != ''">
+                AND status  = #{status}
+         </if>
+       <![CDATA[  HAVING status >= 0 ]]>
+        ORDER BY sys_dict_id desc
+    </select>
+    
+  <select id="querySysDictBysysDictId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_dict
+    where sys_dict_id = #{sysDictId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sys_dict
+    where sys_dict_id = #{sysDictId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SysDict" >
+    insert into t_sys_dict (sys_dict_id, dict_code, dict_name, 
+      dict_type, dict_value, status, 
+      description)
+    values (#{sysDictId,jdbcType=INTEGER}, #{dictCode,jdbcType=VARCHAR}, #{dictName,jdbcType=VARCHAR}, 
+      #{dictType,jdbcType=TINYINT}, #{dictValue,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.kingleadsw.betterlive.model.SysDict" >
+    insert into t_sys_dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sysDictId != null" >
+        sys_dict_id,
+      </if>
+      <if test="dictCode != null" >
+        dict_code,
+      </if>
+      <if test="dictName != null" >
+        dict_name,
+      </if>
+      <if test="dictType != null" >
+        dict_type,
+      </if>
+      <if test="dictValue != null" >
+        dict_value,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sysDictId != null" >
+        #{sysDictId,jdbcType=INTEGER},
+      </if>
+      <if test="dictCode != null" >
+        #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictName != null" >
+        #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictType != null" >
+        #{dictType,jdbcType=TINYINT},
+      </if>
+      <if test="dictValue != null" >
+        #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.SysDict" >
+    update t_sys_dict
+    <set >
+      <if test="dictCode != null" >
+        dict_code = #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictName != null" >
+        dict_name = #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictType != null" >
+        dict_type = #{dictType,jdbcType=TINYINT},
+      </if>
+      <if test="dictValue != null" >
+        dict_value = #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sys_dict_id = #{sysDictId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.SysDict" >
+    update t_sys_dict
+    set dict_code = #{dictCode,jdbcType=VARCHAR},
+      dict_name = #{dictName,jdbcType=VARCHAR},
+      dict_type = #{dictType,jdbcType=TINYINT},
+      dict_value = #{dictValue,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR}
+    where sys_dict_id = #{sysDictId,jdbcType=INTEGER}
+  </update>
+
+  <!--根据字典code查询字典-->
+  <select id="selectByCode" parameterType="pd" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_sys_dict where dict_code = #{dictCode} limit 1
+  </select>
+</mapper>

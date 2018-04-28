@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.OperationRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.OperationRecord" >
+    <id column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="operation_id" property="operationId" jdbcType="INTEGER" />
+    <result column="operation_type" property="operationType" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="obj_id" property="objId" jdbcType="INTEGER" />
+    <result column="sys_obj_id" property="sysObjId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.record_id, t.operation_id, t.operation_type, t.customer_id, t.create_time, t.obj_id, t.sys_obj_id
+  </sql>
+  
+  <select id="queryOne"  resultMap="BaseResultMap" parameterType="pd" >
+       SELECT <include refid="Base_Column_List"/>
+       	FROM t_operation_record t WHERE 1=1
+       	 <if test="recordId != null and recordId > 0">
+       	 	and t.record_id = #{recordId}
+       	 </if>
+   	 	 <if test="operationId != null and operationId > 0">
+       	 	and t.operation_id = #{operationId}
+       	 </if>
+       	 <if test="customerId != null and customerId > 0">
+       	 	and t.customer_id = #{customerId}
+       	 </if>
+   	 	 <if test="sysObjId != null and sysObjId > 0">
+       	 	and t.sys_obj_id = #{sysObjId}
+       	 </if>
+         	limit 1
+  </select>
+  
+   <select id="queryList"  resultMap="BaseResultMap" parameterType="pd" >
+       SELECT <include refid="Base_Column_List"/>
+		FROM t_operation_record t
+   </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_operation_record
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.OperationRecord" useGeneratedKeys="true"  keyProperty="recordId">
+    insert into t_operation_record (operation_id, operation_type, customer_id, create_time, obj_id, sys_obj_id)
+    values (#{operationId}, #{operationType}, #{customerId}, NOW(), #{objId}, #{sysObjId})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.OperationRecord" >
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.OperationRecord" >
+  </update>
+
+</mapper>

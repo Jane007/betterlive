@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ArticlePeriodicalMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ArticlePeriodical" >
+    <id column="periodical_id" property="periodicalId" jdbcType="INTEGER" />
+    <result column="periodical_title" property="periodicalTitle" jdbcType="VARCHAR" />
+    <result column="periodical" property="periodical" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.periodical_id, t.periodical_title, t.periodical, t.create_time, t.status
+  </sql>
+  
+  
+  	<select id="queryList" resultMap="BaseResultMap" parameterType="pd" >
+        SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_article_periodical t WHERE 1=1
+		  <if test="periodical != null and periodical != ''">
+		 	AND t.periodical like '%${periodical}%'
+		 </if>
+		 <if test="periodicalTitle != null and periodicalTitle != ''">
+		 	AND t.periodical_title like '%${periodicalTitle}%'
+		 </if>
+	  	 <if test="status != null">
+		 	AND t.status = #{status}
+		 </if>
+		  order by t.create_time desc
+    </select>  
+    
+	<select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+        SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_article_periodical t WHERE 1=1
+		  <if test="periodical != null and periodical != ''">
+		 	AND t.periodical like '%${periodical}%'
+		 </if>
+		 <if test="periodicalTitle != null and periodicalTitle != ''">
+		 	AND t.periodical_title like '%${periodicalTitle}%'
+		 </if>
+	  	 <if test="status != null">
+		 	AND t.status = #{status}
+		 </if>
+		 
+		 order by t.create_time desc
+    </select>
+    
+    <select id="queryByArticleListPage" resultMap="BaseResultMap" parameterType="pd" >
+		 select <include refid="Base_Column_List"/>
+		  from t_article_periodical t where t.`status` = 1 and t.periodical_id in (
+			select periodical_id from t_special_article where status = 1 
+			)
+		 order by t.create_time desc
+    </select>
+    
+   	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+        SELECT <include refid="Base_Column_List"/>
+          FROM t_article_periodical t WHERE 1=1
+          <if test="periodicalId != null">
+          	AND t.periodical_id = #{periodicalId}
+          </if>
+         limit 1
+    </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update t_article_periodical
+    	set status = 0
+    where periodical_id = #{periodicalId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.ArticlePeriodical" useGeneratedKeys="true"  keyProperty="periodicalId">
+    insert into t_article_periodical (periodical_title, create_time, periodical, status)
+    	values (#{periodicalTitle}, NOW(), #{periodical}, #{status})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.ArticlePeriodical" >
+    update t_article_periodical
+    set 
+		periodical_title = #{periodicalTitle},
+		periodical = #{periodical},
+		status = #{status}
+    where periodical_id = #{periodicalId}
+  </update>
+
+</mapper>

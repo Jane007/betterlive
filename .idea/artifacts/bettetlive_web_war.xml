@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="bettetlive-web:war">
+    <output-path>$PROJECT_DIR$/bettetlive-web/target</output-path>
+    <root id="archive" name="betterlive-web.war">
+      <element id="artifact" artifact-name="bettetlive-web:war exploded" />
+    </root>
+  </artifact>
+</component>

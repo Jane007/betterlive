@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.PreProductMapper">
+	 <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.PreProduct">
+ 		<id column="pre_id" property="preId" jdbcType="INTEGER" />
+ 		<result column="product_logo" property="productLogo" jdbcType="VARCHAR" />
+ 		<result column="product_id" property="productId" jdbcType="INTEGER" />
+ 		<result column="pre_name" property="preName" jdbcType="VARCHAR" />
+ 		<result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+ 		<result column="raise_target" property="raiseTarget" jdbcType="INTEGER" />
+ 		<result column="raise_start" property="raiseStart" jdbcType="DATE" />
+ 		<result column="raise_end" property="raiseEnd" jdbcType="DATE" />
+ 		<result column="raise_money" property="raiseMoney" jdbcType="DECIMAL" />
+ 		<result column="support_num" property="supportNum" jdbcType="INTEGER" />
+ 		<result column="deliver_time" property="deliverTime" jdbcType="DATE" />
+ 		<result column="rank_order" property="rankOrder" jdbcType="INTEGER" />
+ 		<result column="limit_buy" property="limitBuy" jdbcType="INTEGER" />
+ 		<result column="create_time" property="createTime" jdbcType="DATE" />
+	 </resultMap>
+	 
+	 <sql id="Base_Column_List" >
+	 	pre_id,product_logo,product_id,pre_name, discount_price,raise_target,raise_money,support_num,rank_order,limit_buy,
+	 	DATE_FORMAT(raise_start, '%Y-%m-%d %H:%i:%s') AS raise_start,
+	 	DATE_FORMAT(raise_end, '%Y-%m-%d %H:%i:%s') AS raise_end,
+	 	DATE_FORMAT(deliver_time, '%Y-%m-%d %H:%i:%s') AS deliver_time,
+	 	DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+	 </sql>
+	 
+	  <sql id="Base_Join_Column_List" >
+	 	pre.pre_id,pre.product_logo,pre.product_id,pre.pre_name, pre.discount_price,pre.raise_target,pre.raise_money,pre.support_num,pre.rank_order,p.product_logo as productLogo,p.status,pre.limit_buy,
+	 	DATE_FORMAT(pre.raise_start, '%Y-%m-%d %H:%i:%s') AS raise_start,
+	 	DATE_FORMAT(pre.raise_end, '%Y-%m-%d %H:%i:%s') AS raise_end,
+	 	DATE_FORMAT(pre.deliver_time, '%Y-%m-%d %H:%i:%s') AS deliver_time,
+	 	DATE_FORMAT(pre.create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+	 </sql>
+	 
+	 <!-- 根据条件查询单个的预售商品 -->
+	 <select id="selectPreProductByOption"  resultMap="BaseResultMap" parameterType="pd" >
+	 	select 
+		<include refid="Base_Column_List" />
+		from t_pre_product
+		 where pre_id =#{preId}
+	 </select>
+	 
+	 <!-- 分页查询预售商品 -->
+	 <select id="queryListPage" resultMap="BaseResultMap"  parameterType="pd" >
+	 	select 
+		<include refid="Base_Join_Column_List" />
+		from t_pre_product pre INNER JOIN t_product p ON pre.product_id=p.product_id 
+		where 1=1
+		<if test="null != preName and '' !=preName">
+			and pre_name like '%${preName}%'
+		</if>
+		<if test="null!=show and ''!=show">
+			and raise_end &gt;=NOW() 
+		</if>
+		<if test="null!=status and ''!=status">
+			and status =#{status} 
+		</if>
+	
+		order by rank_order,create_time desc
+	 </select>
+	 
+	 
+	<!-- 查询预售商品 -->
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd" >
+	 	select 
+		<include refid="Base_Join_Column_List" />
+		from t_pre_product pre INNER JOIN t_product p ON pre.product_id=p.product_id 
+		where 1=1
+		<if test="null != preName and '' !=preName">
+			and pre_name like '%${preName}%'
+		</if>
+		<if test="null!=productId and ''!=productId">
+			and pre.product_id=#{productId}
+		</if>
+		<if test="null!=status and ''!=status">
+			and p.status=#{status}
+		</if>
+		and raise_end &gt;=NOW() and status=1
+		ORDER BY rank_order,raise_start
+	 </select>
+	 <!-- 添加预售商品 -->
+	 <insert id="insertPreProduct" parameterType="com.kingleadsw.betterlive.model.PreProduct" useGeneratedKeys="true" keyProperty="preId" >
+	 	insert into t_pre_product ( product_logo,
+	 								product_id,
+	 								pre_name,
+	 								discount_price,
+	 								raise_target,
+	 								raise_start,
+	 								raise_end,
+	 								raise_money,
+	 								support_num,
+	 								deliver_time,
+	 								rank_order,
+	 								create_time
+	 					  )values(	#{productLogo},
+	 					  			#{productId},
+	 								#{preName},
+	 								#{discountPrice},
+	 								#{raiseTarget},
+	 								#{raiseStart},
+	 								#{raiseEnd},
+	 								#{raiseMoney},
+	 								#{supportNum},
+	 								#{deliverTime},
+	 								#{rankOrder},
+	 								NOW()
+	 							)
+	 </insert>
+	 <!-- 修改更新预售商品 -->
+	 <update id="updatePreProduct" parameterType="com.kingleadsw.betterlive.model.PreProduct">
+ 		update t_pre_product
+ 		set product_logo = #{productLogo},
+ 			product_id =#{productId},
+ 			pre_name =#{preName},
+ 			discount_price =#{discountPrice},
+ 			raise_target =#{raiseTarget},
+ 			raise_start =#{raiseStart},
+ 			raise_end =#{raiseEnd},
+ 			raise_money =#{raiseMoney},
+ 			support_num =#{supportNum},
+ 			deliver_time =#{deliverTime},
+ 			rank_order =#{rankOrder}
+ 		where pre_id =#{preId}
+	 </update>
+	 
+	 <!-- 删除预售商品 -->
+	 <delete id="deletePreProductById" parameterType="java.lang.Integer">
+	 	delete from t_pre_product 
+	     where pre_id = #{preId}
+	 </delete>
+	 
+</mapper>

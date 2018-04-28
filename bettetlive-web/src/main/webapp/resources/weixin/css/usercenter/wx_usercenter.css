@@ -1,0 +1,559 @@
+
+body{
+	background: #eee;
+}
+em{
+	font-style: normal;
+}
+#layout{
+	background: url(../../img/usercenter/body-bg.png) no-repeat top center;
+	background-size: 100%;
+}
+.header-wrap{
+	width: 100%;
+	position: fixed;
+	top: 0;
+	background: rgb(230,45,41);
+	z-index: 10;
+	opacity: 1;
+}
+.header{
+	height: 0.9984rem;
+	position: relative;
+}
+.header img{
+	width: 0.6912rem;
+	height: 0.6912rem;
+}
+.header .set{
+	position: absolute;
+	right: 1.7281rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.header .msg{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 0.46rem;
+}
+.msnum{
+	position: relative;
+}
+.header .msg span{
+	display: block;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: #fff;
+    text-align: center;
+    line-height: 0.4rem;
+    color: #e62d29;
+    font-size: 0.277rem;
+    border-radius: 50%;
+    position: absolute;
+    right:0;
+    top:-0.1rem;
+}
+
+.content{
+	overflow: hidden;
+}
+.conbg{
+	width: 100%;
+	height: 1.6896rem;
+	background: rgb(230,45,41);
+}
+.user{
+	background: #fff;
+	width: 96%;
+	margin: 0 auto;
+	border-radius: 4px;
+}
+.usertop{
+	position: relative;
+}
+.usertop .headportrait{
+	width: 1.8433rem;
+	height: 1.8433rem;
+	position: absolute;
+	top: -0.6912rem;
+	left: 0.576rem;
+}
+.usertop .headportrait img{
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+.usertop .login{
+	text-indent: 2.4962rem;
+	overflow: hidden;
+}
+.usertop .login span{
+	font-size: 0.44rem;
+	color: #363636;
+	font-weight: 600;
+	display:block;
+	line-height:0.592rem;
+	margin-top:0.305rem;
+}
+.usertop .login .integral{
+	line-height:0.55rem;
+	margin-top:0;
+	font-weight: 300;
+	color:#868686;
+	font-size:0.305rem;
+}
+.usertop .drawlottery{
+	position:absolute;
+	width:2.305rem;
+	height:0.666rem;
+	background: url(../../img/usercenter/drawlottery_01.png) no-repeat top center;
+	background-size:cover;
+	text-align: center;
+	line-height:0.666rem;
+	right:0.777rem;
+	top:0.388rem;
+	color:#fff;
+	font-size:0.305rem;
+}
+.usertop .off{
+	background: url(../../img/usercenter/drawlottery_02.png) no-repeat top center;
+	background-size:cover;
+}
+.userbottom{}
+.userbottom ul{
+	padding: 0.9216rem 0 0.4224rem 0;
+	display: flex;
+}
+.userbottom ul li{
+	height: 1.152rem;
+	width: 25%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	text-align: center;
+	position: relative;
+}
+.userbottom ul li .bg{
+	height: 50%;
+	width: 1px;
+	background: #ccc;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%) scaleX(0.5);
+}
+.userbottom ul li span{
+	color: #868686;
+	font-size: 0.333rem;
+}
+
+.userbottom ul li .first{
+	font-size: 0.46rem;
+	color: #363636;
+}
+
+/*订单*/
+.order-wrap{
+	margin-top: 0.288rem;
+	width: 100%;
+	background: #fff;
+}
+.order{
+	
+}
+.ordertop-wrap{
+	position:relative;
+	
+}
+.ordertop-wrap::after{
+	display: block;
+	content: '';
+	position: absolute;
+	bottom: 0;
+	height: 1px;
+	width: 100%;
+	transform: scaleY(0.5);
+	background: #d9d9d9;
+}
+.order .ordertop{
+	width: 96%;
+	margin: 0 auto;
+	height: 1.44rem;
+	display: flex;
+	line-height:1.44rem;
+	justify-content: space-between;
+}
+.order .ordertop h4{
+	background: url(../../img/usercenter/cent00.png) no-repeat left center;
+	background-size: 0.6851rem 0.6851rem;
+	padding-left: 0.9984rem;
+	font-size: 0.4074rem;
+	font-weight: 400;
+	color: #363636;
+}
+.order .ordertop span{
+	background: url(../../img/usercenter/jiantou01.png) no-repeat right center;
+	background-size: 0.235rem 0.4629rem;
+	font-size: 0.2962rem;
+	padding-right: 0.576rem;
+	color: #868686;
+}
+.order .orderbottom{
+	width: 96%;
+	margin: 0 auto;
+}
+.order .orderbottom ul{
+	display: flex;
+}
+.order .orderbottom ul li{
+	width: 25%;
+	height: 1.728rem;
+	text-align: center;
+}
+.order .orderbottom  li dl{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+}
+.order .orderbottom  li dl dt{
+	margin-top: 0.288rem;
+	position: relative;
+}
+.order .orderbottom  li dl dt em{
+	display: block;
+	position: absolute;
+	width: 0.5rem;
+	height: 0.5rem;
+	background: #e62d29;
+	text-align: center;
+	line-height: 0.5rem;
+	color: #fff;
+	font-size: 0.3rem;
+	border-radius: 50%;
+	right: 0.54rem;
+	top: -0.1rem;
+}
+.order .orderbottom  li dt img{
+	width: 0.66rem;
+	height: 0.66rem;
+}
+.order .orderbottom  li dl dd{
+	margin-bottom:0.288rem;
+	font-size: 0.277rem;
+	color: #999;
+}
+.order .orderbottom  li dl dd a{
+	font-size: 0.277rem;
+	color: #999;
+}
+
+
+.umsglist-wrap{
+	width: 100%;
+	background: #fff;
+	margin-top: 0.288rem;
+	margin-bottom:60px;
+}
+.umsglist{
+	width: 96%;
+	margin: 0 auto;
+	padding-top: 0.288rem;;
+}
+.banner{
+	height: 1.7281rem;
+}
+.banner img{
+	width: 100%;
+	height: 100%;
+}
+.umsglist ul{}
+.umsglist ul li{
+	height: 1.2777rem;
+	line-height: 1.2777rem;
+	display: flex;
+}
+.umsglist ul li>img{
+	width: 0.6851rem;
+	height: 0.6851rem;
+	display: block;
+	margin-top: 0.2963rem;
+}
+.umsglist ul li h4{
+	flex: 1;
+	background: url(../../img/usercenter/jiantou01.png) no-repeat right center;
+	background-size: 0.235rem 0.4629rem;
+	margin-left: 0.288rem;
+	font-size: 0.4074rem;
+	position: relative;
+}
+.umsglist ul li h4::after{
+	content: '';
+	width: 100%;
+	display: block;
+	position: absolute;
+	bottom: 0;
+	height: 1px;
+	background: #d9d9d9;
+	transform: scaleY(0.5);
+}
+.umsglist ul li:last-child h4::after{
+	background: transparent;
+}
+.umsglist ul li:last-child h4{
+	border-bottom:none;
+}
+.umsglist ul li h4 span{
+	font-size: 0.32rem;
+	color: #868686;
+	display: block;
+	float: right;
+	margin-right: 0.5184rem;
+}
+
+
+
+
+
+.mask{
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	z-index: 100;
+	position: fixed;
+	top: 0;
+	display: none;
+}
+
+.vaguealert{
+	width:75%;
+	position: fixed;
+	z-index: 400;  
+	left: 0;
+	right: 0;
+	top: 3.3rem;
+	margin: auto;
+	text-align:center;
+	font-family: "微软雅黑";
+	display: none;
+	z-index:3000;
+}
+.vaguealert p{
+	padding: 0.15rem 0.2rem;
+	text-align: center;
+	color: white;
+	font-size: 0.24rem;
+	background: rgba(0,0,0,0.7);
+	display:inline;
+	border-radius: 4px;
+	z-index:3000;  
+}
+
+
+.m-passwordInput, .w-tag-l {
+    width: 100%; 
+    margin:0 auto;
+}
+
+.m-passwordInput label {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  
+    background: #fff;
+    white-space: nowrap;
+    text-align: left;
+}
+.m-passwordInput .blockWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    
+	margin:0 auto;
+    border: 1px solid #ccc;
+}
+.m-passwordInput .blockWrapper.active{
+	border: 1px solid #e62d29;
+}
+ 
+.inputArea{
+	width:100%; 
+    height: 0.60rem;
+    padding:0.2rem 0;
+    top: 0;  
+    background:#fff; 
+    padding-left:0.2rem;
+    border:none; 
+    font-size:0.24rem;  
+}
+.inputArea2{
+	width:4.75rem;
+    height: 0.33rem;
+    padding:0.2rem 0;
+    top: 0; 
+    background:#eee;
+    padding-left:0.2rem;
+    border:none; 
+    display:block;
+    margin:0 auto; 
+}
+
+
+/*���ճ齱*/
+.lottery-wrap{
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index:20;
+}
+.box{
+	width: 89.44%;
+	height: 9rem;
+	background: url(../../img/integral/lottery_bg.png) no-repeat;
+	background-size: 100% 100%;
+	margin: 3.04rem auto 0;
+}
+.box .box-top{
+	height: 1.66rem;
+	position: relative;
+}
+.box h3{
+	text-align: center;
+	line-height: 1.66rem;
+	color: #FFFFFF;
+	font-size: 0.5rem;
+}
+.box .close{
+	width: 0.833rem;
+	height: 0.833rem;
+	background: url(../../img/integral/lottery_01.png) no-repeat;
+	background-size: 100% 100%;
+	position: absolute;
+	top: 0.056rem;
+	right: 0.056rem;
+}
+
+.box-content{
+	width: 7.962rem;
+	margin: 0.4722rem auto 0;
+	position: relative;
+}
+
+.lotterylist{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.lotterylist li{
+	margin-top: 0.22rem;
+	width: 2.5rem;
+	height: 2.88rem;
+	background: url(../../img/integral/lottery_08.png) no-repeat;
+	background-size: 100% 100%;
+	transform: rotateY(-180deg);
+}
+.lotterylist li span{
+	display: none;
+	margin-top: 1.888rem;
+	text-align: center;
+}
+.lotterylist li.draw{
+	background: url(../../img/integral/lottery_03.png) no-repeat;
+	background-size: 100% 100%;
+} 
+.lotterylist li.on{
+	background: url(../../img/integral/lottery_02.png) no-repeat;
+	background-size: 100% 100%;
+}
+.lotterylist li.ondraw{
+	background: url(../../img/integral/lottery_05.jpg) no-repeat;
+	background-size: 100% 100%;
+}
+.lotterylist li.participation{
+	background: url(../../img/integral/lottery_06.png) no-repeat;
+	background-size: 100% 100%;
+}
+.lotterylist li.onparticipation{
+	background: url(../../img/integral/lottery_10.png) no-repeat;
+	background-size: 100% 100%;
+}
+.onlottery-wrap{
+	width: 0%;
+	height: 0%;
+	background: url(../../img/integral/lottery_07.png) no-repeat;
+	background-size: 100% 100%;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	z-index: 30;
+	display: none;
+	transform: translate(-50%,-50%);
+	opacity: 0;
+}
+.onlottery-wrap .onlottery{
+	width: 4.111rem;
+	height: 4.861rem;
+	background: url(../../img/integral/lottery_04.png) no-repeat;
+	background-size: 100% 100%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+}
+.onlottery-wrap .offlottery{
+	background: url(../../img/integral/lottery_09.png) no-repeat;
+	background-size: 100% 100%;
+}
+.onlottery-wrap .onlottery h4{
+	margin: 3.25rem auto 0;
+	text-align: center;
+	font-size: 0.5rem;
+}
+.onlottery-wrap .onlottery h4 span{
+	color: #E62D29;
+	font-weight: 600;
+}
+
+
+.guide-wrap{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background: rgba(0,0,0,0.6);
+	top: 0;
+	left: 0;
+	z-index: 60;
+	display:none;
+}
+.guide-wrap .guide-top{
+	width: 80.277%;
+	height: 4.1388rem;
+	background: url(../../img/usercenter/guide_03.png) no-repeat;
+	background-size: 100% 100%;
+	margin-top: 1.2rem;
+	margin-left: 1.2rem;
+}
+.guide-wrap .ghold{
+	width: 88.611%;
+	height:3.22rem;
+	background: url(../../img/usercenter/guide_01.png) no-repeat;
+	background-size: 100% 100%;
+	margin-top: 2.7rem;
+	margin-left: 1.02rem;
+}
+.guide-wrap .roger{
+	width: 2.888rem;
+	height: 1.5rem;
+	background: url(../../img/usercenter/guide_02.png) no-repeat;
+	background-size: 100% 100%;
+	margin: 1.9259rem auto 0;
+}
+
+
+

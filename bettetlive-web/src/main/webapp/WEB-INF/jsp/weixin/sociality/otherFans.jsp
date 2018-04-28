@@ -1,0 +1,76 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%String ref = request.getHeader("REFERER");%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<meta content="telephone=no" name="format-detection">
+    	<meta content="email=no" name="format-detection">
+    	<meta name="keywords" content="挥货,挥货商城,电子商务,网购,电商平台,厨房,农产品,绿色,安全,土特产,健康,品质" /> 
+		<meta name="description" content="挥货，你的美食分享平台" /> 
+    	<link rel="stylesheet" href="${resourcepath}/weixin/css/common.css" /> 
+    	<link rel="stylesheet" href="${resourcepath}/weixin/css/personal.css" />
+    	<script src="${resourcepath}/weixin/js/rem.js"></script>
+    	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    	<title>挥货-TA的粉丝</title>
+    	<script type="text/javascript">
+			var mainServer = '${mainserver}';
+			var title = "挥货 - TA的粉丝";  
+			var desc = "传播好吃的、有趣的美食资讯，只要你会吃、会写、会分享，就能成为美食达人！";
+			var link = '${mainserver}/weixin/socialityhome/toOtherFans?otherCustId=${otherCustId}';
+			var back = link;
+			var imgUrl = "${resourcepath}/weixin/img/huihuologo.png";
+			var myCustId = "${myCustId}";
+			var otherCustId = "${otherCustId}";
+			
+			var backUrl = "${backUrl}";
+			if(backUrl==''){
+				backUrl = mainServer+"/weixin/socialityhome/toOtherSocialityHome?otherCustomerId="+otherCustId;
+			}
+			
+			var _hmt = _hmt || [];
+			(function() {
+			  var hm = document.createElement("script");
+			  hm.src = "https://hm.baidu.com/hm.js?d2a55783801cf33b1c198d5ebd62ec3d";
+			  var s = document.getElementsByTagName("script")[0]; 
+			  s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+	
+	<body style="background:#fff; "> 
+		<div class="initloading"></div>
+		<div class="zanwubg zwguanzhu" style="display: none;">还没有粉丝~</div>   
+		 <div id="dataList" class="gotuanlist">
+		 </div> 
+	 	<div class="loadingmore">   
+			<img src="${resourcepath}/weixin/img/timg.gif" alt="" /><p>正在加载更多的数据...</p>
+		</div>
+		<div class="vaguealert">
+			<p></p>
+		</div>
+		<div class="bkbg" style="display: none;"></div> 
+		<div class="shepassdboxs" style="display: none;">
+				<span>确定要取消关注吗</span>  
+				<div class="qushan">
+					<a class="left" href="javascript:closeConcernAlert();">放弃</a>
+					<a class="right" id="cancelId" href="javascript:void(0);">确定</a> 
+				</div>
+		</div>
+		<input type="hidden" name="pageCount" id="pageCount" value="">
+		<input type="hidden" name="rowCount" id="rowCount" value="">
+	    <input type="hidden" name="pageNow" id="pageNow" value="">
+	    <input type="hidden" name="pageNext" id="pageNext" value="">
+        <input type="hidden" name="myCustId" id="myCustId" value="${myCustId}">
+	</body> 
+	
+	<script src="${resourcepath}/weixin/js/jquery-2.1.1.min.js"></script>
+	<script src="${resourcepath}/weixin/js/common.js"></script>
+	<script type="text/javascript" src="${resourcepath}/weixin/js/sociality/otherFans.js?t=201802271511"></script>
+	<script src="${resourcepath}/weixin/js/shareToWechart.js?t=201802271456"></script>
+	
+	 
+</html>

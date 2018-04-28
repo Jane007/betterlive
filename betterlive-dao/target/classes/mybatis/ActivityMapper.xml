@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ActivityMapper" >
+	
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Activity" >
+		<id column="activity_id"  property="activity_id"  jdbcType="INTEGER"/>
+		<result column="activity_theme" property="activity_theme" jdbcType="VARCHAR"/>
+		<result column="product_id" property="product_id" jdbcType="INTEGER"/>
+		<result column="starttime" property="starttime" jdbcType="VARCHAR"/>
+		<result column="endtime" property="endtime" jdbcType="VARCHAR"/>
+		<result column="create_time" property="create_time" jdbcType="VARCHAR"/>
+		<result column="product_name" property="product_name" jdbcType="VARCHAR"/>
+		
+		<collection property="listActivityProduct"  column="activity_id" select="findActivityPSpecByAid" /> 
+	</resultMap>
+	
+ 	<resultMap  id="BaseSpecResultMap" type="com.kingleadsw.betterlive.model.ActivityProduct" >
+		<id column="activity_spec_id"  property="activity_spec_id"   jdbcType="INTEGER" />
+		<result column="spec_id" property="spec_id" jdbcType="INTEGER" />
+		<result column="activity_price" property="activity_price" jdbcType="VARCHAR" /> 
+	    <result column="spec_name" property="spec_name" jdbcType="VARCHAR" />
+	    <result column="spec_price" property="spec_price" jdbcType="VARCHAR" />
+	</resultMap> 
+	
+	
+	<!-- 根据活动ID查询商品规格优惠 -->
+	<select id="findActivityPSpecByAid" resultMap="BaseSpecResultMap"  parameterType="java.lang.Integer" flushCache="true">
+		select 
+			ap.activity_spec_id,ap.spec_id,ap.activity_price,s.spec_name,s.spec_price 
+		from 
+		t_activity_product ap INNER JOIN t_activity  a ON ap.activity_id=a.activity_id 
+		
+		INNER JOIN  t_product p ON a.product_id=p.product_id AND p.status=1
+		
+		INNER JOIN t_spec s ON ap.spec_id=s.spec_id 
+ 
+		WHERE ap.activity_id=#{activity_id}
+	</select>	
+		
+	<sql id="Base_Column_List" >
+		a.activity_id,
+		a.activity_theme,
+		a.product_id,
+		DATE_FORMAT(a.starttime, '%Y-%m-%d %H:%i:%s') AS starttime,
+		DATE_FORMAT(a.endtime, '%Y-%m-%d %H:%i:%s') AS endtime,
+    	DATE_FORMAT(a.create_time, '%Y-%m-%d %H:%i:%s') AS create_time    
+  	</sql>
+  
+  
+	<!-- //根据条件分页查询活动   -->
+	<select id="findActivityListPage" resultMap="BaseResultMap" parameterType="pd">
+    	SELECT 
+     		<include refid="Base_Column_List" />,p.product_name
+     	
+     	FROM t_activity a INNER JOIN t_product p ON a.product_id=p.product_id  and p.status=1
+     						  	
+     	WHERE  a.activity_id is not null
+     	
+     	<!-- 活动ID--> 
+     	<if test="null != activityId  and ''!= activityId">
+     		and  a.activity_id=#{activityId}
+     	</if>
+     	
+     	<!-- 活动主题--> 
+     	<if test="null != theme  and ''!= theme">
+     		and a.activity_theme like '%${theme}%' 
+     	</if>
+     	
+     	<!-- 产品ID--> 
+     	<if test="null != productId  and ''!= productId">
+     		and  a.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 产品名称-->
+     	<if test="null != productName  and ''!= productName">
+     		and p.product_name=#{productName}
+     	</if>
+     
+  	</select>
+  	
+  	
+  	<!-- //根据条件查询单个活动详细   -->
+	<select id="findActivity" resultMap="BaseResultMap" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />,p.product_name
+     	
+     	FROM t_activity a INNER JOIN t_product p ON a.product_id=p.product_id and p.status=1 
+     						  	
+     	WHERE  a.activity_id is not null
+     	
+     	<!-- 活动ID--> 
+     	<if test="null != activityId  and ''!= activityId">
+     		and  a.activity_id=#{activityId}
+     	</if>
+     	
+     	<!-- 活动主题--> 
+     	<if test="null != theme  and ''!= theme">
+     		and a.activity_theme=#{theme} 
+     	</if>
+     	
+     	<!-- 产品ID--> 
+     	<if test="null != productId  and ''!= productId">
+     		and  a.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 产品名称-->
+     	<if test="null != productName  and ''!= productName">
+     		and p.product_name=#{productName}
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!--//根据条件查询全部活动   -->
+  	<select id="findListActivity" resultMap="BaseResultMap" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />,p.product_name
+     	
+     	FROM t_activity a INNER JOIN t_product p ON a.product_id=p.product_id  and p.status=1
+     						  	
+     	WHERE  a.activity_id is not null
+     	
+     	<!-- 活动ID--> 
+     	<if test="null != activityId  and ''!= activityId">
+     		and  a.activity_id=#{activityId}
+     	</if>
+     	
+     	<!-- 活动主题--> 
+     	<if test="null != theme  and ''!= theme">
+     		and a.activity_theme=#{theme} 
+     	</if>
+     	
+     	<!-- 产品ID--> 
+     	<if test="null != productId  and ''!= productId">
+     		and  a.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 产品名称-->
+     	<if test="null != productName  and ''!= productName">
+     		and p.product_name=#{productName}
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!-- //增加活动 -->
+  	<insert id="insertActivity" parameterType="com.kingleadsw.betterlive.model.Activity" useGeneratedKeys="true" keyProperty="activity_id" >
+    	insert into t_activity (activity_id,
+									activity_theme,
+									product_id,
+									starttime,
+									endtime,
+									create_time
+
+    				  			)
+    				  		values (null,
+	    				  	 	    #{activity_theme},
+	    				  	 	    #{product_id},
+	    				  	 	    #{starttime}, 
+	    				  	 	    #{endtime},
+	    				  	 	    now()
+	    				  	 	  )
+  	</insert>
+   	
+   	<!-- //根据活动ID修改活动 -->
+    <update id="updateActivityByAid" parameterType="pd" >
+    	update t_activity 
+
+			<set>
+				<!-- 活动主题--> 
+		     	<if test="null != theme  and ''!= theme">
+		     		activity_theme=#{theme}, 
+		     	</if>
+		     	
+		     	<!-- 产品ID
+		     	<if test="null != productId  and ''!= productId">
+		     		product_id=#{productId}, 
+		     	</if>
+     			-->
+     			 
+				<!-- 开始时间-->
+		     	<if test="null != starttime  and ''!= starttime">
+		     		starttime=#{starttime},
+		     	</if>
+									
+		     	<!-- 结束时间 -->
+		     	<if test="null != endtime  and ''!= endtime">
+		     		endtime=#{endtime},
+		     	</if>
+			</set> 
+    	where activity_id=#{activityId}
+    	
+    </update> 
+    
+    <!--  //根据活动ID删除活动   -->
+    <delete id="deleteByAid" parameterType="java.lang.String" >
+    	delete from  t_activity where activity_id=#{activityId}
+    </delete> 
+     
+</mapper>

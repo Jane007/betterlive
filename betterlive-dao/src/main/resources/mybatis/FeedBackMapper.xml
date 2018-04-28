@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.FeedBackMapper">
+
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.FeedBack">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="contact" property="contact" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+		<result column="customer_id" property="customer_id" jdbcType="INTEGER" />
+		<result column="target" property="target" jdbcType="CHAR" />
+	    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+	    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+	    
+	</resultMap> 
+	 <sql id="Base_Column_List" >
+	 	f.content , f.contact ,f.update_time,f.customer_id,f.target, create_time
+  	</sql>
+	<insert id="insert" parameterType="com.kingleadsw.betterlive.model.FeedBack"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_feedback (id,
+		content,
+		contact,
+		create_time,
+		update_time,
+		customer_id,
+		target
+		)
+		values
+		(null,
+		#{content},
+		#{contact},
+		now(),
+		now(),
+		#{customer_id},
+		#{target}
+		)
+	</insert>
+	
+	
+	<select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+		SELECT
+			f.*, c.nickname,
+			c.mobile
+		FROM
+			t_feedback f,
+			t_customer c
+		WHERE
+			f.customer_id = c.customer_id and 1=1
+		 <if test="create_time != null and create_time != '' ">
+			AND DATE_FORMAT(f.create_time,'%Y-%m-%d')  <![CDATA[ >= ]]>  DATE_FORMAT(#{create_time},'%Y-%m-%d')
+    	</if>	 
+    	<if test="update_time != null and update_time != ''">
+			AND DATE_FORMAT(f.update_time,'%Y-%m-%d')  <![CDATA[ <= ]]>  DATE_FORMAT(#{update_time},'%Y-%m-%d') 
+    	</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_feedback 
+    where id = #{id}
+  </delete>
+  
+  
+</mapper>

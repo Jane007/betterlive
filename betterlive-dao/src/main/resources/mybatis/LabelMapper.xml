@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.LabelMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Label" >
+    <id column="label_id" property="labelId" jdbcType="INTEGER" />
+    <result column="label_type" property="labelType" jdbcType="INTEGER" />
+    <result column="label_name" property="labelName" jdbcType="VARCHAR" />
+    <result column="search_count" property="searchCount" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="label_sort" property="labelSort" jdbcType="INTEGER" />
+    <result column="home_flag" property="homeFlag" jdbcType="INTEGER" />
+    <result column="product_ids" property="productIds" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    label_id, label_type, label_name, search_count, label_sort, status, home_flag,product_ids
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_label
+    where label_id = #{labelId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_label
+    where 1=1
+    <if test="labelId != null">
+    	and label_id = #{labelId}
+    </if>
+    <if test="homeFlag != null">
+    	and home_flag = #{homeFlag}
+    </if>
+    <if test="status != null">
+  		and status = #{status}
+  	</if>
+  	limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update t_label set status = 1
+    where label_id = #{labelId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.Label" >
+    insert into t_label (label_type, label_name, search_count, status, label_sort, home_flag)
+    values (#{labelType}, #{labelName}, #{searchCount}, #{status}, #{labelSort}, #{homeFlag})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.Label" >
+    update t_label
+    set search_count = #{searchCount}
+    where label_id = #{labelId}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.Label" >
+    update t_label
+    set label_type=#{labelType}, label_name=#{labelName}, status=#{status}, label_sort=#{labelSort},home_flag=#{homeFlag}, product_ids=#{productIds}
+    where label_id = #{labelId}
+  </update>
+  
+  <update id="updateHomeFlag">
+    update t_label set home_flag= 0
+  </update>
+  
+  <select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" /> FROM t_label where 1=1
+  	
+  	<if test="labelName != null and labelName != ''">
+  		and label_name = #{labelName}
+  	</if>
+  	<if test="labelType != null and labelType != ''">
+  		and label_type = #{labelType}
+  	</if>
+	<if test="status != null">
+  		and status = #{status}
+  	</if>
+  	
+  	 order by label_sort asc
+  	
+  	<if test="rowStart != null">
+  		limit #{rowStart}, #{pageSize}
+  	</if>
+  </select>
+  
+    <select id="queryReportListPage" parameterType="pd" resultMap="BaseResultMap">
+  	SELECT tl.label_id,tl.label_type,tl.label_name,COUNT(tl.search_count) search_count,tl.label_sort,STATUS 
+  	FROM t_label tl,t_search_record ts WHERE 1 = 1 AND tl.label_id = ts.label_id
+  	
+  	<if test="labelName != null and labelName != ''">
+  		and tl.label_name = #{labelName}
+  	</if>
+  	<if test="labelType != null and labelType != ''">
+  		and tl.label_type = #{labelType}
+  	</if>
+  	 <if test="startTime != null and startTime != ''">
+  		and ts.create_time &gt;= #{startTime}
+  	</if>
+  	 <if test="endTime != null and endTime != ''">
+  		and ts.create_time &lt;= #{endTime}
+  	</if>
+  	
+	<if test="status != null">
+  		and tl.status = #{status}
+  	</if>
+  	 GROUP BY tl.label_id
+  	 order by tl.label_sort asc
+  	
+  	<if test="rowStart != null">
+  		limit #{rowStart}, #{pageSize}
+  	</if>
+  </select>
+  
+</mapper>

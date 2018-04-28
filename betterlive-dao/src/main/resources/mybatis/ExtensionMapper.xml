@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ExtensionMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Extension">
+		<id column="extension_id" property="extensionId" jdbcType="INTEGER" />
+		<result column="extension_type" property="extensionType" jdbcType="TINYINT" />
+	 	<result column="product_id" property="productId" jdbcType="INTEGER" />
+	 	<result column="is_homepage" property="isHomepage" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		e.extension_id,e.extension_type,e.product_id,e.is_homepage
+	</sql>
+	
+	
+	<!-- 分页查询数据 -->
+	<select id="queryListPage" resultMap="BaseResultMap"  parameterType="pd">
+		select 
+     		<include refid="Base_Column_List"/>
+     	
+		from t_extension  e INNER JOIN t_product p ON e.product_id=p.product_id  
+		
+     	where  p.status=1 
+     	<if test="null!=extensionId and 0!=extensionId">
+     		and e.extension_id=#{extensionId}
+     	</if>
+     	<if test="null!=extensionType">
+     		and e.extension_type=#{extensionType}
+     	</if>
+     	
+     	<if test="null!=isHomepage and null==showAll">
+     		and e.is_homepage=#{isHomepage}
+     	</if>
+     	<if test="null!=productId and 0!=productId">
+     		and e.product_id =#{productId}
+     	</if>
+     	  ORDER BY order_num ASC
+	</select>
+	
+	
+	<!-- 根据条件查询列表数据 -->
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd">
+			select 
+     		<include refid="Base_Column_List" />
+     	
+     	from t_extension  e INNER JOIN t_product p ON e.product_id=p.product_id  
+     	where  p.status=1
+     	
+     	<if test="null!=extensionId and 0!=extensionId">
+     		and e.extension_id=#{extensionId}
+     	</if>
+     	<if test="null!=extensionType">
+     		and e.extension_type=#{extensionType}
+     	</if>
+     	<if test="null!=isHomepage">
+     		and e.is_homepage=#{isHomepage}
+     	</if>
+     	<if test="null!=productId and 0!=productId">
+     		and e.product_id =#{productId}
+     	</if>
+	</select>
+	
+	
+	<!-- 根据选定的条件查出单个的推荐 -->
+	<select id="selectExtensionByOption" resultMap="BaseResultMap" parameterType="pd">
+		select 
+     		<include refid="Base_Column_List" />
+     	from t_extension  e INNER JOIN t_product p ON e.product_id=p.product_id 
+     	where  1=1
+     	<if test="productStatus != null">
+     		and p.status=#{productStatus}
+     	</if>
+     	<if test="null!=extensionId and 0!=extensionId">
+     		and e.extension_id=#{extensionId}
+     	</if>
+     	<if test="null!=productId and 0!=productId">
+     		and e.product_id=#{productId}
+     	</if>
+     	<if test="null!=extensionType and 0!=extensionType">
+     		and e.extension_type=#{extensionType}
+     	</if>
+
+     	
+	</select>
+	<!-- 插入推荐商品 -->
+	<insert id="insertExtension" parameterType="com.kingleadsw.betterlive.model.Extension">
+		insert into t_extension ( extension_id,
+								  extension_type,
+								  product_id,
+								  is_homepage
+						) values ( NULL,
+								   #{extensionType},
+								   #{productId},
+								   #{isHomepage}
+							)
+	</insert>
+	
+	<!-- 新增每周推荐和每日新品 -->
+	<insert id="insertBatchFromList" parameterType="java.util.List">
+		insert into t_extension (extension_id,
+			extension_type,
+			product_id,
+			is_homepage)
+	  	values 
+	  	<foreach collection="list" item="l" separator=",">
+	  		(NULL,
+  	 	    #{l.extensionType},
+  	 	    #{l.productId},
+  	 	    #{l.isHomepage}
+  	 	 	)
+	  	</foreach> 	  
+  	</insert>
+	
+	<!-- 更新推荐商品相关信息 -->
+	<update id="updateExtension" parameterType="com.kingleadsw.betterlive.model.Extension">
+		update t_extension
+			set extension_type =#{extensionType},
+				product_id =#{productId},
+				is_homepage =#{isHomepage}
+			where extension_id =#{extensionId} 
+ 	</update>
+	
+
+	<!-- 删除推荐商品信息 -->
+<delete id="deleteExtensionById">
+		delete from t_extension where extension_id =#{extensionId}
+	</delete>
+</mapper>

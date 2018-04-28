@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SpecialArticleTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SpecialArticleType" >
+    <id column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+ 	<result column="status" property="status" jdbcType="INTEGER" />
+ 	<result column="sort" property="sort" jdbcType="INTEGER" />
+	<result column="type_cover" property="typeCover" jdbcType="VARCHAR" />
+	<result column="type_count" property="typeCount" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.type_id, t.type_name, t.status, t.sort, t.type_cover
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+		<include refid="Base_Column_List"/>
+	FROM
+		t_special_article_type t
+	WHERE t.type_id = #{typeId}
+  </select>
+  
+  <select id="queryList" resultMap="BaseResultMap" parameterType="pd" >
+    SELECT
+		<include refid="Base_Column_List"/>,
+		(select count(1) from t_special_article tsa where tsa.status = 1 and tsa.article_type_id = t.type_id) type_count
+	FROM
+		t_special_article_type t
+	WHERE 1=1
+		<if test="status != null and status > -1">
+  		and t.status = #{status}
+		</if>
+	 ORDER BY t.sort
+  </select>
+  
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+    SELECT
+		<include refid="Base_Column_List"/>
+	FROM
+		t_special_article_type t
+	WHERE 1=1
+		<if test="typeName != null">
+  			and t.type_name like '%${typeName}%'
+		</if>
+		<if test="status != null and status > -1">
+  			and t.status = #{status}
+		</if>
+	 ORDER BY t.sort
+  </select>
+  
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SpecialArticleType" useGeneratedKeys="true"  keyProperty="typeId">
+    insert into t_special_article_type 
+    	(
+    		type_id,
+			type_name,
+			status,
+			sort,
+			type_cover
+		)
+    values 
+    	(
+    	    #{typeId},
+			#{typeName},
+			#{status},
+			#{sort},
+			#{typeCover}
+    	)
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="pd">
+	  update t_special_article_type 
+	  	<set>
+	  		type_name = #{typeName},
+	  		status = #{status},
+	  		sort = #{sort},
+	  		type_cover = #{typeCover}
+	  	</set> 
+	  where type_id = #{typeId}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.SpecialArticleType">
+	  update t_special_article_type 
+	  	<set>
+	  		<if test="typeName != null and typeName != ''">
+	  			type_name = #{typeName},
+	  		</if>
+	  		<if test="typeCover != null">
+	  			type_cover = #{typeCover},
+  			</if>
+  			status = #{status},
+	  		sort = #{sort},
+	  	
+	  	</set> 
+	  where type_id = #{typeId}
+  </update>
+  	
+  <delete id="updateStatusByPrimaryKey" parameterType="pd" >
+	    update t_special_article_type
+	    	set status = #{status}
+	    where type_id = #{typeId,jdbcType=INTEGER}
+  </delete>
+</mapper>

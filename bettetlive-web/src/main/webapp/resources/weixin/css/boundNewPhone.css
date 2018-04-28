@@ -1,0 +1,205 @@
+.header{
+	border-bottom: 1px solid #dcdcdb;
+}
+/*绑定手机*/
+.mainBox{
+	width: 100%;
+	position: fixed;
+	top: 0.98rem;
+	bottom: 0;
+	overflow-y: scroll;
+	font-size:0.24rem;
+}
+.stepBox{
+	padding:0.52rem 1.42rem 0;
+}
+.steplist{
+	color: #666666;
+	font-size: 0.22rem;
+	width: 100%;
+}
+.steplist span{
+	display: inline-block;
+	width: 48%;
+}
+.steplist .s2{
+	text-align: end;
+}
+.steplist span.active{
+	color: #AA2C23;
+}
+.stepBox p{
+	width: 100%;
+	height: 0.05rem;
+	background: #c9c9c9;
+	margin: 0.3rem auto 0;
+	border-radius: 10px;
+	overflow: hidden;
+}
+.stepBox p span{
+	width: 50%;
+	height: 0.05rem;
+	display: block;
+	background: #aa2c23;
+	border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+.contentBox{
+	  
+}
+form.verification{
+	width: 100%;
+}
+form.verification ul{
+	padding: 0 0.36rem;
+	background: #fff; 
+}
+form.verification ul li {
+	width: 100%;
+	height: 0.98rem;
+	line-height:1.01rem;
+	background: #fff; 
+	border-bottom: 1px solid #e5e5e5;
+}
+form.verification ul li input{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	font-family: "微软雅黑";
+	outline: none;
+	background: transparent;
+	border: 0;
+	color: #666666;
+	font-size: 0.26rem; 
+}
+form.verification ul li:last-child{
+	border-bottom: 0;
+}
+form.verification ul li.phoneBox input{
+	float:left;
+	width: 66%;
+	color: #333333;
+}
+form.verification ul li.phoneBox span{
+	float:right;
+	display: inline-block;
+	width: 34%;
+	text-align: center;
+	color: white;
+	height: 0.65rem;
+	line-height: 0.68rem;
+	background: #e62d29;  
+	border-radius: 2px;
+	margin: 0.16rem 0 0 0;
+	color: white;
+	text-align: center;
+}
+form.verification ul li.phoneBox span.active{
+	background: #c9c9c9;
+}
+.amendBox{
+	display: none;
+}
+.form-title{
+	text-align: center;
+	margin-bottom: 0.5rem;
+}
+form.setting{
+	background: #fbfaf3;
+	padding: 0.45rem 0 0.5rem;
+}
+form.affirm{
+	background: #fbfaf3;
+	padding: 0 0 0.54rem;
+}
+.identityBox a{
+	float: right;
+	margin:0.42rem 0.43rem 0 0;
+	padding-right: 0.25rem;
+	background: url(../img/clickright.png) no-repeat right center;
+    background-size: 10%;
+    color: #333333;
+}
+.confirmBox{
+	width: 88%;
+	height: 0.81rem;
+	text-align: center;
+	line-height: 0.84rem;
+	color: white;
+	background: #AA2C23;
+	margin: 0.53rem auto 0;
+	border-radius: 2px;
+	font-size: 0.28rem;
+}
+
+
+.nextStep{
+	width: 95%;
+    height: 0.81rem;
+    text-align: center;
+    line-height: 0.84rem;
+    color: white; 
+    background: #e62d29;  
+    margin: 0.23rem auto 0;
+    border-radius: 2px;
+    font-size: 0.28rem;
+}
+
+.set-success{
+	font-family: "微软雅黑";
+    width: 70%;
+    background: white;
+    padding-bottom:0.1rem;
+    position: fixed;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 1002;
+    border-radius: 4px;
+    font-size: 0.26rem;
+    overflow: hidden;
+    display: none;
+}
+.set-success img{
+	width: 1.01rem;
+	height: 1.01rem;
+	display: block;
+	margin: 0.5rem auto 0.25rem;
+}
+.set-success p{
+	text-align: center;
+	margin-top:0.1rem;
+}
+.set-success .backlogin{
+	display: inline-block;
+	margin:0.5rem 0 0 0;
+	width: 100%;
+	height: 0.8rem;
+	line-height: 0.83rem;
+	text-align: center;
+	color: #aa2c23;
+	font-size: 0.24rem;
+	border-top: 1px solid #dcdcdc;
+}
+
+ 
+.fbtitle{ position:relative;}
+.fbtitle span{position:absolute; font-size:0.2rem;color:#868686;right:0rem;top:0rem; background:#fff; width:0.5rem; text-align:right; } 
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CustomerCashMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.CustomerCash" >
+    <id column="record_id" property="recordId" jdbcType="INTEGER" />
+    <result column="sys_id" property="sysId" jdbcType="INTEGER" />
+    <result column="band_coupon" property="bandCoupon" jdbcType="VARCHAR" />
+    <result column="band_type" property="bandType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="code_value" property="codeValue" jdbcType="VARCHAR" />
+    <result column="receive_time" property="receiveTime" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.record_id, t.code_value, t.sys_id, t.customer_id, t.band_coupon, t.band_type, t.status, DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') create_time
+  </sql>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer_cash t where 1=1
+    <if test="codeValue != null and codeValue != ''">
+    	and t.code_value = #{codeValue}
+    </if>
+    limit 1
+  </select>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.CustomerCash" useGeneratedKeys="true"  keyProperty="recordId">
+    insert into t_customer_cash 
+    	(
+			code_value,
+			sys_id,
+			customer_id,
+			band_coupon,
+			band_type,
+			status,
+			create_time
+		)
+    values 
+    	(
+		   #{codeValue},
+		   #{sysId},
+	       #{customerId},
+		   #{bandCoupon},
+		   #{bandType},
+		   #{status},
+		   NOW()
+    	)
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.CustomerCash" >
+  	update t_customer_cash
+  		<set>
+  			customer_id = #{customerId},
+  			status = #{status},
+  			receive_time = #{receiveTime}
+  		</set>
+  	 where
+  	 	record_id = #{recordId}
+   </update>
+  
+</mapper>

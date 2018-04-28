@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ProductLabelMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ProductLabel" >
+    <id column="product_label_id" property="productLabelId" jdbcType="INTEGER" />
+    <result column="label_title" property="labelTitle" jdbcType="VARCHAR" />
+    <result column="label_type" property="labelType" jdbcType="INTEGER" />
+    <result column="show_start" property="showStart" javaType="String" jdbcType="VARCHAR" />
+    <result column="show_end" property="showEnd" javaType="String" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" javaType="String" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />	
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="product_code" property="product_code" jdbcType="VARCHAR" />
+    <result column="product_name" property="product_name" jdbcType="VARCHAR" />	
+    <result column="product_status" property="product_status" jdbcType="INTEGER" />		
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.product_label_id, t.label_title, t.label_type, DATE_FORMAT(t.show_start,'%Y-%m-%d %H:%i:%s') show_start, DATE_FORMAT(t.show_end,'%Y-%m-%d %H:%i:%s') show_end, t.product_id ,DATE_FORMAT(t.create_time,'%Y-%m-%d') create_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />,t.product_name
+    from t_product_label t
+    where t.product_label_id = #{productLabelId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+	    <include refid="Base_Column_List" />
+	    ,p.status product_status, p.product_code, p.product_name  
+    from t_product_label t,t_product p where  t.product_id = p.product_id 
+    <if test="productLabelId != null and productLabelId > 0">
+  		and t.product_label_id = #{productLabelId}
+	</if>
+    <if test="productId != null">
+    	and t.product_id = #{productId}
+    </if>
+    <if test="status != null">
+    	and t.status = #{status}
+    </if>
+    <if test="nowTime != null">
+    	and t.show_start <![CDATA[ <= ]]> #{nowTime}
+    	and t.show_end <![CDATA[ >= ]]> #{nowTime}
+    </if>
+    limit 1
+  </select>
+  
+  <delete id="delProductlabel" parameterType="java.lang.Integer" >
+    delete from t_product_label 
+    where product_label_id = #{productLabelId}
+
+  </delete>
+  
+  <insert id="insertProductlabel" parameterType="com.kingleadsw.betterlive.model.ProductLabel" >
+    insert into t_product_label (label_title,label_type,show_start,show_end,product_id, status, create_time)
+    values (#{labelTitle}, #{labelType}, #{showStart}, #{showEnd}, #{productId}, #{status}, now())
+  </insert>
+  
+  <update id="editproductlabel" parameterType="com.kingleadsw.betterlive.model.ProductLabel" >
+		update t_product_label 
+    		<set>
+    			<if test="labelTitle!=null">
+    				label_title=#{labelTitle},
+    			</if>
+    			<if test="labelType!=null">
+    				 label_type=#{labelType},
+    			</if>
+    			<if test="showStart!=null">
+    				 show_start=#{showStart},
+    			</if>
+    			<if test="showEnd!=null">
+    				 show_end=#{showEnd},
+    			</if>
+    			product_id = product_id
+    		</set>
+    	where product_label_id=#{productLabelId}
+  </update>
+  
+  
+  
+  <select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+  	SELECT <include refid="Base_Column_List" /> ,p.status product_status, p.product_code, p.product_name 
+  		FROM t_product_label t,t_product p where  t.product_id = p.product_id
+  	
+  	<if test="labelTitle != null and labelTitle != ''">
+  		and t.label_title like '%${labelTitle}%'
+  	</if>
+  	<if test="product_name != null and product_name != ''">
+  		and p.product_name like '%${product_name}%'
+  	</if>
+  	<if test="product_code != null and product_code != ''">
+  		and p.product_code like '%${product_code}%'
+  	</if>
+  	<if test="labelType != null and labelType != ''">
+  		and t.label_type = #{labelType}
+  	</if>
+  	<if test="showTime != null and showTime != ''">
+  		and DATE_FORMAT(t.show_start,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{showTime},'%Y-%m-%d')
+  	</if>
+  	
+  	 order by t.product_label_id desc
+  	
+  	<if test="rowStart != null">
+  		limit #{rowStart}, #{pageSize}
+  	</if>
+  </select>
+  
+</mapper>

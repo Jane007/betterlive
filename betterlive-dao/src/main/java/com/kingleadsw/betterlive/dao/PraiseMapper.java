@@ -1,0 +1,10 @@
+package com.kingleadsw.betterlive.dao;
+
+import com.kingleadsw.betterlive.core.dao.BaseMapper;
+import com.kingleadsw.betterlive.model.Praise;
+
+public interface PraiseMapper extends BaseMapper<Praise>{
+
+	int insertPraise(Praise praise);
+
+}

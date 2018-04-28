@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.OrderMapper" >
+	
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Order">
+		<id column="order_id"  property="order_id"           jdbcType="INTEGER"/>
+		<result column="order_code"   property="order_code"  jdbcType="VARCHAR"/>
+		<result column="order_type"   property="order_type"  jdbcType="INTEGER"/>
+		<result column="pre_id"       property="pre_id"      jdbcType="INTEGER"/>
+		<result column="customer_id"  property="customer_id"  jdbcType="INTEGER"/>
+		<result column="pay_type"     property="pay_type"       jdbcType="INTEGER"/>
+		<result column="total_price"  property="total_price"    jdbcType="VARCHAR"/>
+		<result column="pay_money"    property="pay_money"      jdbcType="VARCHAR"/>
+		<result column="freight"      property="freight"        jdbcType="VARCHAR"/>
+		<result column="message_info"  property="message_info"  jdbcType="VARCHAR"/>
+		<result column="status"        property="status"        jdbcType="INTEGER"/>
+		<result column="use_coupon"    property="use_coupon"    jdbcType="INTEGER"/>
+		<result column="conpon_money"  property="conpon_money"  jdbcType="VARCHAR"/>
+		<result column="use_gift_card"    property="use_gift_card"    jdbcType="VARCHAR"/>
+		<result column="gitf_card_money"  property="gitf_card_money"  jdbcType="VARCHAR"/>
+		<result column="mobile"           property="mobile"           jdbcType="VARCHAR"/>
+		<result column="receiver"         property="receiver"         jdbcType="VARCHAR"/>
+		<result column="address"          property="address"          jdbcType="VARCHAR"/>
+		<result column="is_comment"       property="is_comment"       jdbcType="INTEGER"/>
+		<result column="order_time"       property="order_time"       jdbcType="VARCHAR"/>
+		<result column="customer_name"       property="customer_name"       jdbcType="VARCHAR"/>
+		<result column="use_single_coupon_id"       property="use_single_coupon_id"       jdbcType="INTEGER"/>
+		<result column="group_join_id"       property="groupJoinId"       jdbcType="INTEGER"/>
+		<result column="order_source"       property="orderSource"       jdbcType="VARCHAR"/>
+		<result column="customer_source"       property="customerSource"       jdbcType="VARCHAR"/>
+		<result column="product_id"       property="productId"       jdbcType="VARCHAR"/>
+		<result column="total_redeem_integral" property="totalRedeemIntegral" jdbcType="DECIMAL"/>
+		<result column="total_gold_integral" property="totalGoldIntegral" jdbcType="DECIMAL"/>
+		<result column="total_redeem_money" property="totalRedeemMoney" jdbcType="DECIMAL"/>
+		<result column="total_gold_money" property="totalGoldMoney" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<resultMap id="BaseJionResultMap"  type="com.kingleadsw.betterlive.model.Order" >
+		<id column="order_id"  property="order_id"           jdbcType="INTEGER"/>
+		<result column="order_code"   property="order_code"  jdbcType="VARCHAR"/>
+		<result column="order_type"   property="order_type"  jdbcType="INTEGER"/>
+		<result column="pre_id"       property="pre_id"      jdbcType="INTEGER"/>
+		<result column="customer_id"  property="customer_id"  jdbcType="INTEGER"/>
+		<result column="pay_type"     property="pay_type"       jdbcType="INTEGER"/>
+		<result column="total_price"  property="total_price"    jdbcType="VARCHAR"/>
+		<result column="pay_money"    property="pay_money"      jdbcType="VARCHAR"/>
+		<result column="freight"      property="freight"        jdbcType="VARCHAR"/>
+		<result column="message_info"  property="message_info"  jdbcType="VARCHAR"/>
+		<result column="status"        property="status"        jdbcType="INTEGER"/>
+		<result column="use_coupon"    property="use_coupon"    jdbcType="INTEGER"/>
+		<result column="conpon_money"  property="conpon_money"  jdbcType="VARCHAR"/>
+		<result column="use_gift_card"    property="use_gift_card"    jdbcType="VARCHAR"/>
+		<result column="gitf_card_money"  property="gitf_card_money"  jdbcType="VARCHAR"/>
+		<result column="mobile"           property="mobile"           jdbcType="VARCHAR"/>
+		<result column="receiver"         property="receiver"         jdbcType="VARCHAR"/>
+		<result column="address"          property="address"          jdbcType="VARCHAR"/>
+		<result column="is_comment"       property="is_comment"       jdbcType="INTEGER"/>
+		<result column="order_time"       property="order_time"       jdbcType="VARCHAR"/>
+		<result column="customer_name"       property="customer_name"       jdbcType="VARCHAR"/>
+		<result column="use_single_coupon_id"       property="use_single_coupon_id"       jdbcType="INTEGER"/>
+		<result column="quantity_total"       property="quantityTotal"       jdbcType="INTEGER"/>
+		<result column="group_join_id"       property="groupJoinId"       jdbcType="INTEGER"/>
+		<result column="quantity_detail"       property="quantity_detail"       jdbcType="INTEGER"/>
+		
+		<result column="order_source"       property="orderSource"       jdbcType="VARCHAR"/>
+		<result column="customer_source"       property="customerSource"       jdbcType="VARCHAR"/>
+		<collection property="listOrderProduct" column="order_id" select="findOrderProductById" /> 
+	</resultMap>
+	
+	<resultMap id="BaseJionResultMap2"  type="com.kingleadsw.betterlive.model.Order" >
+		<id column="order_id"  property="order_id"           jdbcType="INTEGER"/>
+		<result column="order_code"   property="order_code"  jdbcType="VARCHAR"/>
+		<result column="order_type"   property="order_type"  jdbcType="INTEGER"/>
+		<result column="pre_id"       property="pre_id"      jdbcType="INTEGER"/>
+		<result column="customer_id"  property="customer_id"  jdbcType="INTEGER"/>
+		<result column="pay_type"     property="pay_type"       jdbcType="INTEGER"/>
+		<result column="total_price"  property="total_price"    jdbcType="VARCHAR"/>
+		<result column="pay_money"    property="pay_money"      jdbcType="VARCHAR"/>
+		<result column="freight"      property="freight"        jdbcType="VARCHAR"/>
+		<result column="message_info"  property="message_info"  jdbcType="VARCHAR"/>
+		<result column="status"        property="status"        jdbcType="INTEGER"/>
+		<result column="use_coupon"    property="use_coupon"    jdbcType="INTEGER"/>
+		<result column="conpon_money"  property="conpon_money"  jdbcType="VARCHAR"/>
+		<result column="use_gift_card"    property="use_gift_card"    jdbcType="VARCHAR"/>
+		<result column="gitf_card_money"  property="gitf_card_money"  jdbcType="VARCHAR"/>
+		<result column="mobile"           property="mobile"           jdbcType="VARCHAR"/>
+		<result column="receiver"         property="receiver"         jdbcType="VARCHAR"/>
+		<result column="address"          property="address"          jdbcType="VARCHAR"/>
+		<result column="is_comment"       property="is_comment"       jdbcType="INTEGER"/>
+		<result column="order_time"       property="order_time"       jdbcType="VARCHAR"/>
+		<result column="customer_name"       property="customer_name"       jdbcType="VARCHAR"/>
+		<result column="use_single_coupon_id"       property="use_single_coupon_id"       jdbcType="INTEGER"/>
+		<result column="quantity_total"       property="quantityTotal"       jdbcType="INTEGER"/>
+		<result column="group_join_id"       property="groupJoinId"       jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<select id="findOrderProductById" resultType="com.kingleadsw.betterlive.model.OrderProduct"  parameterType="java.lang.Integer" flushCache="true">
+		select 
+			op.orderpro_id,
+			op.order_id,
+			op.product_id,
+			op.product_name,
+			op.spec_id,
+			op.spec_name,
+			s.spec_img,
+			op.quantity,
+			op.price,
+			op.is_evaluate,
+			op.activity_price,
+			op.discount_price,
+			s.spec_img,
+		    p.`status` as product_status,
+		    op.coupon_money,
+		    op.cut_money,
+		    op.logistics_code,
+			op.company_code,
+			DATE_FORMAT(op.send_time, '%Y-%m-%d %H:%i:%s') AS send_time, 
+			op.status,
+			op.sub_order_code,
+			op.quantity
+     	FROM t_order_product op INNER JOIN t_product p ON op.product_id=p.product_id
+     	INNER JOIN t_spec s ON s.spec_id = op.spec_id 
+     	
+     	WHERE op.order_id=#{order_id}  
+	</select>
+	
+	
+		
+	<sql id="Base_Column_List" >
+		o.order_id,
+		o.order_code,
+		o.order_type,
+		o.pre_id,
+		o.customer_id,
+		o.pay_type,
+		o.total_price,
+		o.pay_money,
+		o.freight,
+		o.message_info,
+		o.status,
+		o.use_coupon,
+		o.conpon_money,
+		o.use_gift_card,
+		o.gitf_card_money,
+		o.mobile,
+		o.receiver,
+		o.address,
+		o.is_comment,
+		o.use_single_coupon_id,
+		o.group_join_id,
+		o.order_source,
+		o.total_redeem_integral,
+		o.total_gold_integral,
+		o.total_redeem_money,
+		o.total_gold_money,
+    	DATE_FORMAT(o.order_time, '%Y-%m-%d %H:%i:%s') AS order_time    
+  	</sql>
+  
+    <select id="findAllorders" resultType="com.kingleadsw.betterlive.model.Order" parameterType="pd">
+     SELECT
+     		<include refid="Base_Column_List" />
+     	FROM t_order o
+  	</select>
+  	
+  	
+  
+  	 <select id="queryOne" resultType="com.kingleadsw.betterlive.model.Order" parameterType="pd">
+       SELECT
+     		<include refid="Base_Column_List" />
+     	 FROM t_order o where 1=1
+     	<!-- 订单ID -->
+		<if test="null != orderId">
+     	    and o.order_id=#{orderId}
+     	</if>
+     	limit 1
+    </select>	
+    
+    <!--//根据条件分页查询订单    -->
+	<select id="findAllorderListPage" resultMap="BaseJionResultMap" parameterType="pd">
+    	SELECT
+     		<include refid="Base_Column_List" />,c.nickname as customer_name, c.source as customer_source
+     	FROM t_order o  inner join t_customer c on o.customer_id=c.customer_id INNER JOIN t_order_product top ON o.order_id = top.order_id 
+     	WHERE  o.order_id IS NOT NULL
+     	
+		<!-- 订单ID -->
+		<if test="null != orderId  and ''!= orderId">
+     	    and o.order_id=#{orderId}
+     	</if>
+     	
+		<!-- 订单编号 -->	
+		<if test="null != orderCode  and ''!= orderCode">
+     	    and o.order_code like '%${orderCode}%'
+     	</if>
+     	
+     	<!-- 订单状态  单个状态-->
+     	<if test="null!= status  and ''!= status ">
+     		and o.status=#{status}
+     	</if>
+     	
+     	<!-- 订单状态  全部(除去删除, 大于0 )  -->
+     	<if test="null!= statusALL  and ''!=statusALL ">
+     		and o.status > #{statusALL}
+     	</if>
+     	
+     	<!--订单类型；1：普通订单，2：预购订单 -->
+     	<if test="null != orderType  and ''!= orderType">
+     		and o.order_type=#{orderType}
+     	</if>
+     	
+     	<!--支付方式，1：支付宝；2：微信；3：银联 -->
+     	<if test="null != payType  and ''!= payType">
+     		and o.pay_type=#{payType}
+     	</if>
+     	
+     	<if test="null!=hasBuy and ''!=hasBuy ">
+     		and o.status&gt;=2 and o.status&lt;6
+     	</if>
+     	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and o.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 用户名称 -->
+     	<if test="null != customerName  and ''!= customerName ">
+     		and c.nickname like '${customerName}%'
+     	</if>
+     	<if test="null != customerMobile and ''!=customerMobile">
+     		and c.mobile like '${customerMobile}%'
+     	</if>
+     	
+     	<!-- 预购单ID -->
+     	<if test="null != prePayId  and ''!= prePayId">
+     		and o.pre_id=#{prePayId}
+     	</if>
+     	
+     	<!-- 手机号码 -->
+     	<if test="null != mobile  and ''!= mobile">
+     	    and o.mobile like '%${mobile}%'
+     	</if>
+     	
+     	<if test="null != start and ''!= start">
+     		and o.order_time &gt;=#{start}
+     	</if>
+     	
+     	<if test="null != end and ''!= end">
+     		and o.order_time &lt;=#{end}
+     	</if>
+     	
+     	<if test="orderSource != null and orderSource !=''">
+     		<if test="orderSource != '未知来源'">
+     			and o.order_source like '%${orderSource}%'
+     		</if>
+     		<if test="orderSource == '未知来源'">
+     			and (o.order_source is null or o.order_source = '')
+     		</if>
+     	</if>
+     	<if test="customerSource != null and customerSource !=''">
+     		<if test="customerSource != '未知来源'">
+     			and c.source like '%${customerSource}%'
+     		</if>
+     		<if test="customerSource == '未知来源'">
+     			and (c.source is null or c.source = '')
+     		</if>
+     	</if>
+     	<if test="null != productId  and ''!= productId">
+     			and top.product_id = #{productId}
+     	</if>
+     	GROUP BY top.order_id
+     	ORDER BY order_time DESC
+  	</select>
+  	
+
+  	
+  	
+  		<!--//根据条件分页查询订单    -->
+	<select id="findAllorder2ListPage" resultType="com.kingleadsw.betterlive.model.Order" parameterType="pd">
+    	SELECT
+     		<include refid="Base_Column_List" />,(select count(1) from t_order_product op where op.order_id= o.order_id) quantity_detail,o.group_join_id as groupJoinId,c.nickname as customer_name,
+     		torpr.orderpro_id,torpr.product_id,torpr.product_name,torpr.spec_id,torpr.spec_name,torpr.quantity,torpr.price,torpr.is_evaluate,
+			torpr.activity_price, torpr.discount_price, torpr.coupon_money, torpr.logistics_code, torpr.company_code,s.spec_img,
+			DATE_FORMAT(torpr.send_time, '%Y-%m-%d %H:%i:%s') AS send_time2, torpr.status as sub_status,s.status as product_status, torpr.sub_order_code,
+     		(select sum(op.quantity) from t_order_product op where op.order_id  = torpr.order_id) quantityTotal, torpr.cut_money,
+     		(select tpl.label_title from t_product_label tpl where tpl.product_id = torpr.product_id and tpl.show_start <![CDATA[<=]]> NOW() and tpl.show_end <![CDATA[>=]]> NOW() limit 1) product_label
+     	FROM t_order o,t_order_product torpr,  t_customer c, t_spec s   WHERE o.order_id =torpr.order_id and  s.spec_id = torpr.spec_id and o.customer_id=c.customer_id and  o.order_id IS NOT NULL
+     		and o.status <![CDATA[ > ]]> 0 and torpr.status > 0
+		<!-- 订单ID -->
+		<if test="null != orderId  and ''!= orderId">
+     	    and o.order_id=#{orderId}
+     	</if>
+     	
+		<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!= orderCode">
+     	    and o.order_code like '%${orderCode}%'
+     	</if>
+     	
+     	<!-- 订单状态  单个状态-->
+     	<if test="null!= status  and ''!= status ">
+     		and torpr.status=#{status}
+     	</if>
+     	
+     	<!-- 订单状态  全部(除去删除, 大于0 )  -->
+     	<if test="null!= statusALL  and ''!=statusALL ">
+     		and torpr.status > #{statusALL}
+     	</if>
+     	
+     	<!--订单类型；1：普通订单，2：预购订单 -->
+     	<if test="null != orderType  and ''!= orderType">
+     		and o.order_type=#{orderType}
+     	</if>
+     	
+     	<!--支付方式，1：支付宝；2：微信；3：银联 -->
+     	<if test="null != payType  and ''!= payType">
+     		and o.pay_type=#{payType}
+     	</if>
+     	
+     	<if test="null!=hasBuy and ''!=hasBuy ">
+     		and o.status&gt;=2 and o.status&lt;6
+     	</if>
+     	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and o.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 用户名称 -->
+     	<if test="null != customerName  and ''!= customerName ">
+     		and c.nickname like '${customerName}%'
+     	</if>
+     	<if test="null != customerMobile and ''!=customerMobile">
+     		and c.mobile like '${customerMobile}%'
+     	</if>
+     	
+     	<!-- 预购单ID -->
+     	<if test="null != prePayId  and ''!= prePayId">
+     		and o.pre_id=#{prePayId}
+     	</if>
+     	
+     	<!-- 手机号码 -->
+     	<if test="null != mobile  and ''!= mobile">
+     	    and o.mobile like '%${mobile}%'
+     	</if>
+     	
+     	<if test="null != start and ''!= start">
+     		and o.order_time &gt;=#{start}
+     	</if>
+     	
+     	<if test="null != end and ''!= end">
+     		and o.order_time &lt;=#{end}
+     	</if>
+     	
+     	<if test="orderSource != null and orderSource !=''">
+     		and c.source = #{orderSource}
+     	</if>
+     	
+     	ORDER BY order_time DESC
+  	</select>
+  	
+  	
+  	
+  	<!--//根据条件查询订单    -->
+	<select id="findOrder" resultMap="BaseJionResultMap" parameterType="pd" >
+    	SELECT
+     		<include refid="Base_Column_List" />,
+     		(select count(1) from t_order_product op where op.order_id= o.order_id) quantity_detail,
+     		(select sum(quantity) from t_order_product op where op.order_id= o.order_id) quantity_total
+     	FROM t_order o WHERE  o.order_id IS NOT NULL
+     	
+		<!-- 订单ID -->
+		<if test="null != orderId  and ''!= orderId">
+     	    and o.order_id=#{orderId}
+     	</if>
+     	
+		<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!= orderCode">
+     	    and o.order_code=#{orderCode}
+     	</if>
+     	
+     	<!--  单个状态   订单状态，0：已删除；1：待付款；2：待发货；3：待签收；4：待评价；5：已完成-->
+     	<if test="  null!= status  and ''!= status ">
+     		and  o.status=#{status}
+     	</if>
+     	
+     	<!-- 订单状态  全部(出去删除, 大于0 )  -->
+     	<if test="  null!= statusALL  and ''!=statusALL ">
+     		and  o.status > #{statusALL}
+     	</if>
+     	
+     	<!--订单类型；1：普通订单，2：预购订单 -->
+     	<if test="null != orderType  and ''!= orderType">
+     		and o.order_type=#{orderType}
+     	</if>
+     	
+     	<!--支付方式，1：支付宝；2：微信；3：银联 -->
+     	<if test="null != payType  and ''!= payType">
+     		and o.pay_type=#{payType}
+     	</if>
+     	
+     	
+     	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and o.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 预购单ID -->
+     	<if test="null != prePayId  and ''!= prePayId">
+     		and o.pre_id=#{prePayId}
+     	</if>
+     	
+     	<!-- 手机号码 -->
+     	<if test="null != mobile  and ''!= mobile">
+     	    and o.mobile=#{mobile}
+     	</if>
+  	</select>
+  	
+  	<select id="findHistoryOrderByCustomerId" resultType="com.kingleadsw.betterlive.model.Order" parameterType="java.lang.Integer">
+     SELECT
+     		<include refid="Base_Column_List" />
+     	FROM t_order o
+     	where o.customer_id=#{customer_id} and  o.status in(2,3,4,5,7)
+     	
+  	</select>
+  	
+  	
+  	<!-- //查询订单详情      -->
+  	<select id="queryOrderDetails" resultType="com.kingleadsw.betterlive.model.Order" parameterType="pd" >
+    	SELECT 
+     		<include refid="Base_Column_List" />,op.orderpro_id,op.quantity,op.price,op.is_evaluate,
+     	    p.product_id,p.product_name,s.spec_id,s.spec_name,c.nickname
+     			
+     	FROM t_order o INNER JOIN t_order_product op ON o.order_id=op.order_id 
+           			   INNER JOIN t_product p ON op.product_id=p.product_id 
+           			   INNER JOIN t_spec s ON  op.spec_id=s.spec_id AND p.product_id=s.product_id 
+		    		   INNER JOIN t_customer c ON o.customer_id=c.customer_id 
+		
+		WHERE o.order_id IS NOT NULL   AND o.order_id=#{orderId} 			 
+     	
+    	<!-- 订单ID 
+		<if test="null != orderId  and ''!= orderId">
+     	    and o.order_id=#{orderId}
+     	</if>
+     	-->
+		<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!= orderCode">
+     	    and o.order_code=#{orderCode}
+     	</if>
+     	
+     	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and o.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 预购单ID -->
+     	<if test="null != prePayId  and ''!= prePayId">
+     		and o.pre_id=#{prePayId}
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!-- 增加订单 -->
+  	<insert id="insertOrder" parameterType="com.kingleadsw.betterlive.model.Order" useGeneratedKeys="true"  keyProperty="order_id">
+    	insert into t_order ( order_id,
+								order_code,
+								order_type,
+								pre_id,
+								customer_id,
+								pay_type,
+								total_price,
+								pay_money,
+								freight,
+								message_info,
+								status,
+								use_coupon,
+								conpon_money,
+								use_gift_card,
+								gitf_card_money,
+								mobile,
+								receiver,
+								address,
+								is_comment,
+								order_time,
+								use_single_coupon_id,
+								group_join_id,
+								order_source,
+								total_redeem_integral,
+								total_gold_integral,
+								total_redeem_money,
+								total_gold_money
+    				  		)
+    				  	values (#{order_id},
+    				  	 	    #{order_code},
+    				  	 	    #{order_type},
+    				  	 	    #{pre_id},
+    				  	 	    #{customer_id},
+    				  	 	    #{pay_type},
+    				  	 	    #{total_price},
+    				  	 	    #{pay_money},
+    				  	 	    #{freight},
+    				  	 	    #{message_info},
+    				  	 	    #{status},
+    				  	 	    #{use_coupon},
+    				  	 	    #{conpon_money},
+    				  	 	    #{use_gift_card},
+    				  	 	    #{gitf_card_money},
+    				  	 	    #{mobile},
+    				  	 	    #{receiver},
+    				  	 	    #{address},
+    				  	 	     #{is_comment},
+    				  	 	    now(),
+    				  	 	    #{use_single_coupon_id},
+    				  	 	    #{groupJoinId},
+    				  	 	    #{orderSource},
+    				  	 	    #{totalRedeemIntegral},
+								#{totalGoldIntegral},
+								#{totalRedeemMoney},
+								#{totalGoldMoney}
+    				  	 	  )
+  	</insert>
+   	
+   	<!--修改订单-->
+    <update id="editOder" parameterType="pd" >
+    	update t_order  
+   			<set>
+   				<!-- 支付方式  -->
+   				<if test="null!=payType and ''!=payType">
+   					pay_type=#{payType},
+   				</if>
+   				
+   				<!--  单个状态   订单状态，0：已删除；1：待付款；2：待发货；3：待签收；4：待评价；5：已完成；6：已取消;7:已退款-->
+		     	<if test="null!= status">
+		     		status=#{status},
+		     	</if>
+    	
+   				<!-- 是否评论 is_comment -->
+   				<if test="null!=isEvaluate and ''!=isEvaluate ">
+   					is_comment=#{isEvaluate},
+   				</if>
+   				<if test="null!=sendTime and ''!=sendTime ">
+   					send_time=#{sendTime},
+   				</if>
+   				
+   				customer_id = customer_id
+   				<!--
+   				支付方式 
+   				<if test="null!=orderType and ''!=orderType">
+   					order_type=#{orderType},
+   				</if>
+   				-->
+   			</set>
+								
+    	where order_id=#{orderId} 
+    	
+    	<!-- 用户ID -->
+    	<if test="null!=customerId and ''!=customerId ">
+    	and customer_id=#{customerId}
+    	</if>
+    </update> 
+    
+    
+    <!--//根据条件分页查询订单    -->
+	<select id="queryList" resultMap="BaseJionResultMap" parameterType="pd">
+    	SELECT
+     		<include refid="Base_Column_List" />,c.nickname as customer_name, c.source customer_source,p.trans_id as trans_id
+     	FROM t_order o  inner join t_customer c on o.customer_id=c.customer_id   
+     	left join t_paylog p on p.order_id=o.order_id
+     	WHERE  o.order_id IS NOT NULL
+     	
+		<!-- 订单ID -->
+		<if test="null != orderId  and ''!= orderId">
+     	    and o.order_id=#{orderId}
+     	</if>
+     	
+		<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!= orderCode">
+     	    and o.order_code like '%${orderCode}%'
+     	</if>
+     	
+     	<!-- 订单状态  单个状态-->
+     	<if test="status != null">
+     		and o.status=#{status}
+     	</if>
+     	
+     	<!-- 订单状态  全部(出去删除, 大于0 )  -->
+     	<if test="  null!= statusALL  and ''!=statusALL ">
+     		and o.status > #{statusALL}
+     	</if>
+     	
+     	<!--订单类型；1：普通订单，2：预购订单 -->
+     	<if test="null != orderType  and ''!= orderType">
+     		and o.order_type=#{orderType}
+     	</if>
+     	
+     	<!--支付方式，1：支付宝；2：微信；3：银联 -->
+     	<if test="null != payType  and ''!= payType">
+     		and o.pay_type=#{payType}
+     	</if>
+     	<if test="null!=hasBuy and ''!=hasBuy ">
+     		and o.status&gt;=2 and o.status&lt;6
+     	</if>
+     	
+     	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and o.customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 用户名称 -->
+     	<if test="null != customerName  and ''!= customerName ">
+     		and c.nickname like '${customerName}%'
+     	</if>
+     	
+     	<if test="null != customerMobile and ''!=customerMobile">
+     		and c.mobile like '${customerMobile}%'
+     	</if>
+     		<if test="orderSource != null and orderSource !=''">
+     		<if test="orderSource != '未知来源'">
+     			and o.order_source like '%${orderSource}%'
+     		</if>
+     		<if test="orderSource == '未知来源'">
+     			and (o.order_source is null or o.order_source = '')
+     		</if>
+     	</if>
+     	<if test="customerSource != null and customerSource !=''">
+     		<if test="customerSource != '未知来源'">
+     			and c.source like '%${customerSource}%'
+     		</if>
+     		<if test="customerSource == '未知来源'">
+     			and (c.source is null or c.source = '')
+     		</if>
+     	</if>
+     	<if test="null != productId  and ''!= productId">
+     			and top.product_id = #{productId}
+     	</if>
+     	
+     	
+     	<!-- 预购单ID -->
+     	<if test="null != prePayId  and ''!= prePayId">
+     		and o.pre_id=#{prePayId}
+     	</if>
+     	
+     	<!-- 手机号码 -->
+     	<if test="null != mobile  and ''!= mobile">
+     	    and o.mobile like '%${mobile}%'
+     	</if>
+     	<if test="null != start and ''!= start">
+     		and o.order_time &gt;=#{start}
+     	</if>
+     	
+     	<if test="null != end and ''!= end">
+     		and o.order_time &lt;=#{end}
+     	</if>
+     	
+     	<if test="effectTime!=null">
+			<![CDATA[and o.order_time<#{effectTime}]]>
+		</if>
+		 <if test="cutTime!=null">
+			<![CDATA[and o.send_time<#{cutTime}]]>
+		</if>
+		<if test="invokeTime!=null and ''!=invokeTime">
+			and (o.order_time BETWEEN DATE_SUB(DATE_ADD(#{invokeTime},INTERVAL 1 DAY),INTERVAL 3 DAY) 
+			and DATE_ADD(#{invokeTime},INTERVAL 1 DAY))
+		</if>
+     	ORDER BY order_time DESC
+  	</select>
+  	
+    
+    
+    <!-- 合并用户时,需要合并用户的订单 -->
+    <update id="modifyCustomerOrderBycId" parameterType="pd" >
+	    update t_order set customer_id=#{newCustomerId}  where customer_id=#{customerId}
+	</update> 
+	
+	<!-- 根据订单id更新订单编号 -->
+    <update id="updateOrderCodeByOrdeId" parameterType="pd" >
+	    update t_order set  order_code =#{orderCode}  where order_id=#{orderId}
+	</update> 
+	
+	<select id="queryOrderCountByCust" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(1) from t_order where customer_id = #{customerId} and status in (2,3,4,5,7)
+	</select>
+	
+	<select id="queryOrderCountByParams" resultType="java.lang.Integer" parameterType="pd">
+		select count(1) from t_order where customer_id = #{customerId} 
+			<if test="status == 1">
+				and status = 1
+				and (round((UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(order_time))/60) <![CDATA[ < ]]> #{expiretime})
+			</if>
+	</select>
+	
+</mapper>

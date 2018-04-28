@@ -1,0 +1,131 @@
+
+.head-wrap{
+	width:100%;
+	height:1.694rem;
+	background: #E62D29;
+	position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+.head{
+	line-height:1.694rem;
+	color:#fff;
+	width:92.22%;
+	margin:0 auto;
+	position:relative;
+}
+.head .goback{
+	height:0.66rem;
+	width:0.66rem;
+	background: url(../../img/goback.png) no-repeat;
+	background-size:100% 100% ;
+	position:absolute;
+	left:0;
+	top:0.517rem;
+}
+.head h3{
+	text-align: center;
+	font-size:0.444rem;
+}
+
+
+.ongold{
+	background: #fff;
+}
+.textlist{}
+.sharetop{}
+.sharetop .box{
+	height: 2.342rem;
+	width: 100%;
+	position: relative;
+}
+.sharetop .box:after{
+	display: block;
+	position: absolute;
+	width: 96.66%;
+	content: '';
+	height:1px;
+	background: #d9d9d9;
+	right: 0;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+.sharetop .box img{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.textcontent{
+	width: 96.66%;
+	margin-left: 3.34%;
+	position: relative;
+	padding-bottom: 0.351rem;
+}
+.textcontent:after{
+	display: block;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #D9D9D9;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	transform: scaleY(0.5);
+}
+.textcontent h3{
+	margin-top: 0.3148rem;
+	background: url(../../img/integral/help.png) no-repeat left center;
+	background-size:0.583rem 0.5rem ;
+	text-indent: 0.666rem;
+	height: 0.916rem;
+	line-height: 0.916rem;
+	font-size: 0.407rem;
+}
+.textcontent p{
+	line-height: 0.5925rem;
+	color: #868686;
+	font-size: 0.305rem;
+	width: 95.95%;
+}
+
+.textcontent ul{
+	text-indent: 0.2129rem;
+	color: #868686;
+	font-size: 0.305rem;
+	line-height: 0.5925rem;
+}
+.textcontent ul span{
+	margin-right: 0.24rem;
+}
+
+.textcontent table{
+	width: 95.95%;
+	border-color:#dadada ;
+	font-size: 0.333rem;
+	color: #868686;
+}
+table,tr,td{
+	border: 1px solid #dadada ;
+}
+.textcontent th{
+	height: 0.68rem;
+	text-align: center;
+	font-weight: 100;
+}
+.textcontent .incident{
+	width: 1.944rem;
+}
+.textcontent .hold{
+	width: 1.2rem;
+}
+.textcontent td{
+	height: 1.18rem;
+	text-align: center;
+}
+.textcontent td p{
+	width: 5.56rem;
+	margin: 0.12rem auto 0;
+	text-align: left;
+	line-height: 0.407rem;
+}

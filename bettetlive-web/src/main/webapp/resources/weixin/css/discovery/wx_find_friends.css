@@ -1,0 +1,171 @@
+
+
+body{
+	background: #eee;
+	height: 100%;
+}
+#layout{
+	height: 100%;
+}
+.tab-wrap{
+	width: 100%;
+	background: #fff;
+}
+.tab{
+	margin: 0 auto;
+	width: 92.222%;
+	height: 1.3888rem;
+	display: flex;
+	justify-content: space-between;
+	line-height: 0.56rem;
+	font-size: 0.3888rem;
+}
+.tab-wx{
+	width: 50%;
+	height: 0.56rem;
+	background: url(../../img/invite/wx.png) no-repeat left center;
+	background-size:0.56rem 0.56rem ;
+	text-indent: 0.722rem;
+	margin-top: 0.4144rem;
+	color: #363636;
+}
+
+.tab-invite{
+	width: 50%;
+	height: 0.56rem;
+	margin-top: 0.4144rem;
+	text-align: right;
+	background: url(../../img/usercenter/jiantou01.png) no-repeat right center;
+	background-size: 0.2777rem 0.444rem;
+}
+.tab-invite span{
+	color: #868686;
+	margin-right: 0.444rem;
+}
+
+.content-wrap{}
+.content{}
+
+.friendlist{
+	width: 100%;
+}
+.fri-wrap{
+	width: 100%;
+	background: #fff;
+	margin-top: 0.2777rem;
+}
+.friend{
+	width: 96.111%;
+	margin-left: 3.889%;
+	height: 2.2777rem;
+	display: flex;
+	position: relative;
+}
+
+.friend-left{
+	width: 78.61%;
+	
+}
+.friend-left .head{
+	width: 1.1666rem;
+	height: 1.1666rem;
+	float: left;
+	margin-top: 0.55555rem;
+}
+.friend-left .head img{
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+.friend-left .text{
+	float: left;
+	margin-top: 0.55555rem;
+	margin-left: 0.2777rem;
+	width: 80%;
+}
+.friend-left .text h3{
+	height: 0.6296rem;
+	line-height: 0.6296rem;
+	font-size: 0.4166rem;
+	color: #363636;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.friend-left .text p{
+	font-size: 0.3055rem;
+	color: #868686;
+	height: 0.51rem;
+	line-height: 0.51rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.friend .attention{
+	flex: 1;
+}
+.friend .attention span{
+	width: 1.6111rem;
+	height: 0.75rem;
+	text-align: center;
+	line-height: 0.75rem;
+	color: #FFFFFF;
+	background: #E62D29;
+	display: block;
+	border-radius: 0.0833rem;
+	font-size: 0.333rem;
+	margin-top: 0.76385rem;
+}
+.friend .attention .on{
+	background: #c42623;
+}
+.friend .attention .yet{
+	background: #fff;
+	color: #868686;
+	border: 1px solid #C6C6C6;
+}
+
+
+.pirlist{
+	width: 96.111%;
+	margin-left: 3.889%;
+	height: 4.7592rem;
+}
+
+.pirlist li{
+	float: left;
+	width: 2.833rem;
+	margin-left: 0.333rem;
+}
+.pirlist li:first-child{
+	margin-left: 0;
+}
+.pirlist li dl{}
+.pirlist li dt{
+	width: 2.833rem;
+	height: 2.833rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+.pirlist li dt img{
+	display: block;
+	width: auto;
+	height: 100%;
+}
+.pirlist li dd{
+	margin-top: 0.2592rem;
+}
+.pirlist li dd p{
+	font-size: 0.333rem;
+	color: #363636;
+	line-height: 0.5rem;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

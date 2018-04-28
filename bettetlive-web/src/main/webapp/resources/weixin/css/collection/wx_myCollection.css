@@ -1,0 +1,613 @@
+body{
+	background: #eee;
+}
+#layout{}
+.header-wrap{
+	width: 100%;
+	z-index: 2;
+	background: #E62D29;
+}
+.header{
+	width: 92.222%;
+	margin: 0 auto;
+	position: relative;
+	height: 1.129rem;
+	line-height: 1.129rem;
+}
+.goback{
+	width: 0.666rem;
+	height: 0.666rem;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.goback a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: url(../../img/goback.png) no-repeat;
+	background-size:100% 100% ;
+}
+.header h3{
+	color: #fff;
+	font-size: 0.4888rem;
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+}
+.header .compile{
+	color: #fff;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	right: 0;
+	font-size: 0.37rem;
+}
+/*头部导航*/
+.my-pagination-ul{
+	width: 100%;
+	height: 1.11rem;
+	background: #E62D29;
+}
+.swiper-slide{
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	margin-top:10px;
+}
+
+.my-pagination-ul li.swiper-pagination-bullet{
+	width: 33.333%;
+	line-height: 1.11rem;
+	color: #363636;
+	font-size: 0.388rem;
+	text-align: center;
+	height: 1.11rem;
+	background:#fff;
+	border-radius: 0;
+	opacity: 1;
+}
+.my-pagination-ul .swiper-pagination-bullet span{
+	border-bottom: 2px solid transparent;
+	display: inline-block;
+	height: 100%;
+	box-sizing: border-box;
+}
+.my-pagination 
+li.swiper-pagination-bullet-active{
+	color: #e62d29;
+}
+.my-pagination 
+li.swiper-pagination-bullet-active span{
+	border-bottom: 2px solid #e62d29;
+}
+
+
+/*商品收藏*/
+.prolist{
+	background: #fff;
+	
+}
+.prolist li{
+	height: 3.258rem;
+	width: 96.11%;
+	display: flex;
+	margin-left: 3.89%;
+	
+}
+.swiper-slide li .select{
+	width: 0.56rem;
+	height: 0.56rem;
+	border: 1px solid #cacaca;
+	border-radius: 50%;
+	float: left;
+	margin-top: 1.349rem;
+	margin-right: 0.2rem;
+	display: none;
+}
+.swiper-slide li .select.on{
+	background:url(../../img/xuanzhong.png) no-repeat;
+	background-size:100%;
+}
+.prolist li dl{
+	height: 3.258rem;
+	display: flex;
+	flex:1;
+	border-bottom: 1px solid #dadada;
+}
+.prolist li dt{
+	width: 2.97rem;
+	height: 2.97rem;
+	margin-top:0.144rem;
+	overflow: hidden;
+	position: relative;
+}
+.prolist li dt span{
+	display:none;
+	width:100%;
+	height:0.56rem;
+	line-height:0.56rem;
+	position: absolute;
+	left:0;
+	bottom:0;
+	background:rgba(0,0,0,0.4);
+	color:#fff;
+	text-align: center;
+}
+.prolist li dt span.show{
+	display:block;
+}
+.prolist li dt img{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.prolist li dd{
+	margin-left: 0.333rem;
+	flex: 1;
+}
+.prolist li dd .pro-title{
+	height: 0.66rem;
+	line-height: 0.66rem;
+	margin-top: 0.638rem;
+}
+.prolist li dd .pro-title h3{
+	width: 4.72rem;
+	float: left;
+	font-size: 0.42rem;
+	color: #363636;
+}
+.prolist li dd .pro-title span{
+	width: 0.88rem;
+	text-align: center;
+	display: block;
+	float: right;
+	border: 1px solid #ffae3b;
+	border-radius: 3px;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	color: #ffae3b;
+	font-size: 0.277rem;
+	margin-top: 0.13rem;
+	visibility: hidden;
+}
+.prolist li dd .pro-explain{
+	width: 4.72rem;
+	height: 0.52rem;
+	line-height: 0.52rem;
+	font-size: 0.31rem;
+	color: #868686;
+}
+.prolist li dd .pro-price{
+	display: flex;
+	margin-top: 0.23rem;
+	height: 0.537rem;
+	line-height: 0.537rem;
+	justify-content: space-between;
+}
+.prolist li dd .price span{
+	font-size: 0.351rem;
+	color: #E62D29;
+}
+.prolist li dd .price span.hide{
+	display:none;
+}
+
+.prolist li dd .price span.delete{
+	text-decoration: line-through;
+	color: #868686;
+	font-size: 0.22rem;
+	margin-left: 0.11rem;
+}
+.prolist li dd .data{
+	font-size: 0.277rem;
+	color: #868686;
+	margin-right: 0.388rem;
+}
+
+
+.selection{
+	width: 100%;
+}
+.selection li{
+	width: 100%;
+	background: #fff;
+	height:7.22rem;
+}
+.selection li dl{
+	display:flex;
+	width: 92.22%;
+	margin: 0 auto;
+}
+.selection li dt{}
+
+.swiper-slide .selection li .select{
+	margin-top:3.33rem;
+}
+.selection li dd{
+	flex:1;
+}
+.selection li .selec-wrap{
+	overflow: hidden;
+}
+.selection li .selec-top{
+	width: 100%;
+	height: 5.111rem;
+	margin-top: 0.388rem;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.selection li .selec-top img{
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.selection li .selec-bot{
+	overflow: hidden;
+}
+.selection li .text{
+	margin-top: 0.3888rem;
+	font-size: 0.3888rem;
+	color: #363636;
+	width: 7.8rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.selection li .operate{
+	height: 0.3888rem;
+	line-height: 0.3888rem;
+	margin-top: 0.1777rem;
+}
+.selection li 
+.operate .pl{
+	width: 1rem;
+	background: url(../../img/discovery/pre-04.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+}
+.selection li 
+.operate span{
+	color: #868686;
+    font-size: 0.2777rem;
+    margin-left: 0.5rem;
+}
+.selection li 
+.operate .dz{
+	margin-left: 0.4rem;
+	width: 1rem;
+	background: url(../../img/discovery/pre-06.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+}
+.selection li 
+.operate .dz.on{
+	background: url(../../img/discovery/pre-07.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem;
+}
+
+/*��Ƶ�б�*/
+.videolist{}
+.videolist li{
+	width: 100%;
+	background: #fff;
+	display:flex;
+}
+.videolist>li{
+	margin-top:0.2777rem;
+}
+.videolist>li:first-child{
+	margin-top:0;
+}
+.videolist li dl{
+	display: flex;
+    width: 92.22%;
+    margin: 0 auto;
+}
+.videolist li dt{}
+.swiper-slide .videolist  li .select{
+	margin-top:3.33rem;
+}
+.videolist li dd{
+	flex:1;
+}
+.childlist li .licontent{
+	position: relative;
+}
+.childlist li .licontent:after{
+	content: '';
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 1px;
+	width: 100%;
+	transform: scaleY(0.5);
+	background: #D9D9D9;
+}
+.videolist .licontent{
+	overflow: hidden;
+	margin-top: 0.2777rem;
+}
+.licontent>h3{
+	color: #363636;
+	font-size:0.5rem;
+	font-weight: 600;
+	margin-top: 0.5rem;
+	position: relative;
+}
+.licontent h3 span{
+	display: block;
+    height: 0.48rem;
+    width: 1.286rem;
+    position: absolute;
+    background: url(../img/video/more-02.png) no-repeat left center;
+    background-size: 100% 100%;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.licontent .video{
+	width: 100%;
+	height: 5.1111rem;
+	position: relative;
+}
+.licontent .video video{
+	    border-radius: 0.1388rem;
+}
+.licontent .video .play-wrap{
+	width: 100%;
+	height: 100%;
+	border-radius: 0.1388rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(../../img/discovery/video-prentduflt.png) no-repeat;
+	background-size:100% 100%;
+}
+.video .play{
+	width:1.5rem;
+	height: 1.5rem;
+	background:url(../../img/discovery/video-01.png) no-repeat;
+	background-size:100% 100% ;
+	margin:1.80555rem auto 0;
+}
+.video .videotime{
+	width: 1.06rem;
+	text-align: center;
+	height: 0.444rem;
+	line-height: 0.444rem;
+	background: rgba(0,0,0,0.45);
+	border-radius: 0.222rem;
+	color: #fff;
+	font-size: 0.2777rem;
+	position: absolute;
+	right:0.222rem ;
+	bottom: 0.222rem;
+}
+.video .videotime.hide{
+	display:none;
+}
+.licontent .bot{
+	height: 2rem;
+	width: 92.22%;
+    margin: 0 auto;
+}
+
+.bot h4{
+	margin-top: 0.444rem;
+	font-size: 0.42rem;
+	color: #363636;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.bot .botfunc{
+	width: 100%;
+	height: 0.584rem;
+	line-height: 0.584rem;
+	margin-top: 0.2777rem;
+}
+.bot .botfunc>div{
+	margin-left: 0.48rem;
+	width: 1rem;
+	height: 100%;
+}
+.bot .botfunc span{
+	margin-left: 0.5rem;
+	color: #868686;
+	font-size: 0.2777rem;
+}
+
+.bot .botfunc .msg{
+	background: url(../../img/discovery/msg-01.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem ;
+	margin-left:0;
+}
+.botfunc .dz{
+	background: url(../../img/discovery/dz-01.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem;
+}
+.botfunc .dz.on{
+	background: url(../../img/discovery/dz-02.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem;
+}
+.botfunc .icon{
+	background: url(../../img/discovery/ht-01.png) no-repeat left center;
+	background-size:0.3888rem 0.3888rem;
+	position: relative;
+}
+.botfunc .icon .hold{
+	position: absolute;
+	width:0.333rem;
+	height:0.333rem;
+	background:url("../../img/discovery/share_04.png") no-repeat;
+	background-size:100% 100%;
+	left: 0.16rem;
+	bottom: 0;
+}
+.weui-loadmore{
+	display: none;
+}
+
+
+.cancel{
+	height: 1.314rem;
+	width: 100%;
+	border-top: 1px solid #cacaca;
+	background: #fff;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index:10;
+	display:none;
+}
+.cancel span{
+	display: block;
+	float: right;
+	width: 1.92rem;
+	text-align: center;
+	height: 0.759rem;
+	line-height: 0.759rem;
+	color: #363636;
+	margin: 0.2775rem 0.3888rem 0 0;
+	border: 1px solid #cacaca;
+	border-radius: 3px;
+}
+
+
+.nodata{
+	width: 100%;
+	height: 3.259rem;
+	background: url(../../img/shoucangno.png) no-repeat center top;
+	background-size: 2.333rem 2.333rem;
+	text-align: center;
+	overflow: hidden;
+	color: #868686;
+	margin-top: 1rem;
+	display:none;
+}
+.nodata span{
+	display: block;
+	margin-top: 2.6rem;
+}
+
+/*������ʾ*/
+
+/*������ʾ*/
+#cover{
+	display:none;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.6);
+	position: fixed;
+	top:0;
+	left:0;
+	z-index:10;
+}
+
+#guide{
+	margin-top:0.6rem;
+	width: 6.303rem;
+    margin-left: 30%;
+}
+#guide img{
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+
+.shate-succeed{
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,0.6);
+	background-size: 100% 100%;
+	position: fixed;
+	left:0;
+	top: 0;
+	z-index: 100;
+	display: none;
+}
+.shate-succeed .hold-bg{
+	width: 88.88%;
+	height: 8.88rem;
+	background: url(../../img/integral/lottery_07.png) no-repeat;
+	background-size: 100% 100%;
+	margin: 2.9629rem auto 0;
+	overflow: hidden;
+}
+.shate-succeed .hold-bg .hold{
+	width: 4.11rem;
+	height: 4.86rem;
+	background: url(../../img/integral/lottery_04.png) no-repeat;
+	background-size: 100% 100%;
+	text-align: center;
+	color:#363636;
+	margin: 1.833rem auto 0;
+	overflow: hidden;
+	font-size: 0.5rem;
+}
+.shate-succeed .hold-bg h3{
+	height:0.685rem;
+	line-height:0.685rem;
+	margin-top: 2.82rem;
+	font-weight: 300;
+}
+.shate-succeed .hold-bg p{
+	height: 1rem;
+	line-height: 1rem;
+}
+.shate-succeed .hold-bg span{
+	font-weight: 600;
+	color:#e62d29;
+}
+.share{
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,0.6);
+	background-size: 100% 100%;
+	position: fixed;
+	left:0;
+	top: 0;
+	z-index: 100;
+	display: none;
+}
+.rule{
+	width:77.222%;
+	height:10.91rem;
+	background:url("../../img/discovery/share_15.png") no-repeat;
+	background-size:100% 100%;
+	margin-left: 1.48rem;
+	overflow: hidden;
+	margin-top:0.166rem;
+}
+.ruletext{
+	width:5.5185rem;
+	margin:5.759rem 0 0 0.7685rem;
+}
+.ruletext h3{
+	height:0.74rem;
+	line-height:0.74rem;
+	text-align: center;
+	font-size:0.5185rem;
+	font-weight: 600;
+	color:#363636;
+}
+.ruletext p{
+	margin-top:0.398rem;
+	font-size:0.407rem;
+	line-height:0.66rem;
+}
+.ruletext .check{
+	width:2.24rem;
+	height:0.8518rem;
+	line-height:0.8518rem;
+	text-align: center;
+	color:#fff;
+	font-size:0.388rem;
+	background:#e62d29;
+	border-radius: 4px;
+	margin:0.527rem auto 0;
+}

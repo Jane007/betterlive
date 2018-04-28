@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 通过注解，把URL映射到Controller上，该标签默认注册DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter -->
+	<mvc:annotation-driven/>
+	<mvc:default-servlet-handler/>
+	<!--映射资源路径-->
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+
+	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器， 但是不扫描service -->
+	<context:component-scan base-package="com.kingleadsw.betterlive"  use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+		                <value>text/html;charset=UTF-8</value>
+		                <value>text/plain;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 支持上传文件 -->
+	<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>2147483648</value>
+		</property>
+	</bean>
+
+	<!--设置拦截器-->
+ 	<mvc:interceptors>
+		<!-- 日志拦截器 对所有的链接生效-->
+		<bean class="com.kingleadsw.betterlive.interceptor.SysLogInterceptor" />
+ 
+		<!--微信用户中心需要做登陆验证拦截-->
+		<mvc:interceptor>
+			<mvc:mapping path="/weixin/**"/>
+			<mvc:exclude-mapping path="/weixin/order/cancelOrder"/>
+			<mvc:exclude-mapping path="/weixin/payment/notify"/>
+			<bean class="com.kingleadsw.betterlive.interceptor.WxLoginInterceptor">
+				<property name="exceptFilterUrls">
+					<list>
+						<value>/tologin</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		
+		<!--app端请求通用验证拦截-->
+		<mvc:interceptor>
+			<mvc:mapping path="/app/**"/>
+			<mvc:exclude-mapping path="/app/login/in"/>
+			<mvc:exclude-mapping path="/app/order/cancelOrder"/>
+			<mvc:exclude-mapping path="/app/payment/notify"/>
+			<bean class="com.kingleadsw.betterlive.interceptor.AppReuqestAuthInterceptor">
+				<property name="exceptFilterUrls">
+					<list>
+						<value>/login</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+
+		<!-- 后台登陆拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**"/>
+			<mvc:exclude-mapping path="/admin/tologin"/>
+			<mvc:exclude-mapping path="/admin/checklogin"/>
+			<mvc:exclude-mapping path="/admin/safecode/**"/>
+			<bean class="com.kingleadsw.betterlive.interceptor.WebBasicInterceptor">
+				<!-- 	不需要权限验证的地址 -->
+				<property name="noFilterUrls">
+					<list>
+						<value>/admin</value><!-- 资源过滤 -->
+						<value>/resources/css/</value>
+						<value>/resources/images/</value>
+						<value>/resources/js/</value>
+						<value>/common/qntoken</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+</beans>

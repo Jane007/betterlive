@@ -1,0 +1,561 @@
+body {
+	background: #2c2966;
+}
+
+.add{
+	overflow: hidden;
+	position:fixed;
+}
+
+#layout {
+	position: relative;
+}
+
+.layout-bg img {
+	width: 100%;
+	display: block;
+}
+
+.header-wrap {
+	width: 100%;
+	position: relative;
+}
+
+.header {
+	height: 1.17333rem;
+	position:absolute;
+	width:100%
+}
+
+.header .goback {
+	width: 0.66rem;
+	height: 100%;
+	background: url(../../img/goback.png) no-repeat center center;
+	background-size: 100%;
+	margin-left: 0.32rem;
+}
+
+.header .rule {
+	width: 1.80rem;
+	height: 100%;
+	background: url(../../img/invite/rule.png) no-repeat center center;
+	background-size: 100%;
+}
+
+.banner {
+	width: 100%;
+}
+
+.banner img {
+	display: block;
+	width: 100%;
+	height: 8.88rem;
+}
+
+/*娑撹鍞寸�瑙勭壉瀵拷*/
+.content-wrap {
+	position:absolute;
+	width:100%;
+	padding-bottom: 2.44rem;
+	top:8rem;
+}
+
+.content {
+	
+}
+
+.box {
+	width: 93.33%;
+	margin: 0 auto 0.8rem;
+	background: #fbf6ec;
+	border-radius: 10px;
+}
+
+.box h3 {
+	text-align: center;
+	color: #343173;
+	height: 1.66rem;
+	line-height: 1.66rem;
+	font-size: 0.4444rem;
+	font-weight: 600;
+}
+
+.box ul {
+	padding-bottom: 0.8rem;
+}
+
+.box ul li {
+	position: relative;
+	width: 92.4%;
+	margin: 0.3rem auto 0;
+}
+
+.select {
+	position: absolute;
+	width: 0.64rem;
+	height: 0.64rem;
+	border-radius: 50%;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.select img {
+	width: 100%;
+	height: 100%;
+}
+
+.box ul li p {
+	line-height: 0.6111rem;
+	padding-left: 1rem;
+	font-size: 0.3888rem;
+	color:#363636;
+}
+
+.discount {
+	width: 92.4%;
+	margin: 0 auto;
+	height: 3.306rem;
+	background: url(../../img/invite/discount.png) no-repeat center;
+	background-size: 100%;
+	position: relative;
+}
+
+.prce {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 2.42rem;
+	font-size: 0.48rem;
+	color: #ffaf2e;
+	font-weight: 600;
+}
+
+.prce span {
+	
+}
+
+.bgbox {
+	width: 92.4%;
+	margin: 0 auto;
+	background: url(../../img/invite/yingyin.png) no-repeat right;
+	overflow-x: hidden;
+	padding-bottom:1rem;
+}
+
+.amount-wrap{
+	width: 100%;
+	overflow-y: hidden;
+	height: 4.67rem;
+}
+.hdamount{
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+.amount{
+	width: 14.6rem;
+}
+.reasonpeople{
+	height: 0.4266rem;
+	border: 1px solid #ff9418;
+	border-right: 0;
+	border-radius: 0.2133rem;
+	margin:0.4rem 0 ;
+	position: relative;
+}
+
+.mark{
+	float: left;
+	margin-left: 0.4rem;
+	width: 2.59rem;
+	height: 0.4rem;
+	text-align: center;
+}
+.mark:first-child{
+	margin-left: 0;
+}
+.mark img{
+	width: 0.26rem;
+	height: 0.4rem;
+	display: block;
+	margin: 0 auto;
+}
+
+
+
+.numbermiddle {
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.numberright {
+	right: 1.18rem;
+}
+
+.peoplenumber {
+	width: 1.2rem;
+	height: 0.4rem;
+	border-radius: 0.2133rem;
+	background: #ff9418;
+}
+
+.people-bottom {
+	
+}
+
+.people-bottom ul {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.people-bottom ul .lipro {
+	margin: 0 0 0 0.4rem;
+	width: 2.6rem;
+	text-align: center;
+}
+
+.people-bottom ul 
+.lipro:first-child {
+	margin-left: 0;
+}
+
+.people-bottom ul li .litop {
+	height: 0.6rem;
+	line-height: 0.6rem;
+	color: #423d39;
+	font-size: 0.34rem;
+}
+
+.people-bottom ul li .libottom {
+	height: 2.86rem;
+	background: url(../../img/invite/yhui.png) no-repeat center;
+	background-size: cover;
+	overflow: hidden;
+}
+
+.libottom span {
+	display: block;
+}
+
+.libottom span:first-child {
+	margin-top: 1.12rem;
+	color: #ffaf2e;
+}
+
+.libottom span:first-child strong {
+	font-size: 0.4rem;
+}
+
+.libottom span:last-child {
+	margin-top: 0.4rem;
+	color: #fff;
+	font-size: 0.36rem;
+}
+
+.box h3 span {
+	font-size: 0.4rem;
+}
+
+.drtitle {
+	height:0.722rem;
+	background: #ff217c;
+	color: #fff;
+	line-height: 0.722rem;
+	display: flex;
+	padding: 0 0.3rem;
+	font-size: 0.333rem;
+}
+
+.drtitle span:first-child, .drtitle span:last-child {
+	flex: 1;
+}
+
+.drtitle span:nth-child(2) {
+	flex: 2;
+}
+
+.drtitle span:last-child {
+	text-align: center;
+}
+
+.drlist {
+	
+}
+
+.drlist li {
+	display: flex;
+	height: 1.83rem;
+	border-bottom: 1px solid #eee;
+}
+
+.drlist li .drleft {
+	flex: 1;
+	display: flex;
+	justify-content: space-around;
+}
+.drlist li .drleft span{
+	display: block;
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 0.5rem;
+	background: #ff217c;
+	color: #fff;
+	margin-top:0.665rem;
+}
+.drlist li .drleft .phb {
+	height: 0.7474rem;
+	width: 0.5185rem;
+	display:block;
+	margin-top:0.5413rem;
+}
+
+.drlist li .drleft .hpor {
+	border-radius: 50%;
+	width: 1.018rem;
+	height:1.018rem;
+	display:block;
+	margin-top:0.406rem;
+}
+
+.drlist li .drright {
+	flex: 3;
+	position: relative;
+}
+
+.drright h4 {
+	margin-top: 0.333rem;
+	height:0.61rem;
+	line-height:0.61rem;
+	font-size: 0.44rem;
+}
+
+.drright .present {
+	color: #9d9c9a;
+	height:0.56rem;
+	line-height:0.56rem;
+}
+
+.drright .present span {
+	
+}
+
+.drright .friendnum {
+	width: 1.6rem;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: center;
+	font-size: 0.4rem;
+}
+
+.footbtn {
+	height: 2.24rem;
+	background: #2c2966;
+	overflow: hidden;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+.buttonwrap {
+	width: 93.33%;
+	height: 1.56rem;
+	line-height: 1.56rem;
+	text-align: center;
+	margin: 0.34rem auto 0;
+	background: url(../../img/invite/btn-01.png) no-repeat;
+	background-size: 100% 100%;
+	color: #fff;
+	font-size: 0.44rem;
+}
+
+
+.shade {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: none;
+}
+
+.clickrunl {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+.clickrunl .runltext {
+	width: 90%;
+	margin: 2rem auto 0;
+	height: 12.53rem;
+	background: url(../../img/invite/gzbj.png) no-repeat;
+	background-size: 100% 88.91%;
+	border-radius: 10px;
+	overflow: hidden;
+	position: relative;
+}
+.close{
+	width: 0.9629rem;
+	height: 0.9629rem;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.close img{
+	width: 100%;
+	height: 100%;
+	display:block;
+}
+.clickrunl .runltext h3 {
+	color: #fff;
+	text-align: center;
+	margin-top: 0.509rem;
+	font-size: 0.44rem;
+	overflow: hidden;
+	height:0.777rem;
+	line-height:0.777rem;
+	display: flex;
+    justify-content: center;
+}
+.clickrunl .runltext h3 span{
+	display:block;
+	
+}
+.clickrunl .runltext h3 .dd{
+	width:0.72rem;
+	height:100%;
+	background: url(../../img/invite/ddd.jpg) no-repeat left center;
+	background-size:100%;
+}
+.clickrunl .runltext h3 .gz{
+	margin:0 0.2777rem;
+}
+.clickrunl .runltext ul {
+	width: 90.73%;
+	margin: 0.98rem auto 0;
+	color: #fff;
+	font-size: 0.333rem;
+	line-height: 0.6rem;
+}
+
+.separate {
+	width: 100%;
+	height: 11.4rem;
+	position: fixed;
+	bottom: 0;
+	background: url(../../img/invite/sepa.png) no-repeat center;
+	background-size: cover;
+	z-index: 100;
+	display: none;
+}
+
+.gain {
+	color: #f84d22;
+	text-align: center;
+}
+
+.gain h3 {
+	margin-top: 0.4rem;
+	font-size: 0.42rem;
+	height: 0.82rem;
+	line-height: 0.82rem;
+	font-weight: 600;
+}
+
+.gain h4 {
+	font-size: 0.44rem;
+	font-weight: 600;
+}
+
+.gaintext {
+	margin-top: 0.4rem;
+}
+
+.sipa {
+	margin-top: 2.38rem;
+}
+
+.sipa .oyes {
+	width: 55.55%;
+	height: 1.8rem;
+	background: url(../../img/invite/yes-01.png) no-repeat center;
+	background-size: 100% 100%;
+	text-align: center;
+	line-height: 1.8rem;
+	color: #f85005;
+	font-size: 0.44rem;
+	font-weight: 600;
+	margin: 3.44rem auto 0;
+}
+
+.sipa h6 {
+	text-align: center;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	font-size: 0.32rem;
+	color: #f8b195;
+}
+
+
+.share {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	background: #fff;
+	height: 4.226rem;
+	display: none;
+}
+
+.share h4 {
+	height: 0.52rem;
+	line-height: 0.52rem;
+	text-align: center;
+	color: #b1b1b1;
+	margin-top: 0.23rem;
+}
+
+.shareobject {
+	margin-top: 0.34rem;
+	display: flex;
+	justify-content: space-around;
+}
+
+.shareobject dl {
+	text-align: center;
+}
+
+.shareobject dl dt {
+	
+}
+
+.shareobject dl dt img {
+	width: 1.04rem;
+	height: 1.04rem;
+}
+
+.shareobject dl dd {
+	height: 0.6rem;
+	line-height: 0.6rem;
+}
+
+.shareobject dl dd span {
+	color: #b1b1b1;
+}
+
+.exit {
+	margin-top: 0.72rem;
+	text-align: center;
+	font-size: 0.36rem;
+	color: #3b3b3b;
+}
+#cover{display:none;position:absolute;left:0;top:0;z-index:18888;background-color:#000000;opacity:0.7;}
+#guide{display:none;position:absolute;right:18px;top:5px;z-index:19999;}
+#guide img{width:260px;height:180px;}

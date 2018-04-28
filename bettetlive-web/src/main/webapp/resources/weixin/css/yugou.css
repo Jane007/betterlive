@@ -1,0 +1,83 @@
+/*中间主体部分*/
+.mainBox{
+	width: 100%;
+	position: absolute;
+	top: 0.79rem;
+	padding: 0.19rem 0.16rem 1.1rem;
+	box-sizing: border-box;
+}
+.goodsList{
+	background: #fbfaf3;
+	margin-bottom: 0.26rem;
+	position: relative;
+}
+.goodsPic{
+	width: 100%;
+	height: 3.2rem;
+	background: #eeeeee;
+}
+.goodsPic img{
+	width: 100%;
+	height: 3.2rem;
+}
+.lineName{
+	text-align: center;
+	font-size: 0.3rem;
+	color: #333333;
+	margin-top: 0.2rem;
+}
+.linePrice{
+	text-align: center;
+	font-size: 0.3rem;
+	color: #aa2c23;
+	margin-top: 0.2rem;
+}
+.crowdFunding{
+	width: 91%;
+	margin: 0 auto;
+	padding: 0.3rem 0 0.3rem 0;
+}
+.crowdFunding .barBox{
+	width: 90%;
+	height: 0.07rem;
+	margin: 0 auto;
+	background: #dcdcdc;
+	border-radius: 25px;
+	overflow: hidden;
+}
+.crowdFunding .barBox .bar{
+	width:50%;
+	height: 100%;
+	display: block;
+	background: #ff7037;
+	border-radius: 25px;
+}
+.crowData{
+	font-size: 0.2rem;
+	color: #999999;
+	overflow: hidden;
+	margin-top: 0.18rem;
+}
+.crowData div{
+	float: left;
+	width: 25%;
+	text-align: center;
+}
+.purchaseMark{
+	width: 1.63rem;
+	height: 0.52rem;
+	box-sizing: border-box;
+	padding-left: 0.2rem;
+	line-height: 0.55rem;
+	font-size: 0.24rem;
+	color: white;
+	position: absolute;
+	top: 0.17rem;
+	z-index: 10;
+	background: url(../img/yugougoods.png) no-repeat center center;
+	background-size: cover;
+}
+
+
+
+

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CustomerIntegralRecordMapper" >
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.CustomerIntegralRecord" >
+		<id column="record_id" property="recordId" jdbcType="BIGINT" />
+		<result column="customer_id" property="customerId" jdbcType="BIGINT" />
+		<result column="integral" property="integral" jdbcType="DECIMAL" />
+		<result column="integral_type" property="integralType" jdbcType="INTEGER" />
+		<result column="record_type" property="recordType" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="obj_id" property="objId" jdbcType="BIGINT" />
+		<result column="check_record_id" property="checkRecordId" jdbcType="BIGINT" />
+		<result column="praise_count" property="praiseCount" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		record_id,customer_id,integral,integral_type,record_type,status,
+		DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time, 
+		DATE_FORMAT(modify_time, '%Y-%m-%d %H:%i:%s') AS modify_time,
+		obj_id
+	</sql>
+	
+	<!-- 根据条件查询记录数 -->
+	<select id="queryIntegralRecordCount" resultType="Integer" parameterType="pd">
+		select count(1) cnt from t_customer_integral_record
+		 where customer_id = #{customerId}
+		 <if test="integralType != null">
+		 	and integral_type = #{integralType}
+		 </if>
+		 <if test="recordType != null">
+		 	and record_type = #{recordType}
+		 </if>
+		 <if test="status != null">
+		 	and `status` = #{status}
+		 </if>
+		 <if test="checkDay != null and checkDay == 1">
+			AND create_time BETWEEN DATE_FORMAT(CURDATE(), '%Y-%m-%d')
+			AND DATE_FORMAT(date_sub(NOW(), INTERVAL - 1 DAY),'%Y-%m-%d')
+		 </if>
+		 <if test="checkType != null and checkType == 1">
+		 	and integral_type in (3,4)
+		 </if>
+		 <if test="checkStatus != null">
+			and status in (${checkStatus})
+		 </if>
+		 <if test="objId != null and objId != ''">
+		 	AND obj_id = #{objId}
+		 </if>
+	</select>
+
+	<select id="queryListPage" resultMap="BaseResultMap" parameterType="pd">
+		select <include refid="Base_Column_List" />
+		FROM t_customer_integral_record where 1=1
+		<if test=" null != customerId and '' != customerId ">
+			and customer_id = #{customerId}
+		</if>
+		 <if test="integralType != null">
+		 	and integral_type = #{integralType}
+		 </if>
+		 <if test="recordType != null">
+		 	and record_type = #{recordType}
+		 </if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="checkIntegral != null and checkIntegral == 1">
+			and integral > 0
+		</if>
+		<!-- 此排序不能动 -->
+		order by create_time desc
+	</select>
+	
+	
+	 <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+		select <include refid="Base_Column_List" />
+		from t_customer_integral_record  
+		where 1 = 1  
+		<if test="customerId != null">
+   	 	and customer_id = #{customerId}
+   		</if>
+		<if test="integralType != null">
+   	 	and integral_type = #{integralType}
+   		</if>
+	 </select>
+
+	 
+	 <select id="queryWeekDailyBonus" resultMap="BaseResultMap" parameterType="pd" >
+	 	select <include refid="Base_Column_List" />,date_format(create_time,'%w') as wday
+	 	from t_customer_integral_record  where customer_id = #{customerId}
+	 	and integral_type=1 and record_type=0 and week(create_time) = week(now());
+	 </select>
+	 
+	 <select id="queryAwardListPage" resultMap="BaseResultMap" parameterType="pd">
+	 	select <include refid="Base_Column_List" />,date_format(create_time,'%w') as wday
+	 	from t_customer_integral_record  where customer_id = #{customerId}
+	 
+	 	<if test="integralType!=null">
+	 		and integral_type=#{integralType}
+	 	</if>
+	 	<if test="recordType!=null">
+	 		and record_type=#{recordType}
+	 	</if>
+	 	<if test="showExceptOne != null and showExceptOne == 1">
+	 		and integral_type in (2,5,6,7)
+	 	</if>
+	 	<if test="status!=null">
+	 		and `status`=#{status}
+	 	</if>
+	 	<if test="exceptShare!=null">
+	 		and (integral_type!=3 and integral_type!=4) 
+	 	</if>
+	 	
+	 </select>
+	 
+	 <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.CustomerIntegralRecord">
+	 	update t_customer_integral_record
+	 		<set>
+	 			<if test="status!=null">
+	 				`status`=#{status},
+	 			</if>
+	 			modify_time = NOW()
+	 		</set>
+	 	where record_id=#{recordId}
+	 
+	 </update>
+	 
+		<!-- 根据24小时查出当天的数据 -->
+	<select id="queryIntegralNumByParams" resultType="java.math.BigDecimal" parameterType="pd">
+		select IFNULL(SUM(integral),0)
+		<include refid="Base_Column_List" />
+		from t_customer_integral_record
+		where 1 = 1
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+		<if test="integralType != null">
+			and integral_type = #{integralType}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="recordType != null">
+			and record_type = #{recordType}
+		</if>
+		<if test="checkStatus != null">
+			and status in (${checkStatus})
+		</if>
+		<if test="checkDay != null and checkDay == 1">
+			AND create_time BETWEEN DATE_FORMAT(CURDATE(), '%Y-%m-%d')
+			AND DATE_FORMAT(date_sub(NOW(), INTERVAL - 1 DAY),'%Y-%m-%d')
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select <include refid="Base_Column_List" />
+		from t_customer_integral_record
+		where record_id=#{recordId}
+	
+	</select>
+	
+	
+	
+	<!-- 查询超过一年没有领取金币的记录 -->
+	<select id="queryOverdueList" resultMap="BaseResultMap" parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_customer_integral_record 
+		where customer_id=#{customerId} and record_type=0 and `status`=0
+		and year(create_time)&lt;=year(date_sub(now(),interval 1 year))  
+	
+	</select>
+	
+  	<!-- 增加积分记录 -->
+	<insert id="insert" parameterType="com.kingleadsw.betterlive.model.CustomerIntegralRecord" useGeneratedKeys="true" keyColumn="record_id" keyProperty="recordId">
+		INSERT INTO t_customer_integral_record
+			 (customer_id, integral, integral_type, record_type, create_time, modify_time, status, obj_id) 
+		VALUES
+			 (#{customerId}, #{integral}, #{integralType}, #{recordType}, NOW(), NOW(), #{status}, #{objId})
+	</insert>
+	
+	<!-- 批量增加积分记录 -->
+	<insert id="batchSave" parameterType="java.util.List">
+		INSERT INTO t_customer_integral_record
+			 (customer_id, integral, integral_type, record_type, create_time, modify_time, status, obj_id) 
+		VALUES
+		 <foreach collection="list" item="l" separator=",">
+			 (#{l.customerId}, #{l.integral}, #{l.integralType}, #{l.recordType}, NOW(), NOW(), #{l.status}, #{l.objId})
+		 </foreach>
+	</insert>
+	
+  <select id="queryCustSharePraiseList" parameterType="pd" resultMap="BaseResultMap">
+	  	select cir.record_id, t.obj_id, t.customer_id,
+				tir.record_id AS check_record_id, count(tp.praise_id) praise_count
+			from t_customer_integral_record cir inner join t_share t
+				 on t.share_type = #{shareType} and t.obj_id = cir.obj_id
+					and t.customer_id = cir.customer_id
+					and cir.integral_type = #{shareContentType}
+					and cir.record_type = 0
+					and cir.`status` = 1
+					and cir.integral > 0
+				LEFT JOIN t_customer_integral_record tir 
+				 on tir.integral_type = #{sharePraiseType} and tir.obj_id = cir.obj_id
+					and tir.customer_id = cir.customer_id 
+					and tir.record_type = 0
+					and tir.`status` in (0, 1)
+				LEFT JOIN t_praise tp 
+				 on tp.praise_type = #{praiseType} and tp.share_customer_id = cir.customer_id
+				 	and tp.share_customer_id = t.customer_id
+					and tp.obj_id = cir.obj_id and tp.obj_id = t.obj_id 
+					and DATE_FORMAT(t.share_time, '%Y-%m-%d') = DATE_FORMAT(tp.praise_time, '%Y-%m-%d')
+					and DATE_FORMAT(tp.praise_time, '%Y-%m-%d') <![CDATA[ <= ]]> DATE_SUB(curdate(), INTERVAL 1 DAY)
+		where 
+			t.customer_id = #{customerId}
+			and DATE_FORMAT(t.share_time, '%Y-%m-%d') <![CDATA[ <= ]]>DATE_SUB(curdate(), INTERVAL 1 DAY)
+			and DATE_FORMAT(t.share_time, '%Y-%m-%d') = DATE_FORMAT(cir.create_time, '%Y-%m-%d')
+			and tir.record_id is null
+		GROUP BY cir.record_id ORDER BY t.share_time asc
+  </select>
+</mapper>

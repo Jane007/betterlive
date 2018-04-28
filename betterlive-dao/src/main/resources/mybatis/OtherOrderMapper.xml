@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.OtherOrderMapper" >
+	
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.OtherOrder">
+		<id column="order_id"  property="orderId" jdbcType="INTEGER"/>
+		<result column="order_code"  property="orderCode" jdbcType="VARCHAR"/>
+		<result column="product_code"  property="productCode" jdbcType="VARCHAR"/>
+		<result column="pay_code"  property="payCode" jdbcType="VARCHAR"/>
+		<result column="create_time"  property="createTime" jdbcType="VARCHAR"/>
+		<result column="pay_time"  property="payTime" jdbcType="VARCHAR"/>
+		<result column="product_name"  property="productName" jdbcType="VARCHAR"/>
+		<result column="spec_name"  property="specName" jdbcType="VARCHAR"/>
+		<result column="quantity"  property="quantity" jdbcType="INTEGER"/>
+		<result column="customer_name"  property="customerName" jdbcType="VARCHAR"/>
+		<result column="order_mobile"  property="orderMobile" jdbcType="VARCHAR"/>
+		<result column="order_address"  property="orderAddress" jdbcType="VARCHAR"/>
+		<result column="order_status"  property="orderStatus" jdbcType="VARCHAR"/>
+		<result column="send_time"  property="sendTime" jdbcType="VARCHAR"/>
+		<result column="logistics_name"  property="logisticsName" jdbcType="VARCHAR"/>
+		<result column="logistics_code"  property="logisticsCode" jdbcType="VARCHAR"/>
+		<result column="order_source"  property="orderSource" jdbcType="VARCHAR"/>
+		<result column="customer_source"  property="customerSource" jdbcType="VARCHAR"/>
+		<result column="price"  property="price" jdbcType="VARCHAR"/>
+		<result column="total_price"  property="totalPrice" jdbcType="VARCHAR"/>
+		<result column="pay_money"  property="payMoney" jdbcType="VARCHAR"/>
+		<result column="product_code"  property="productCode" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+		
+	<sql id="Base_Column_List" >
+		t.order_id,
+		t.order_code,
+		t.product_code,
+		t.pay_code,
+		t.pay_time,
+		t.product_name,
+		t.spec_name,
+		t.quantity,
+		t.customer_name,
+		t.order_mobile,
+		t.order_address,
+		t.order_status,
+		t.send_time,
+		t.logistics_name,
+		t.logistics_code,
+		t.order_source,
+		t.customer_source,
+		t.create_time,
+		t.price,
+		t.total_price,
+		t.pay_money
+  	</sql>
+  
+  	 <select id="queryOne" resultMap="BaseResultMap" parameterType="pd">
+       SELECT
+     		<include refid="Base_Column_List" />
+     	 FROM t_other_order t where 1=1
+     	<!-- 订单ID -->
+		<if test="null != orderId">
+     	    and t.order_id=#{orderId}
+     	</if>
+     	limit 1
+    </select>	
+    
+     <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd">
+       SELECT
+     		<include refid="Base_Column_List" />
+     	 FROM t_other_order t where 1=1
+     	<!-- 订单ID -->
+		<if test="null != orderId">
+     	    and t.order_id=#{orderId}
+     	</if>
+     	<if test="null != payCode">
+     	    and t.pay_code like '%${payCode}%'
+     	</if>
+    	<if test="null != orderCode">
+     	    and t.order_code like '%${orderCode}%'
+     	</if>
+     	<if test="null != customerName">
+     	    and t.customer_name like '%${customerName}%'
+     	</if>
+   		<if test="null != orderMobile">
+     	    and t.order_mobile like '%${orderMobile}%'
+     	</if>
+   	 	<if test="customerSource != null and customerSource !=''">
+     		<if test="customerSource != '未知来源'">
+     			and t.customer_source like '%${customerSource}%'
+     		</if>
+     		<if test="customerSource == '未知来源'">
+     			and (t.customer_source is null or t.customer_source = '')
+     		</if>
+     	</if>
+     	<if test="null != productCode and productCode !=''">
+     	    and t.product_code = #{productCode}
+     	</if>
+     	<if test="orderSource != null and orderSource !=''">
+     		<if test="orderSource != '未知来源'">
+     			and t.order_source like '%${orderSource}%'
+     		</if>
+     		<if test="orderSource == '未知来源'">
+     			and (t.order_source is null or t.order_source = '')
+     		</if>
+     	</if>
+   		<if test="startTime != null and startTime != ''">
+			AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+				AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+		</if>
+    </select>	
+  	
+  	<!-- 批量增加订单 -->
+  	<insert id="createOrders" parameterType="Map">
+    	INSERT INTO t_other_order(
+			order_code,
+			product_code,
+			pay_code,
+			pay_time,
+			product_name,
+			spec_name,
+			quantity,
+			customer_name,
+			order_mobile,
+			order_address,
+			order_status,
+			send_time,
+			logistics_name,
+			logistics_code,
+			order_source,
+			customer_source,
+			price,
+			total_price,
+			pay_money,
+			create_time
+		) VALUES
+		<foreach collection="list" item="detail" separator="," index="index">
+			(#{detail.orderCode},#{detail.productCode}, #{detail.payCode}, #{detail.payTime}, #{detail.productName}, #{detail.specName}, #{detail.quantity}, #{detail.customerName}, #{detail.orderMobile},
+			#{detail.orderAddress},#{detail.orderStatus},#{detail.sendTime},#{detail.logisticsName},#{detail.logisticsCode},#{detail.orderSource},#{detail.customerSource},#{detail.price},#{detail.totalPrice},
+			#{detail.payMoney},#{detail.createTime})
+		</foreach>
+  	</insert>
+  	
+</mapper>

@@ -1,0 +1,133 @@
+body{
+	background: #eee;
+}
+
+input::-webkit-input-placeholder,   
+textarea::-webkit-input-placeholder {   
+    color: #363636;   
+}  
+
+
+.header-wrap{
+	background: #e62d29;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+.header{
+	height: 1.17333rem;
+    width: 92.222%;
+    margin: 0 auto;
+    color: #fff;
+    line-height: 1.17333rem;
+    text-align: center;
+    position: relative;
+}
+.header .goback{
+	width: 0.666rem;
+    height: 100%;
+    background: url(../img/goback.png) no-repeat center center;
+    background-size: 100%;
+    position: absolute;
+    left: 0;
+}
+.header .draft{
+	position: absolute;
+	right: 0;
+	top: 0;
+	text-align: right;
+	font-size: 0.3888rem;
+}
+
+.content-wrap{}
+
+.content{
+	background: #fff;
+}
+.form{
+	width: 96.11%;
+	margin-left: 3.89%;
+}
+.form .title{
+	margin-top: 1.17333rem;
+	width: 100%;
+	height: 1.388rem;
+	position: relative;
+	display: flex;
+}
+.form .title:after{
+	width: 100%;
+	display: block;
+	content: '';
+	height: 1px;
+	transform: scaleY(0.5);
+	background: #cbcbcb;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.form .title input{
+	flex: 1;
+	height: 0.74rem;
+	line-height: 0.74rem;
+	font-size: 0.3518rem;
+	color: #363636;
+	margin-top: 0.444rem;
+}
+.form .title span{
+	display: block;
+	text-align: center;
+	height: 0.74rem;
+	line-height: 0.74rem;
+	font-size: 0.2962rem;
+	color: #868686;
+	margin-top: 0.444rem;
+	margin-right: 0.3888rem;
+}
+
+.form .desc{
+	height: 6.66rem;
+	width: 100%;
+	position: relative;
+}
+.form .desc textarea{
+	width: 95.95%;
+	margin-top: 0.2777rem;
+	height: 6rem;
+	line-height: 0.574rem;
+}
+.form .desc:after{
+	width: 100%;
+	display: block;
+	content: '';
+	height: 1px;
+	transform: scaleY(0.5);
+	background: #cbcbcb;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.uploading{
+	width: 100%;
+	height: 2.814rem;
+	background: #fff;
+	position: relative;
+	overflow-y: hidden;
+}
+#uploader-demo input{
+	display: none;
+}
+.webuploader-pick{
+	opacity: 0;
+	width: 2.055rem;
+	height: 2.055rem;
+}
+#filePicker{
+	width: 2.055rem;
+	height: 2.055rem;
+	background: url(../img/fazp.gif) no-repeat;
+	background-size:cover ;
+	margin-top: 0.3795rem;
+}

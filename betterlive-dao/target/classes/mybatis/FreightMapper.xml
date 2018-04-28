@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.FreightMapper">
+	<resultMap id="BaseResultMap" type="Freight">
+		<id column="freight_id" property="freight_id" jdbcType="INTEGER" />
+		<result column="freight_type" property="freight_type" jdbcType="INTEGER" />
+		<result column="area_ids" property="area_ids" jdbcType="VARCHAR" />
+		<result column="area_names" property="area_names" jdbcType="VARCHAR" />
+		<result column="freight" property="freight" jdbcType="DECIMAL" />
+		<result column="full_cut" property="full_cut" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		freight_id, freight_type, area_ids, area_names, freight, full_cut
+	</sql>
+	
+	<!-- 根据运费主键查询单个运费 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_freight
+		where freight_id = #{freight_id}
+	</select>
+
+	<!-- 根据条件分页查询运费 -->
+	<select id="queryListPage" resultMap="BaseResultMap" parameterType="pd">
+		select
+		<include refid="Base_Column_List" />
+		from t_freight
+		where 1=1
+		<if test="null != freight_id">
+			and freight_id=#{freight_id}
+		</if>
+
+		<if test="null != freight_type">
+			and freight_type = freight_type
+		</if>
+	</select>
+	
+	<select id="queryFreightByAreaCode" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+		SELECT * FROM t_freight 
+		WHERE FIND_IN_SET(#{areaCode},area_ids) OR FIND_IN_SET(#{provinceCode},area_ids)
+	</select>
+	
+</mapper>

@@ -1,0 +1,193 @@
+/*中间主体部分*/
+.mainBox{
+	width: 100%;
+	position: absolute;
+	top: 0.79rem;
+	margin-bottom: 1.3rem;
+}
+.userBox{
+	width: 100%;
+	height: 2.2rem;
+	font-size: 0.26rem;
+	overflow: hidden;
+	background: url(../img/centbg.png) no-repeat center center;  
+	background-size:100%;
+	text-align:center;
+	padding-top:0.4rem; 
+	position:relative;  
+}
+.userBox a{display:block;width:0.4rem;height:0.4rem; position:absolute;background: url(../img/sztu.png) no-repeat; background-size:100%;right:0.26rem;top:0.26rem;}
+.userBox img{
+	width: 1.35rem;
+	height: 1.35rem;
+	border-radius: 50%;
+ 	  
+}
+.userBox span{
+	display: inline-block;
+	height: 100%;
+ 	width:100%;
+	color: white;
+	display:inline-block;
+	text-align:center;
+	margin-top:0.1rem; 
+}
+.myInfor{
+	width: 100%;
+	background: #fbfaf3;
+	display: flex;
+	flex-flow: row wrap;
+}
+.inforList{
+	width: 33.3%;
+	height: 2.27rem;
+	position: relative;
+	border-bottom: 1px solid #dcdcdc;
+	border-right: 1px solid #dcdcdc;
+	box-sizing: border-box;
+}
+.inforList:nth-of-type(3n){
+	border-right: 0;
+}
+.inforList:nth-of-type(4){
+	border-bottom: 0;
+}
+.inforList:nth-of-type(5){
+	border-bottom: 0;
+}
+.inforList:nth-of-type(6){
+	border-bottom: 0;
+}
+.inforList .incon{
+	width: 100%;
+	height: 100%;
+}
+.inforList p{
+	width: 100%;
+	text-align: center;
+	font-size: 0.26rem;
+	color: #333333;
+	position: absolute;
+	bottom: 0.4rem;
+}
+.myOrder{
+	background: url(../img/dingdan.png) no-repeat center center;
+	background-size: 23%;
+}
+.coupon{
+	background: url(../img/youhuijuan.png) no-repeat center center;
+	background-size: 27%;
+}
+.present{
+	background: url(../img/lipinka.png) no-repeat center center;
+	background-size: 23%;
+}
+.addressManage{
+	background: url(../img/dizhi.png) no-repeat center center;
+	background-size: 23%;
+}
+.accountManage{
+	background: url(../img/zhanghao.png) no-repeat center center;
+	background-size: 23%;
+}
+.contact{
+	background: url(../img/lianxi.png) no-repeat center center;
+	background-size: 23%;
+}
+
+.all-row{width:100%; background:#fff; line-height:1rem;overflow:hidden; position:relative;}
+.PMbox{padding-bottom:0.2rem;overflow:hidden;zoom:1; position:relative; }
+.PMbox .all-row:active{background:#fff;}  
+.PMbox .all-row.hei60{height:1.21rem;}
+.PMbox .PMtitle{font-size:0.31rem; color:#2c2c2c;  height:1rem; line-height:1rem;padding-left:0.95rem;background:url(../img/cent00.png) no-repeat 0.26rem center; background-size:0.47rem;  position:relative;}
+.PMbox .ckquan{ font-size:0.24rem;color:#868686; position:absolute;right:0.24rem;padding-right:0.26rem;  top:0; background:url(../img/jiantou01.png) no-repeat right center; background-size:0.16rem; width:auto; }     
+.PMbox .PMtitle:after{  content: '';
+  position: absolute; 
+  display:block;
+  bottom: 0;
+  left:0; 
+  background:#d9d9d9;  
+  width: 100%;
+  height: 1px; 
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5); 
+  -webkit-transform-origin: 0 0; 
+  transform-origin: 0 0; }
+.PMbox .manageList{width:100%;padding-top:0.2rem; } 
+.PMbox .manageList li{float:left; width:25%; font-size:0.2rem;}
+.PMbox .manageList li .manageName{display:block;font-size:0.2rem; color:#8a8a8a; line-height:100%; padding-top:0.55rem; text-align:center; background:url(../img/cent01.png) no-repeat center 3px; background-size:0.44rem;}
+.PMbox .manageList li .manageName.myOrder{background:url(../img/cent01.png) no-repeat top center;background-size:0.44rem;}    
+.PMbox .manageList li .manageName.myStart{background:url(../img/cent02.png) no-repeat top center;background-size:0.44rem;} 
+.PMbox .manageList li .manageName.myAtten{background:url(../img/cent03.png) no-repeat top center;background-size:0.44rem;}   
+.PMbox .manageList li .manageName.myShop{background:url(../img/cent04.png) no-repeat top center; background-size:0.44rem;} 
+  
+.all-row .personMenuName{float:left;margin-left:10px;padding-left:34px;font-size:0.31rem; color:#363636;  }
+.all-row .personMenuName.yhq{background:url(../img/youhuiq_bg.png) no-repeat center left; background-size:0.44rem; }
+.all-row .personMenuName.redPac{background:url(../img/cent05.png) no-repeat center left; background-size:0.44rem; }
+.all-row .personMenuName.voucher{background:url(../img/cent06.png) no-repeat center left; background-size:0.44rem; }
+.all-row .personMenuName.myShop{background:url(../img/cent07.png) no-repeat center left; background-size:0.44rem; } 
+.all-row .personMenuName.realName{background:url(../img/cent08.png) no-repeat center left; background-size:0.44rem; }    
+.all-row .personMenuName.myNews{background:url(../img/cent09.png) no-repeat center left; background-size:0.44rem; }
+ 
+.personMenu{padding-bottom:1.15rem;}  
+.personMenu .all-row:after{position:absolute; display:block;content: '';
+  bottom: 0;
+  left:0.95rem;
+  background:#d9d9d9;  
+  width: 100%;
+  height: 1px;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  -webkit-transform-origin: 0 0;  
+  transform-origin: 0 0;  }  
+.personMenu .all-row:last-child:after{display:none;}  
+.personMenu .all-row .moreIco{ background:url(../img/jiantou01.png) no-repeat 0 center;background-size:100%;  display:inline-block;width:0.16rem;height:1rem; float:right; margin-right:0.26rem;}
+.hei60 li{position:relative;}
+.hei60 li em{position:absolute; display:block;width:0.3rem;height:0.3rem;color:#fff; background: #e62d29; text-align:center;line-height:0.3rem; border-radius:0.3rem; font-size: 0.18rem; top:0;right:30%;}
+
+.shezhi .personMenuName{padding-left:0.24rem;}
+.shezhi strong{font-weight:normal; float:right;font-size:0.24rem;color:#888; margin-right:0.3rem;   }
+.personMenu .shezhi:after{position:absolute; display:block;content: '';
+  bottom: 0;
+  left:0.24rem;
+  background:#d9d9d9;  
+  width: 100%;
+  height: 1px;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  -webkit-transform-origin: 0 0;  
+  transform-origin: 0 0;  }
+  
+.tuidl{height:1rem;background:#fff;line-height:1rem; text-align:center;margin-top:0.2rem; }
+.tuidl a{font-size:0.31rem;color:#333; display:block;}
+
+.itbox{position:relative;margin:0;height:1rem;line-height:1rem; font-size:0.24rem;border-bottom:1px solid #d9d9d9;margin-top:0.2rem;}
+.itboxno{margin:0;}
+
+.itbox input{height:0.64rem;width:100%; padding:0.18rem 0; background:#fff;border:none; text-indent:0.24rem;  font-size:0.26rem !important;} 
+.itbox a{position:absolute;right:0.26rem;display:block;width:1.79rem;text-align:center;color:#fff; font-size:0.24rem; background:#e62d29;height:0.67rem;line-height:0.67rem;border-radius:3px;top:0.15rem;}
+.bdbtnbox{font-size:0.24rem;margin-top:0.4rem; }
+.bdbtnbox a{display:block;color:#fff;width:6.6rem;height:0.91rem;text-align:center;line-height:0.91rem; border-radius:5px;margin:0 auto;background:#e62d29;font-size:0.33rem;}
+.tishibox{font-size:0.24rem; text-align:center; position:absolute; width:100%; top:20%;}  
+.tishibox span{ background:rgb(0,0,0,0.8); font-size:0.33rem;color:#fff; border-radius:3px;  padding:0.2rem 0.31rem; } 
+
+.yijianbox{font-size:0.24rem;padding:0.26rem;}
+.yijianbox textarea{width:96%;border:1px solid #d9d9d9; font-size:0.26rem; padding:2%;height:2.7rem;}
+.yijiandh{font-size:0.24rem;padding:0.26rem;padding-top:0;}
+.yijiandh input{width:100%;border:1px solid #d9d9d9;height:0.6rem;padding:0.2rem 0; text-indent:0.2rem; font-size:0.26rem;} 
+
+.yijianbtn{font-size:0.24rem;position:fixed;bottom:0; width:100%; background:#e62d29;height:0.89rem;line-height:0.89rem;color:#fff;}
+.yijianbtn a{display:block;width:100%; font-size:0.31rem; text-align:center;color:#fff;    }
+
+.aboutbg{background:url(../img/aboutbg.jpg) no-repeat center top; background-size:100%; }
+.aboutlogo{width:1.75rem; margin:0 auto;margin-top:1.85rem;}
+.aboutlogo img{width:100%;display:block;}
+.aboutcomt{margin-top:1.25rem;}
+.aboutcomt a{display:block;width:2.42rem;height:0.71rem;text-align:center;line-height:0.71rem;font-size:0.26rem;color:#363636;border:1px solid #c6c6c6; border-radius:3px;margin:0 auto; margin-bottom:0.33rem; }
+.aboutfoot{position:absolute;bottom:0.4rem; width:100%;text-align:center; font-size:0.26rem;color:#868686;}
+
+.jieshao_hh{width:100%;height:100%; background-size:100%;} 
+.jieshao_hh img{
+	display: block;
+	width: 100%;
+}

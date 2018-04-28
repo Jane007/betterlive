@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.PropIndexMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.PropIndex" >
+  	<id column="prop_id" property="propId" jdbcType="INTEGER" />
+  	
+  	<result column="prop_type" property="propType" jdbcType="INTEGER" />
+  	<result column="obj_id" property="objId" jdbcType="INTEGER" />
+  	<result column="resume" property="resume" jdbcType="VARCHAR" />
+  	<result column="status" property="status" jdbcType="INTEGER" />
+  	<result column="link_url" property="linkUrl" jdbcType="VARCHAR" />
+  	<result column="link_img" property="linkImg" jdbcType="VARCHAR" />
+  	<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+  
+  </resultMap>
+  
+  
+   <sql id="Base_Column_List" >
+    t.prop_id, t.prop_type, t.obj_id, t.resume, t.status, t.link_url, t.link_img, t.modifier,t.title,
+    DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+    DATE_FORMAT(t.modify_time, '%Y-%m-%d %H:%i:%s') AS modify_time
+
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from into t_prop_index t
+  	where t.prop_id=#{propId}
+  
+  </select>
+  
+  <select id="queryOne" parameterType="pd" resultMap="BaseResultMap">
+  	
+  		select 
+  			<include refid="Base_Column_List"/>
+  		from t_prop_index t, t_professional p
+  		where t.obj_id = p.special_id
+  		<if test="propType != null">
+  			and t.prop_type = #{propType}
+  		</if>
+  		<if test="status != null">
+		   and t.status = #{status}
+		</if>
+		<if test="specialType != null">
+  			and p.special_type = #{specialType}
+  		</if>
+  		<if test="specialStatus != null">
+  			and p.status = #{specialStatus}
+  		</if>
+  		<if test="checkTime != null">
+			and p.starttime <![CDATA[ <= ]]> #{checkTime}
+			and p.endtime > #{checkTime}
+  		</if>
+  		order by t.create_time desc
+		limit 1
+  	</select>
+  
+  
+  
+  	<select id="queryOneForIndex" parameterType="pd" resultMap="BaseResultMap">
+  	
+  		select 
+  			<include refid="Base_Column_List"/>
+  		from t_prop_index t
+  		where 1=1
+  		<if test="propType != null">
+  			and t.prop_type = #{propType}
+  		</if>
+  		<if test="status != null">
+		   and t.status = #{status}
+		</if>
+  		order by t.create_time desc
+		limit 1
+  	</select>
+  
+  
+  	<insert id="insertPageData"  parameterType="pd" useGeneratedKeys="true"  keyProperty="propId">
+		insert into t_prop_index
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="propType!=null">
+				prop_type,
+			</if>
+			<if test="objId!=null">
+				obj_id,
+			</if>
+			<if test="resume!=null">
+				resume,
+			</if>
+			<if test="status!=null">
+				status,
+			</if>
+			<if test="linkUrl!=null">
+				link_url,
+			</if>
+			<if test="linkImg != null">
+				link_img,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			create_time,
+			modify_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="propType!=null">
+				#{propType},
+			</if>
+			<if test="objId!=null">
+				#{objId},
+			</if>
+			<if test="resume!=null">
+				#{resume},
+			</if>
+			<if test="status!=null">
+				#{status},
+			</if>
+			<if test="linkUrl!=null">
+				#{linkUrl},
+			</if>
+			<if test="linkImg != null">
+				#{linkImg},
+			</if>
+			<if test="modifier != null">
+				#{modifier},
+			</if>
+			NOW(),
+			NOW()
+		</trim>
+  	</insert>
+  	
+  	
+  	<select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+  	
+  		select  <include refid="Base_Column_List"/>
+  		from t_prop_index t
+  		where 1=1
+  		<if test="resume!=null">
+  			and t.resume like '%${resume}%'
+  		</if>
+  		<if test="propType!=null">
+  			and t.prop_type=#{propType}
+  		</if>
+  		<if test="status!=null">
+		   and t.status=#{status}
+		</if>
+  	</select>
+  	
+  	 <select id="queryList" parameterType="pd" resultMap="BaseResultMap">
+  	
+  		select  <include refid="Base_Column_List"/>
+  		from t_prop_index t
+  		where 1=1
+  		<if test="resume!=null">
+  			and t.resume like '%${resume}%'
+  		</if>
+  		<if test="propType!=null">
+  			and t.prop_type=#{propType}
+  		</if>
+  		<if test="status!=null">
+		   and t.status=#{status}
+		</if>
+  	</select>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.PropIndex">
+  		update t_prop_index
+  		<set>
+	  			<if test="propType!=null">
+	  				prop_type=#{propType},
+	  			</if>
+	  			<if test="linkImg!=null">
+	  				link_img = #{linkImg},
+	  			</if>
+	  			<if test="linkUrl!=null">
+	  				link_url = #{linkUrl},
+	  			</if>
+	  			
+	  			<if test="objId!=null">
+	  				obj_id=#{objId},
+	  			</if>
+  				<if test="status != null">
+	  				status = #{status},
+	  			</if>
+	  			<if test="modifier!=null">
+	  				modifier = #{modifier},
+	  			</if>
+	  			modify_time = NOW()
+	  			where prop_id = #{propId}
+  		</set>
+  	</update>
+  	
+  	
+  	
+  	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  		update t_prop_index set status = 0 where prop_id = #{propId} 
+  	</delete>  
+  	
+  </mapper>

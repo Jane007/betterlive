@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ActivityProductMapper" >
+	<sql id="Base_Column_List" >
+		atp.activity_spec_id,
+		atp.activity_id,
+		atp.spec_id,
+		atp.activity_price,
+		atp.activity_type,
+		atp.product_id,
+    	DATE_FORMAT(atp.create_time, '%Y-%m-%d %H:%i:%s') AS create_time    
+  	</sql>
+  	
+  	<!-- //活动对应的商品规格 -->
+  	<insert id="addBatchActivityProduct" parameterType="java.util.List"  >
+    	insert into t_activity_product (activity_spec_id,
+								activity_id,
+								spec_id,
+								activity_price,
+								create_time,
+								activity_type,
+								product_id
+    				  		)
+    				  		values 	    				  	 	  
+	    				  	<foreach collection="list" item="l" separator=",">
+    				  		(NULL,
+    				  	 	    #{l.activity_id},
+    				  	 	    #{l.spec_id},
+    				  	 	    #{l.activity_price},
+    				  	 	    now(),
+    				  	 	    #{l.activity_type},
+    				  	 	    #{l.product_id}
+    				  	 	 )
+    				  		</foreach> 	   	  
+  	</insert>
+   	
+  	<select id="queryList" resultType="com.kingleadsw.betterlive.model.ActivityProduct" parameterType="pd">
+  		SELECT 
+     		<include refid="Base_Column_List" />
+     		,s.spec_name,
+			s.spec_price 
+     		FROM t_activity_product atp inner join t_spec s on s.spec_id=atp.spec_id
+     		where s.status = 1 
+     		<if test="null!=activityId and ''!=activityId">
+     			and atp.activity_id=#{activityId}
+     		</if>
+     		<if test="null!=specId and ''!=specId">
+     			and atp.spec_id=#{specId}
+     		</if>
+     		<if test="null!=activityType and ''!=activityType">
+     			and atp.activity_type=#{activityType}
+     		</if>
+     		<if test="null!=productId and ''!=productId">
+     			and atp.product_id=#{productId}
+     		</if>
+     		<if test="activityFlag != null and activityFlag == 1">
+     			and (atp.activity_type = 2 or atp.activity_type = 3 or atp.activity_type = 5)
+     		</if>
+     		order by atp.activity_price asc
+  	</select>
+  	
+  	<select id="queryOne" resultType="com.kingleadsw.betterlive.model.ActivityProduct" parameterType="pd">
+  		SELECT 
+     		<include refid="Base_Column_List" />,
+     		s.discount_price,
+     		s.spec_price
+     		FROM t_activity_product atp inner join t_spec s on s.spec_id=atp.spec_id
+     		where s.status=1
+     		<if test="activitySpecId != null">
+     			and atp.activity_spec_id = #{activitySpecId}
+     		</if>
+     		<if test="null!=activityId">
+     			and atp.activity_id=#{activityId}
+     		</if>
+     		<if test="null!=specId">
+     			and atp.spec_id=#{specId}
+     		</if>
+     		<if test="null!=activityTypee">
+     			and atp.activity_type=#{activityType}
+     		</if>
+     		<if test="null!=productId">
+     			and atp.product_id=#{productId}
+     		</if>
+     		<if test="activityFlag != null and activityFlag == 1">
+     			and (atp.activity_type = 2 or atp.activity_type = 3 or atp.activity_type = 5)
+     		</if>
+     		order by s.spec_price asc
+     		limit 1
+  	</select>
+  	
+  	
+  	<select id="queryMinProductPrice" resultType="float" parameterType="pd">
+  		SELECT IFNULL(MIN(ap.activity_price),-1) FROM t_activity_product ap
+  			INNER JOIN t_professional pf ON ap.`activity_id` = pf.`special_id`
+  		WHERE ap.product_id = #{productId}  AND pf.`status` = 1
+  			AND NOW() BETWEEN pf.starttime AND pf.endtime
+  			<if test="activityType != null">
+  			AND ap.activity_type = #{activityType}
+  			</if>
+			<if test="specId != null">
+  				AND ap.spec_id = #{specId}
+  			</if>
+  	</select>
+  	
+  	<select id="queryActivityProductByParams" resultType="com.kingleadsw.betterlive.model.ActivityProduct" parameterType="pd">
+  		SELECT <include refid="Base_Column_List" />
+  		 FROM t_activity_product atp
+  			INNER JOIN t_professional pf ON atp.`activity_id` = pf.`special_id`
+  		WHERE 1=1
+  			<if test="productId">
+  				AND atp.product_id = #{productId} 
+  			</if>
+			<if test="specId != null">
+  				AND atp.spec_id = #{specId}
+  			</if>
+  			<if test="specialStatus != null">
+  				AND pf.`status` = #{specialStatus}
+  			</if>
+  			<if test="nowTime != null">
+  				AND #{nowTime} BETWEEN pf.starttime AND pf.endtime
+  			</if>
+  	</select>
+    
+    <!--   //根据主键(ID)删除活动对应的商品规格   -->
+    <delete id="deleteActivityProductByAid" parameterType="java.lang.String" >
+    	delete from  t_activity_product where activity_id=#{activityId}
+    </delete> 
+    <delete id="delete" parameterType="pd" >
+    	delete from  t_activity_product where 
+    	activity_id=#{activityId} 
+    	<if test="specIds!=null and specIds!=''">
+    		and spec_id not in (${specIds})
+    	</if>
+    	<if test="activityType!=null and ''!=activityType">
+    		AND activity_type = #{activityType}
+    	</if>
+    </delete> 
+    
+    
+    <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.ActivityProduct">
+    	update t_activity_product set activity_price=${activity_price}
+    	where activity_spec_id=#{activity_spec_id}
+    </update>
+     
+</mapper>

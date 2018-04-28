@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SysCashMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SysCash" >
+    <id column="sys_id" property="sysId" jdbcType="INTEGER" />
+    <result column="band_coupon" property="bandCoupon" jdbcType="VARCHAR" />
+    <result column="band_type" property="bandType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="activity_name" property="activityName" jdbcType="VARCHAR" />
+    <result column="tip_pic" property="tipPic" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.sys_id, t.band_coupon, t.band_type, DATE_FORMAT(t.start_time, '%Y-%m-%d %H:%i:%s') start_time, t.product_id,
+    DATE_FORMAT(t.end_time, '%Y-%m-%d %H:%i:%s') end_time, t.status, DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') create_time, t.activity_name, t.tip_pic
+  </sql>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_cash t where 1=1
+    <if test="sysId != null and sysId > 0">
+    	and t.sys_id = #{sysId}
+    </if>
+    <if test="status != null">
+    	and t.status = #{status}
+    </if>
+    <if test="null != startTime and '' != startTime">
+		and t.start_time&lt;#{startTime}
+	</if>
+	<if test="null !=endTime and '' != endTime">
+		and t.end_time&gt;#{endTime}
+	</if>
+    limit 1
+  </select>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SysCash" useGeneratedKeys="true"  keyProperty="sysId">
+    insert into t_sys_cash 
+    	(
+			band_coupon,
+			band_type,
+			start_time,
+			end_time,
+			status,
+			create_time,
+			activity_name,
+			tip_pic,
+			product_id
+		)
+    values 
+    	(
+		   #{bandCoupon},
+		   #{bandType},
+		   #{startTime},
+		   #{endTime},
+		   #{status},
+		   NOW(),
+		   #{activityName},
+		   #{tipPic},
+		   #{productId}
+    	)
+  </insert>
+  
+</mapper>

@@ -1,0 +1,272 @@
+.mainBox{
+	position: fixed;
+	width: 100%;
+	top: 0.79rem;
+	bottom: 0;
+	overflow-y: auto;
+	font-size:0.24rem;
+	padding: 0 0 1.2rem 0;
+}
+.GiftCardList{
+	width: 100%;
+	height: 3.62rem;
+	background: url(../img/present.png) no-repeat center center;
+	background-size: cover;
+	padding: 0.78rem 0 0 0;
+	box-sizing: border-box;
+	color: white;
+	position: relative;
+}
+.bot-git{
+	font-size: 0.24rem;
+	text-align: center;
+	
+}
+.bot-sum{
+	font-size: 0.44rem;
+	text-align: center;
+	margin: 0.35rem 0 0 0;
+	font-family: arial;
+	color: #cfa972;
+}
+.Safety{
+	width: 1.34rem;
+	height: 0.35rem;
+	border-radius: 2px;
+	border: 1px solid #BBBBBB;
+	text-align: center;
+	line-height: 0.38rem;
+	font-size: 0.22rem;
+	margin: 0.7rem auto 0;
+	color: white;
+	
+}
+.record{
+	position: absolute;
+	right: 0.15rem;
+	top: 0.3rem;
+	padding-right: 0.22rem;
+	background: url(../img/clickright.png) no-repeat right center;
+	background-size: 11%;
+	color: white;
+}
+.presentCardBox{
+	margin-top: 1.05rem;
+}
+.presentCard-img{
+	width: 1.38rem;
+	height: 1.26rem;
+	margin: 0 auto;
+}
+.presentCard-img img{
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+}
+.presentCardBox p{
+	text-align: center;
+	margin: 0.25rem 0 0 0;
+	color: #999999;
+	font-size: 0.28rem;
+}
+.addpresentCard{
+	width: 100%;
+	height: 0.79rem;
+	line-height: 0.82rem;
+	text-align: center; 
+	position: fixed;
+	bottom:0;  
+	color: #666;   
+	font-size: 0.28rem; 
+	background:#fff url(../img/lipinjia.png) no-repeat 35% center;  
+	background-size:5%;   
+} 
+.dia-presentCard{
+    
+	top: 20%;
+	right: 0;
+	left: 0;
+ 
+	z-index: 115;
+	background: white;
+	color: #999999; 
+	border-radius: 4px;
+	font-size: 0.22rem;
+	font-family: "微软雅黑";
+	text-align: center;
+	display: none;
+}
+.example-img{
+	width: 100%;
+	height: 2.33rem;
+	position: relative;
+}
+.example-img img{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.dia-presentCard p{
+	margin: 0.4rem 0 0 0;
+	font-size: 0.26rem;
+	color: #333333;
+}
+.import-letter{
+	margin: 0.39rem 0 0 0;
+}
+.import-letter input{
+	width: 4.92rem;
+	height: 0.65rem;
+	display: inline-block;
+	border: 1px solid #EAEAEA;
+	background: white;
+	outline: none;
+	text-indent: 0.33rem;
+	font-family: "微软雅黑";
+}
+.dia-addCard{
+	width: 4.94rem;
+	height: 0.67rem;
+	text-align: center;
+	line-height: 0.7rem;
+ 
+	color: white;
+	border-radius: 4px;
+	  
+}
+   
+.dia-cancel{
+	width: 50%;
+	    
+	text-align: center;
+	color: #999999;
+	font-size: 0.22rem;
+}
+
+.dia-card-success{
+	font-family: "微软雅黑";
+    width: 70%;
+    background: #fbfaf3;
+    padding-bottom:0.1rem;
+    position: fixed;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index:120;
+    border-radius: 4px;
+    font-size: 0.26rem;
+    overflow: hidden;
+    display: none;
+}
+.dia-card-success img{
+	width: 1.77rem;
+	height: 1.77rem;
+	display: block;
+	margin: 0.5rem auto 0.25rem;
+}
+.dia-card-success p{
+	text-align: center;
+	margin-top:0.1rem;
+	font-size: 0.26rem;
+}
+.dia-card-success .OK{
+	display: inline-block;
+	margin:0.5rem 0 0 0;
+	width: 100%;
+	height: 0.8rem;
+	line-height: 0.83rem;
+	text-align: center;
+	color: #aa2c23;
+	font-size: 0.24rem;
+	border-top: 1px solid #dcdcdc;
+}
+
+.dia-psd{
+	 width: 5.2rem;
+	 background: white;
+	  position: fixed;
+	  top: 25%;
+	  right: 0;
+	  left: 0;
+	  margin: auto;
+	  z-index: 120;
+	  border-radius: 4px;
+	  text-align: center;
+	  padding: 0.4rem 0 0 0;
+	  font-family: "微软雅黑";
+	  font-size: 0.26rem;
+	  color: #333333;
+	  display: none;
+}
+.pay-success{
+	margin: 0.25rem 0 0 0;
+}
+.getbox{
+	margin: 0.1rem 0 0 0;
+}
+.dia-psd .key{
+	border-top: 1px solid #dcdcdc;
+	margin-top: 0.35rem;
+	height: 0.86rem;
+}
+.dia-psd a {
+  height: 100%;
+  line-height: 0.89rem;
+  display: inline-block;
+  text-align: center;
+  float: left;
+}
+.dia-psd .yes {
+  width: 50%;
+  border-left: 1px solid #dcdcdc;
+  box-sizing: border-box;
+  color: #aa2c23;
+}
+.dia-psd .no {
+	color: #666666;
+  width: 50%;
+}
+
+.lipintop{background:url(../img/lipinbg.jpg) no-repeat; background-size:100%; height:3.78rem; text-align:center;margin-top:0.81rem; }
+.lipintop span{display:block;font-size:0.63rem;color:#fff;padding-top:1.35rem;}  
+.lipintop p{display:block;color:#fedede;font-size:0.256rem; }   
+
+.all-row{width:100%; background:#fff; line-height:1rem;overflow:hidden; position:relative;}
+.all-row .personMenuName{float:left;margin-left:0.26rem;padding-left:0.64rem;font-size:0.31rem; color:#363636;  }
+.all-row .personMenuName.redPac{background:url(../img/lipin01.png) no-repeat center left; background-size:0.34rem; }
+.all-row .personMenuName.voucher{background:url(../img/lipin02.png) no-repeat center left; background-size:0.34rem; }
+.all-row .personMenuName.myShop{background:url(../img/lipin03.png) no-repeat center left; background-size:0.34rem; } 
+ 
+ 
+.personMenu{padding-bottom:1.15rem;margin-top:0.2rem; }  
+.personMenu .all-row:after{position:absolute; display:block;content: ''; 
+  bottom: 0;
+  left:0;
+  background:#d9d9d9;  
+  width: 100%;
+  height: 1px;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  -webkit-transform-origin: 0 0;  
+  transform-origin: 0 0;  }
+.personMenu .all-row:last-child:after{display:none;}  
+.personMenu .all-row .moreIco{ background:url(../img/jiantou01.png) no-repeat 0 center;background-size:100%;  display:inline-block;width:0.16rem;height:1rem; float:right; margin-right:0.26rem;}
+.hei60 li{position:relative;}
+.hei60 li em{position:absolute; display:block;width:0.26rem;height:0.26rem;color:#fff; background: #e62d29; text-align:center;line-height:0.26rem; border-radius:0.13rem; font-size: 0.2rem; top:0;right:30%;}
+.addkabox{height:0.95rem;line-height:0.95rem; position:fixed;bottom:0;width:100%; background:#fff;border-bottom:1px solid #d9d9d9; text-align:center;}
+.addkabox span{font-size: 0.31rem; display:block; color:#8a8a8a; background:url("../img/lipinjia.png") no-repeat 33% center; background-size:0.4rem; } 
+
+
+.smlipbox{padding:0rem 0.2rem 0.4rem 0.2rem;}   
+.smlipbox span{display:block;font-size:0.29rem;color:#363636;margin-top:0.4rem;}   
+.smlipbox p{font-size:0.25rem; color:#363636; line-height: 0.4rem;}   
+   
+.bkbg{background:rgb(0,0,0,0.5);position:fixed;width:100%;height:100%;top:0;}    
+.shepassdbox{background:#fff;position:fixed;width:94%;margin-left:3%;top:2rem;height:3.18rem;border-radius:0.5rem; z-index:300;  }
+.shepassdbox span{font-size:0.31rem; display:block;width:100%;text-align:center;height:1rem;line-height:1rem; }   
+.shepassdbox input{background:#eee; padding:0.15rem 0;border-radius:3px;  width:80%;padding-left:3px; height:0.61rem; border:none;margin-left:10%; bordrr-radius:4px; display:block;  font-size:0.26rem; text-indent:0.2rem; }
+.shepassdbox .qushan{overflow:hidden;zoom;1; height:0.84rem; line-height:0.84rem;border-top:1px solid #d9d9d9; margin-top: 0.4rem; }
+.shepassdbox .qushan a{display:inline-block;width:49%;text-align:center; font-size:0.31rem;float:left; position:relative; height:100%;  }
+.shepassdbox .qushan a.left{border-right:1px solid #d9d9d9; }
+.shepassdbox .qushan a.right{color:#e62d29; } 

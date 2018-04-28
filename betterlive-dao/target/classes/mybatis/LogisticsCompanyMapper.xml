@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.LogisticsCompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.LogisticsCompany" >
+    <id column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    company_id, company_code, company_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_logistics_company
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryList" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_logistics_company
+    where 1=1  
+    <if test="companyId != null and companyId !=''" >
+       and company_id=#{companyId}
+    </if>
+    <if test="companyCode != null and companyCode !=''" >
+       and company_code=#{companyCode}
+    </if>
+  </select>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_logistics_company
+    where 1=1  
+    <if test="companyId != null and companyId !=''" >
+       and company_id=#{companyId}
+    </if>
+    <if test="companyCode != null and companyCode !=''" >
+       and company_code=#{companyCode}
+    </if>
+    
+    limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_logistics_company
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.LogisticsCompany" >
+    insert into t_logistics_company (company_id, company_code, company_name
+      )
+    values (#{companyId,jdbcType=INTEGER}, #{companyCode,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kingleadsw.betterlive.model.LogisticsCompany" >
+    insert into t_logistics_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="companyCode != null" >
+        company_code,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.LogisticsCompany" >
+    update t_logistics_company
+    <set >
+      <if test="companyCode != null" >
+        company_code = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.LogisticsCompany" >
+    update t_logistics_company
+    set company_code = #{companyCode,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR}
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </update>
+</mapper>

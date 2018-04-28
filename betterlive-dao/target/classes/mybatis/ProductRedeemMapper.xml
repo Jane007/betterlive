@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ProductRedeemMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ProductRedeem" >
+    <id column="redeem_id" property="redeemId" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="spec_id" property="specId" jdbcType="INTEGER" />
+    <result column="redeem_type" property="redeemType" jdbcType="INTEGER" />
+    <result column="need_integral" property="needIntegral" jdbcType="DECIMAL" />
+    <result column="deductible_amount" property="deductibleAmount" jdbcType="DECIMAL" />
+    <result column="creator" property="creator" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="INTEGER" />
+    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+	t.redeem_id, t.product_id, t.spec_id, t.redeem_type, t.need_integral, t.deductible_amount, t.status,
+	t.creator, DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') create_time,
+	t.modifier, DATE_FORMAT(t.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,
+	DATE_FORMAT(t.start_time, '%Y-%m-%d %H:%i:%s') start_time,
+	DATE_FORMAT(t.end_time, '%Y-%m-%d %H:%i:%s') end_time
+  </sql>
+  
+  
+  	<sql id="Join_Business_Column_List" >
+		tp.product_id AS "productId",
+		tp.product_name AS "productName",
+		tp.product_code AS "productCode",
+		tp.product_logo AS "productLogo",
+		tp.fake_sales_copy AS "fakeSalesCopy",
+		sum(stock_copy) AS "totalStockCopy"
+	</sql>
+	
+	<!--积分商城列表    -->
+  	<select id="queryProductRedeemsListPage" resultType="com.kingleadsw.betterlive.model.ProductRedeem" parameterType="pd">
+  		select t.redeem_id AS "redeemId", 
+  			   t.need_integral AS "needIntegral",
+  			<include refid="Join_Business_Column_List" />
+  		from t_product_redeem t, t_product tp, t_spec ts
+		 where t.`status` = 0
+			and t.start_time <![CDATA[ <= ]]> NOW()
+			and t.end_time <![CDATA[ > ]]> NOW()
+			and t.product_id = tp.product_id
+			and tp.`status` = 1
+			and t.product_id = ts.product_id
+			and t.spec_id	= ts.spec_id
+			and ts.`status` = 1
+		GROUP BY t.redeem_id
+  	</select>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_redeem t where t.`status` = 0
+    and t.start_time <![CDATA[ <= ]]>  NOW() and t.end_time <![CDATA[ > ]]> NOW()
+    <if test=" null != productId and '' != productId ">
+    	AND t.product_id = #{productId}
+    </if>
+    <if test=" null != specId and '' != specId ">
+    	AND t.spec_id = #{specId}
+    </if>
+    
+    limit 1
+  </select>
+  
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_redeem t
+    limit 1
+  </select>
+  
+</mapper>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ShoppingCartMapper" >
+		
+	<sql id="Base_Column_List" >
+		sc.cart_id,
+		sc.customer_id,
+		sc.product_id,
+		sc.spec_id,
+		sc.amount,
+		sc.extension_type,
+    	DATE_FORMAT(sc.create_time, '%Y-%m-%d %H:%i:%s') AS create_time 
+  	</sql>
+  
+  
+	<!-- //根据条件分页查询购物全部商品    -->
+	<select id="queryShoppingCartListPage" resultType="com.kingleadsw.betterlive.model.Product" parameterType="pd">
+    	SELECT
+     		
+     		<include refid="Base_Column_List" />,c.nickname,p.product_code,p.product_name,
+     		ps.spec_name,ps.spec_price
+     	
+		FROM t_shopping_cart sc INNER JOIN t_customer c ON  sc.customer_id=c.customer_id 
+
+                  INNER JOIN t_product p ON sc.product_id=p.product_id and p.status=1
+
+                  INNER JOIN t_spec ps ON sc.spec_id=ps.spec_id
+	
+     	WHERE   sc.customer_id=#{customerId}
+     	
+  	</select>
+  	
+  	<!-- 根据条件，查询单个购物车商品 -->
+	<select id="queryOne" resultType="com.kingleadsw.betterlive.model.ShoppingCart" parameterType="pd">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from t_shopping_cart as sc  INNER JOIN t_product p ON sc.product_id=p.product_id and p.status=1
+    	where 1 = 1
+    	
+    	<!-- 客户ID -->
+       	<if test="customer_id != null" >
+       		and sc.customer_id = #{customer_id,jdbcType=INTEGER}
+      	</if>
+      	
+      	<!-- 商品ID -->
+      	<if test="product_id != null" >
+       		and sc.product_id = #{product_id,jdbcType=INTEGER}
+      	</if>
+      	
+      	<!-- 规格ID -->
+      	<if test="spec_id != null" >
+       		and sc.spec_id = #{spec_id,jdbcType=INTEGER}
+      	</if>
+      	
+      	<!-- 购物车ID -->
+      	<if test="cart_id != null" >
+       		and sc.cart_id = #{cart_id,jdbcType=INTEGER}
+      	</if>
+      	
+      	LIMIT 1
+  	</select>
+  	
+  	
+  	<!-- //根据条件查询购物全部商品   -->
+  	<select id="queryListShoppingCart" resultType="com.kingleadsw.betterlive.model.ShoppingCart" parameterType="pd" >
+    	SELECT      		
+     		<include refid="Base_Column_List" />,c.nickname,p.product_code,p.product_name,
+     		ps.spec_name,ps.spec_img,ps.spec_price 
+		FROM t_shopping_cart sc INNER JOIN t_customer c ON  sc.customer_id=c.customer_id 
+            INNER JOIN t_product p ON sc.product_id=p.product_id and p.status=1
+            INNER JOIN t_spec ps ON sc.spec_id = ps.spec_id AND sc.product_id = ps.product_id AND ps.status = 1
+     	WHERE sc.customer_id = #{customerId} 
+     	
+     	<!-- 根据 购物车ID 存在多个购物车-->
+     	<if test="cartIds != null and ''!=cartIds " >
+       		and sc.cart_id in (${cartIds})
+      	</if>
+      	<if test="productId!=null and ''!=productId">
+      		and sc.product_id=#{productId}
+      	</if>
+      	<!-- 规格 -->
+     	<if test="null!=specId and ''!=specId">
+     		and sc.spec_id=#{specId}
+     	</if>
+     	 ORDER BY sc.create_time DESC 
+  	</select>
+  	
+  	<select id="queryShoppingCartCnt" parameterType="int" resultType="int">
+  		SELECT IFNULL(SUM(amount),0) FROM t_shopping_cart sc
+  			INNER JOIN t_spec s ON sc.product_id = s.product_id AND s.spec_id = sc.spec_id 
+  			INNER JOIN t_product p ON p.product_id = s.product_id
+  		WHERE customer_id = #{customer_id} AND s.status = 1 AND p.status = 1
+  	</select>
+  	
+  	<!-- //新增用户购买商品到购物车 -->
+  	<insert id="addShoppingCart" parameterType="com.kingleadsw.betterlive.model.ShoppingCart" >
+    	insert into t_shopping_cart (cart_id,
+								     customer_id,
+									 product_id,
+									 spec_id,
+									 amount,
+									 extension_type,
+									 create_time
+
+    				  				)
+    				  		values( #{cart_id},
+	    				  	 	   	#{customer_id},
+	    				  	 	    #{product_id},
+	    				  	 	    #{spec_id},
+	    				  	 	    #{amount},
+	    				  	 	    #{extension_type},
+	    				  	 	    now()
+	    				  	 	  )
+    				  		
+  	</insert>
+   	
+   	<!--修改用户 购物车中购买的商品-->
+    <update id="updateShoppingCartByCid" parameterType="pd" >
+    	update t_shopping_cart 
+    		<set> 
+    			 <!-- 更新类型  1 全部更新  2 更新数量 -->
+    			 
+    			 <if test=" 1==editType ">
+    			 	amount=#{amount},
+    			 	spec_id=#{productSpecId},
+    			 	create_time = now(),
+	    			<if test="null !=extensionType and ''!=extensionType">
+	    			 	 extension_type=#{extensionType},
+	    			</if>
+    			 </if>
+    			 
+    			 
+    			 <if test=" 2==editType ">	
+   				   amount=#{amount},
+   				   create_time = now(),
+   				 </if>  
+   			</set>	   
+    	where customer_id=#{customerId} and cart_id =#{cartId}
+    	
+    </update> 
+    
+    <!--//根据购物车Id和用户ID删除用户购买的指定商品 -->
+    <delete id="deleteShoppingCartByCidAndCid" parameterType="pd" >
+    	delete from  t_shopping_cart where customer_id=#{customerId} and cart_id in (${cartId})
+    </delete> 
+    
+    <!--//根据用户ID删除用户购买的全部商品 -->
+    <delete id="deleteShoppingCartByCid" parameterType="pd" >
+    	delete from  t_shopping_cart where customer_id=#{customerId}
+    </delete> 
+    
+    
+    <!-- 合并用户时,需要合并用户的购物车 -->
+    <update id="modifyCustomerShopCartBycId" parameterType="pd" >
+	    update t_shopping_cart set customer_id=#{newCustomerId}  where customer_id=#{customerId}
+	</update>
+	
+	<!-- 查询购物车单个商品优惠券和红包数量 -->
+	<select id="findCountByCoupon" parameterType="pd" resultType="Integer">
+		SELECT SUM(countNum) from (
+		(SELECT COUNT(1) countNum from t_coupon_info where status = 0 AND NOW() <![CDATA[ > ]]> starttime AND NOW() <![CDATA[ < ]]> endtime
+		<if test=" null != customerId and '' != customerId ">
+			AND customer_id = #{customerId}
+		</if>
+		) UNION (SELECT COUNT(1) countNum from t_single_coupon_spec ss LEFT JOIN t_single_coupon sc ON ss.coupon_id = sc.coupon_id
+		WHERE sc.`status` = 1 AND NOW() <![CDATA[ > ]]> sc.start_time AND NOW() <![CDATA[ < ]]> sc.end_time
+		<if test=" null != productId and '' != productId ">
+			AND ss.product_id = #{productId}
+		</if>
+		<if test=" null != specId and '' != specId ">
+			AND ss.spec_id = #{specId}
+		</if>
+		))temp
+	</select>
+</mapper>

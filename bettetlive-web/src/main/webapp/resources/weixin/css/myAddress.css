@@ -1,0 +1,222 @@
+.mainBox{
+	position: fixed;
+	top: 0.95rem;
+	bottom: 0;
+	overflow-y: auto;
+	font-size:0.24rem;
+	width: 100%;
+	padding: 0 0 1rem 0;
+}
+.consigneebox {
+}
+.consigneebox .addresslist {
+  font-size: 0.26rem;
+  color: #333;
+  padding: 0.2rem 0.3rem 0;
+  background: #fff;
+  margin-bottom: 0.16rem;
+  box-sizing: border-box;
+  border-left: 0.06rem solid #fbfaf3;
+}
+.consigneebox .addresslist.active{
+	border-left: 0.06rem solid #AA2C23;
+}
+.consigneebox .addresslist P {
+  line-height: 0.45rem;
+  overflow: hidden;
+}
+.consigneebox .addresslist .conname{
+	width: 1.16rem;
+	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	float: left;
+}
+.consigneebox .addresslist .consignee .phonenumber {
+	float: left;
+}
+.consigneebox .addresslist .Receivingaddress {
+  margin-bottom: 0.1rem;
+  font-size: 0.22rem;
+  color: #999999;
+  padding-left: 1.16rem;
+}
+.consigneebox .addresslist .defaultaddress {
+  border-top: 1px solid #eeeeee;
+  padding: 0.15rem 0;
+  background-size: 4%;
+  
+  color: #999999;
+}
+.consigneebox .addresslist .defaultaddress .debox{
+	position: relative;
+	display: inline-block;
+	height: 0.32rem;
+	line-height: 0.32rem;
+}
+.consigneebox .addresslist .defaultaddress .default {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #bdbcbc;
+  border-radius: 50%;
+  background: #dcdcdc;
+  display: inline-block;
+  box-sizing: border-box;
+  position: absolute;
+  top: -0.02rem;
+}
+.consigneebox .addresslist .defaultaddress .default.on{
+	background: url(../img/xuanzhong.png) no-repeat center center;
+	background-size: cover;
+	border:0;
+}
+.consigneebox .addresslist .defaultaddress .default input {
+  opacity: 0;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+}
+.consigneebox .addresslist .defaultaddress i {
+  margin-left: 0.55rem;
+}
+.consigneebox .addresslist .defaultaddress .addressdel {
+  float: right;
+  width: 0.87rem;
+  height: 0.38rem;
+  border-radius: 3px;
+  border: 1px solid #aaaaa9;
+  text-align: center;
+  line-height: 0.42rem;
+}
+.consigneebox .addresslist .defaultaddress .addressedit {
+  float: right;
+  width: 0.87rem;
+  height: 0.38rem;
+  border-radius: 3px;
+  border: 1px solid #aaaaa9;
+  margin-right: 0.15rem;
+  text-align: center;
+  line-height: 0.42rem;
+  color: #999999;
+}
+.newAdd-address{
+	width: 100%;
+	height: 0.85rem;
+	background: #e62d29 url(../img/jia.png) no-repeat 38% center; background-size:0.4rem; 
+	line-height: 0.88rem; 
+	font-size: 0.26rem;
+	display: inline-block;
+	color: white;
+	text-align: center; 
+	position: fixed;
+	bottom: 0;
+}
+.no-address{
+	padding-top: 2.6rem;
+	display: none;
+}
+.no-address-img{
+	width: 1.38rem;
+	height: 1.26rem;
+	margin: 0 auto;
+}
+.no-address-img img{
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+}
+.no-address p{
+	text-align: center;
+	margin: 0.25rem 0 0 0;
+	color: #999999;
+	font-size: 0.28rem;
+}
+
+
+
+/*编辑地址*/
+.fillIn{
+	padding:0 0.3rem;
+	background: #fff;
+}
+.fillIn li{
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 0.22rem;
+	padding: 0.3rem 0;
+}
+.fillIn li:last-child{
+	border-bottom: 0;
+}
+.fillIn li label{
+	color: #333333;
+	width: 20%;
+	display: inline-block;
+}
+.fillIn li input[type=text]{
+	width: 100%;
+	border: 0;
+	outline: none;
+	font-family: "微软雅黑";
+	color: #999999;
+	font-size: 0.22rem;
+	background: transparent;
+}
+.fillIn li.takeName em{
+	height: 0.32rem;
+	float: right;
+}
+.fillIn li.takeName em a{
+	height: 0.32rem;
+	display: inline-block;
+	font-style: normal;
+}
+.fillIn li.takeName em a.girl{
+	margin-left: 0.4rem;
+	
+}
+.fillIn li.takeName em span{
+	width: 0.3rem;
+	height: 0.3rem;
+	display: inline-block;
+	float: left;
+	border-radius: 50%;
+	border: 1px solid #a4a4a4;
+	background: #E5E5E5;
+}
+.fillIn li.takeName em span.active{
+	background: #36bf10;
+}
+.fillIn li.takeName em span input[type=radio]{
+	width: 0.32rem;
+	height: 0.32rem;
+	float: left;
+	opacity: 0;
+}
+.fillIn li.takeName em i{
+	margin-left: 0.1rem;
+}
+.saveAddress{
+	position:fixed;
+	bottom:0;
+	width: 100%;
+	height: 0.84rem;
+	background: #e62d29;
+	line-height: 0.87rem;
+	font-size: 0.26rem;
+	color: white;
+	text-align: center;
+	margin: 0.38rem auto 0;
+}
+
+input[type="button"], input[type="submit"], input[type="reset"] {
+-webkit-appearance: none;
+} 
+
+#areabox{ 
+	border:none;
+	color:#999; 
+	background:#fff; 
+	width: 100%;
+    text-align: left;
+}

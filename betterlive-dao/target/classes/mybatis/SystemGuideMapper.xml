@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SystemGuideMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SystemGuide" >
+    <id column="system_guide_id" property="systemGuideId" jdbcType="BIGINT" />
+    <result column="guide_type" property="guideType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="guide_name" property="guideName" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    sg.system_guide_id,sg.guide_type,sg.status,sg.guide_name,sg.creator,DATE_FORMAT(sg.create_time, '%Y-%m-%d %H:%i:%s') create_time,
+    DATE_FORMAT(sg.modify_time, '%Y-%m-%d %H:%i:%s') modify_time,sg.modifier,sg.remark
+  </sql>
+    
+  	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+		select 
+			<include refid="Base_Column_List" />
+		from t_system_guide sg
+		where 1=1
+		 <if test="status != null">
+		 	and status = #{status}
+		 </if> 
+		 <if test="guideType != null">
+		 	and guide_type = #{guideType}
+		 </if>
+	</select>
+	
+</mapper>

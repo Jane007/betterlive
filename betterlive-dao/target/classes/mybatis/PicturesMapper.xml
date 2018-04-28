@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.PicturesMapper">
+	<resultMap id="BaseResultMap" type="Pictures">
+		<id column="picture_id" property="picture_id" jdbcType="INTEGER" />
+	    <result column="object_id" property="object_id" jdbcType="INTEGER" />
+    	<result column="picture_type" property="picture_type" jdbcType="INTEGER" />
+		<result column="small_img" property="small_img" jdbcType="VARCHAR" /> 
+	    <result column="original_img" property="original_img" jdbcType="VARCHAR" />
+    	<result column="create_time" property="create_time" javaType="String" jdbcType="VARCHAR" />
+ 		<result column="status" property="status" jdbcType="INTEGER" />
+ 		<result column="pic_width" property="picWidth" jdbcType="INTEGER" />
+ 		<result column="pic_height" property="picHeight" jdbcType="INTEGER" />
+ 		<result column="sort" property="sort" jdbcType="INTEGER" />
+	</resultMap>
+	 
+	 <!-- 新增商品规格图片 -->
+  	<insert id="insertBatchFromList" parameterType="java.util.List">
+    	insert into t_pictures (picture_id,
+			object_id,
+			picture_type,
+			small_img,
+			original_img,
+			create_time,
+			status,
+			pic_width,
+			pic_height)
+	  	values 
+	  	<foreach collection="list" item="l" separator=",">
+	  		(NULL,
+  	 	    #{l.object_id},
+  	 	    #{l.picture_type},
+  	 	    #{l.small_img},
+  	 	    #{l.original_img},
+  	 	    now(),
+  	 	    1,
+  	 	    #{l.picWidth},
+  	 	    #{l.picHeight}
+  	 	 	)
+	  	</foreach> 	  
+  	</insert>
+  	
+	 <!-- 新增图片 -->
+  	<insert id="insert" parameterType="com.kingleadsw.betterlive.model.Pictures" useGeneratedKeys="true"  keyProperty="picture_id">
+    	insert into t_pictures (picture_id,
+			object_id,
+			picture_type,
+			small_img,
+			original_img,
+			create_time,
+			status,
+			pic_width,
+			pic_height,
+			sort)
+	  	values 
+	  		(NULL,
+  	 	    #{object_id},
+  	 	    #{picture_type},
+  	 	    #{small_img},
+  	 	    #{original_img},
+  	 	    now(),
+  	 	    1,
+  	 	    #{picWidth},
+  	 	    #{picHeight},
+  	 	 	#{sort}
+  	 	 	)
+  	</insert>
+  	
+  	<select id="queryOne" resultMap="BaseResultMap" parameterType="pd">
+  		select picture_id,
+			object_id,
+			picture_type,
+			small_img,
+			original_img,
+			create_time,
+			status
+			from t_pictures where 1=1 
+			<if test="picture_type != null">
+				and picture_type = #{picture_type}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			limit 1
+  	</select>
+  	
+  	<select id="queryList" resultMap="BaseResultMap" parameterType="pd">
+  		select picture_id,
+			object_id,
+			picture_type,
+			small_img,
+			original_img,
+			create_time,
+			status,
+			pic_width,
+			pic_height,
+			sort
+			from t_pictures where status=1
+			<if test="null!=objectId and ''!=objectId">
+				and object_id=#{objectId}
+			</if>
+			<if test="null!=pictureType and ''!=pictureType">
+				and picture_type=#{pictureType}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			order by sort asc
+  	</select>
+ 
+  	<update id="updateByPrimaryKey"  parameterType="com.kingleadsw.betterlive.model.Pictures">
+  		update t_pictures set object_id=#{object_id},
+  							picture_type=#{picture_type},
+  							small_img=#{small_img},
+  							original_img=#{original_img}
+  							where picture_id=#{picture_id}
+  	
+  	</update>
+  	
+  	<delete id="delete" parameterType="pd">
+  		delete from t_pictures where object_id=#{objectId} and picture_type = #{pictureType}
+  	</delete>
+  	
+  	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  		delete from t_pictures where picture_id=#{pictureId}
+  	</delete>
+  	
+ 	<update id="updatePicturesStatus"  parameterType="pd">
+  		update t_pictures set status=#{status}
+  							where picture_id=#{pictureId}
+  	
+  	</update>
+  	
+  	<update id="updatePicturesSort"  parameterType="pd">
+  		update t_pictures set sort=#{sort}
+  							where picture_id=#{pictureId}
+  	
+  	</update>
+	 
+</mapper>

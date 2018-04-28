@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CommentMapper" >
+	
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Comment" >
+	    <id column="comment_id" property="comment_id" jdbcType="INTEGER" />
+	    <result column="order_id" property="order_id" jdbcType="VARCHAR" />
+	    <result column="order_code" property="order_code" jdbcType="VARCHAR" />
+	    <result column="customer_id" property="customer_id" jdbcType="INTEGER" />
+	    <result column="product_id" property="product_id" jdbcType="INTEGER" />
+	    <result column="content" property="content" jdbcType="VARCHAR" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="create_time" property="create_time" jdbcType="VARCHAR" />
+	    <result column="replay_staff_id" property="replay_staff_id" jdbcType="INTEGER" />
+	    <result column="reply_msg" property="reply_msg" jdbcType="VARCHAR" />
+	    <result column="replay_time" property="replay_time" jdbcType="VARCHAR" />
+	    <result column="content_imgs" property="content_imgs" jdbcType="VARCHAR" />
+    	<result column="is_custom_service" property="is_custom_service" jdbcType="INTEGER" />	    
+  	    <result column="praise_count" property="praise_count" jdbcType="INTEGER" />
+   	    <result column="parent_id" property="parent_id" jdbcType="INTEGER" />
+   	    <result column="root_id" property="root_id" jdbcType="INTEGER" />
+        <result column="reply_count" property="reply_count" jdbcType="INTEGER" />
+        <result column="product_name" property="product_name" jdbcType="VARCHAR" />
+        <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+        <result column="is_praise" property="is_praise" jdbcType="INTEGER" />
+        <result column="replyer_name" property="replyerName" jdbcType="VARCHAR" />
+        <result column="replyer_id" property="replyerId" jdbcType="INTEGER" />
+         <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+         
+	    <association property="customer" column="customer_id" select="getUsername"/>
+<!-- 	    <association property="admin" column="replay_staff_id" select="getAdminInfo"/> -->
+<!-- 	    <association property="reply" column="comment_id" select="getReplyInfo"/> -->
+	  </resultMap>
+	  
+	  
+	  <select id="getUsername"  parameterType="INTEGER" resultType="com.kingleadsw.betterlive.model.Customer">
+	   		select  customer_id,
+	   				(case when nickname is not null and nickname <![CDATA[ <> ]]> '' then nickname
+	   				else mosaic(mobile) end) nickname
+	   				,mobile,head_url,
+	   		       DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time     
+	    		from t_customer
+	    			where customer_id = #{customer_id}
+	  </select>
+	<!--  
+	  <select id="getAdminInfo"  parameterType="INTEGER" resultType="com.kingleadsw.betterlive.model.Admin">
+	  		select staff_id, username, loginname,sex, mobile, head_url
+		     
+	        from t_admin
+	         
+	        where staff_id = #{replay_staff_id}
+	  </select>
+
+	  <select id="getReplyInfo"  parameterType="INTEGER" resultType="com.kingleadsw.betterlive.model.Reply">
+		    select replay_staff_id,reply_msg,replay_time 
+	        from t_comment  where comment_id = #{comment_id} limit 1
+	  </select>
+	-->
+	
+	<sql id="Base_Column_List" >
+		comment_id,
+		order_id,
+		order_code,
+		customer_id,
+		product_id,
+		content,
+		status,
+		content_imgs,
+		DATE_FORMAT(create_time, '%Y-%m-%d %H:%i') AS create_time,
+		replay_staff_id,
+		reply_msg,
+		DATE_FORMAT(replay_time, '%Y-%m-%d %H:%i') AS replay_time,
+		root_id,
+		parent_id,
+		is_custom_service
+  	</sql>
+  	
+	<select id="selectByPrimaryKey"  resultMap="BaseResultMap" resultType="java.lang.Integer">
+        SELECT <include refid="Base_Column_List" /> FROM t_comment WHERE comment_id = #{commentId}
+    </select>
+  	
+	<!-- 根据商品id查询审核通过的商品评论  -->
+	<select id="queryCommentListByProductId" resultMap="BaseResultMap" parameterType="INTEGER" >
+	   select 
+     		<include refid="Base_Column_List" />,
+     		(select count(1) from t_praise t where t.praise_type=1 and t.obj_id = t_comment.comment_id) praise_count
+     	from t_comment where  product_id=#{productId} and status=2 order by comment_id desc
+	</select>
+  	
+  	<!-- 根据评论ID查询详细 -->
+  	<select id="queryCommentListByCommId" resultMap="BaseResultMap" parameterType="pd" >
+	   select 
+     		t.comment_id,
+			t.order_id,
+			t.order_code,
+			t.customer_id,
+			t.product_id,
+			t.content,
+			t.status,
+			t.content_imgs,
+			CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END AS create_time,
+			t.root_id,
+			t.parent_id,
+			t.is_custom_service,
+     		(select count(1) from t_praise t where t.praise_type=1 and t.obj_id = t.comment_id) praise_count
+     		,
+     		ifnull((select count(1) from t_comment tc where (tc.parent_id = t.comment_id or tc.root_id = t.comment_id) and tc.`status`=2), 0) reply_count
+			<if test="currentId != null and currentId > 0">
+				, ifnull((select praise_id from t_praise tp where tp.praise_type=1 and tp.obj_id = t.comment_id and tp.customer_id=#{currentId}), 0) is_praise
+			</if>
+			<if test="currentId == null or currentId == 0">
+				, 0 as is_praise
+			</if>
+     	from t_comment t where t.comment_id=#{commentId} and t.status=2 order by t.comment_id  desc
+	</select>
+	
+  
+	<!-- 根据条件查询商品评论的详细信息   -->
+	<select id="queryCommentInfoListPage" resultMap="BaseResultMap" parameterType="pd">
+    	select 
+     		c.comment_id,c.customer_id,c.order_code,c.order_id,c.product_id,c.content,c.replay_staff_id,c.status,c.reply_msg,
+	    DATE_FORMAT(c.replay_time, '%Y-%m-%d %H:%i') AS replay_time,
+        c.root_id,c.parent_id,c.is_custom_service,p.product_name, p.spec_name,c.content_imgs,cr.mobile as mobile, 
+     		ifnull((select count(1) from t_comment tc where tc.parent_id = c.comment_id and tc.`status`=2), 0) reply_count
+			<if test="currentId != null and currentId > 0">
+				, ifnull((select praise_id from t_praise t where t.praise_type=1 and t.obj_id = c.comment_id and t.customer_id=#{currentId} limit 1), 0) is_praise
+			</if>
+			<if test="currentId == null or currentId == 0">
+				, 0 as is_praise
+			</if>
+	     	,(select count(1) from t_praise t where t.praise_type=1 and t.obj_id = c.comment_id) praise_count
+			,(select case when tct.nickname is not null and tct.nickname <![CDATA[ <> ]]> '' then tct.nickname else mosaic(tct.mobile) end 
+				from t_customer tct where tct.customer_id = (select customer_id from t_comment where comment_id = c.parent_id)) replyer_name,
+			(select tct.customer_id from t_customer tct where tct.customer_id = (select customer_id from t_comment where comment_id = c.parent_id)) replyer_id,
+			CASE WHEN YEAR(c.create_time) = YEAR(NOW()) AND MONTH(c.create_time) = MONTH(NOW()) AND day(c.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(c.create_time, '%H:%i')))
+            WHEN YEAR(c.create_time) = YEAR(NOW()) AND MONTH(c.create_time) = MONTH(NOW()) AND day(c.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(c.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(c.create_time, '%Y-%m-%d %H:%i') END  create_time
+     	from t_comment c LEFT JOIN t_order_product p ON c.order_id=p.order_id and c.product_id=p.product_id 
+					  INNER JOIN t_customer cr ON c.customer_id=cr.customer_id
+											
+     	where 1 = 1
+
+     	<if test="null != productId and ''!=productId ">
+     		and c.product_id=#{productId}
+     	</if>
+     	
+     	<if test="null != product_name and ''!=product_name ">
+     		and p.product_name like '%${product_name}%' 
+     	</if>
+     	
+     	<if test="null != customerName and ''!=customerName ">
+     		and cr.nickname like '%${customerName}%'
+     	</if>
+     	
+     	<if test="null !=orderNo and ''!=orderNo">
+     		and c.order_code=#{orderNo}
+     	</if>
+     	
+     	<if test="null != customerId and '' != customerId">
+     		and c.customer_id=#{customerId}
+     	</if>
+     	<if test="null != mobile and '' != mobile">
+     		and cr.mobile=#{mobile}
+     	</if>
+     	
+     	<!-- 审核通过 -->
+     	<if test="null != status">
+     		and c.status=#{status}
+     	</if>
+     	
+     	<!-- 评论图片 -->
+  		<if test="null != contentImg and contentImg == 1 ">
+  			and content_imgs != ''
+  		</if> 
+  		
+  		<if test="null != start and ''!= start">
+     		and c.create_time &gt;=#{start}
+     	</if>
+     	
+     	<if test="null != end and ''!= end">
+     		and c.create_time &lt;=#{end}
+     	</if>
+     	
+     	<if test="parentFlag != null and parentFlag == 1">
+			and c.parent_id is null  		
+  		</if>
+  		
+  		<if test="rootId != null">
+			and c.root_id = #{rootId}
+  		</if>
+  		
+  		<if test="parentId != null">
+			and c.parent_id = #{parentId}
+  		</if>
+  		
+     	order by c.comment_id desc
+  	</select>
+  	
+  	
+  	<!-- 用户增加商品评论 -->
+  	<insert id="insertComment" parameterType="com.kingleadsw.betterlive.model.Comment" useGeneratedKeys="true"  keyProperty="comment_id">
+    	insert into t_comment (comment_id,
+								order_code,
+								order_id,
+								product_id,
+								content,
+								status,
+								content_imgs,
+								create_time,
+								is_custom_service,
+								<if test="parent_id != null and parent_id > 0">
+								parent_id,
+								</if>
+								<if test="root_id != null and root_id > 0">
+								root_id,
+								</if>
+								customer_id
+    	                   )values (NULL,
+    				  	 	    #{order_code},
+    				  	 	    #{order_id},
+    				  	 	    #{product_id},
+    				  	 	    #{content},
+    				  	 	    #{status},
+    				  	 	    #{content_imgs},
+    				  	 	    now(),
+    				  	 	    #{is_custom_service},
+   				  	 	    	<if test="parent_id != null and parent_id > 0">
+    				  	 	    #{parent_id},
+    				  	 	    </if>
+    				  	 	    <if test="root_id != null and root_id > 0">
+    				  	 	    #{root_id},
+    				  	 	    </if>
+    				  	 	    #{customer_id}
+    				  	 	  )
+  	</insert>
+  	
+  	
+  	<!-- 店员回复商品评论 -->
+  	<insert id="insertCommentByStaff" parameterType="com.kingleadsw.betterlive.model.Comment" >
+    	insert into t_comment (comment_id,
+    	                       replay_staff_id,
+    	                       order_code,
+							   order_id,
+							   product_id,
+							   reply_msg,
+							   content_imgs,
+							   replay_time
+    				  		)
+    				  	values (NULL,
+    				  	 	    #{replay_staff_id},
+    				  	 	    #{order_code},
+    				  	 	    #{order_id},
+    				  	 	    #{product_id},
+    				  	 	    #{reply_msg},
+    				  	 	     #{content_imgs},
+    				  	 	    now()
+    				  	 	  )
+  	</insert>
+  	
+  	<insert id="addComment" parameterType="com.kingleadsw.betterlive.model.Comment" >
+    	insert into t_comment (comment_id,
+    	                       replay_staff_id,
+							   reply_msg,
+							   replay_time,
+							   parent_id,
+							   root_id,
+							   is_custom_service
+    				  		)
+    				  	values (NULL,
+    				  	 	    #{replay_staff_id},
+    				  	 	    #{reply_msg},
+    				  	 	    now(),
+    				  	 	    #{parent_id},
+    				  	 	    #{root_id},
+    				  	 	    #{is_custom_service}
+    				  	 	  )
+  	</insert>
+
+   	<!-- 修改客服回复-->
+   <update id="updateReplyById" parameterType="java.util.Map" >
+    update t_comment
+    <set >
+      <if test="replyMsg != null and replyMsg !='' " >
+        replay_staff_id=#{staffId},reply_msg = #{replyMsg},replay_time=now(),
+      </if>
+      
+      <if test="status != null" >
+        status = #{status},
+      </if>
+    </set>
+    where comment_id = #{commentId}
+  </update>
+  
+  	<!-- 根据评论ID删除 -->
+  	<delete id="delCommentBycId" parameterType="pd">
+  		update t_comment set status = 4 where comment_id=#{commentId} and  product_id=#{productId}
+  	</delete>  
+  	
+  	<!-- 根据条件查询某个商品审核通过的全部评论 -->
+  	<select id="queryCommentCountByPid"  resultType="java.lang.Integer" parameterType="pd" >
+  		
+  		select count(0) from  t_comment where status=2 and product_id=#{productId}
+  		<if test="parentFlag != null and parentFlag = 1">
+			and parent_id is null  		
+  		</if>
+  		
+  		<!-- 评论图片 -->
+  		<if test="null !=contentImg  and contentImg == 1">
+  			and content_imgs != ''
+  		</if> 
+  	</select>
+  	
+  	<!-- 根据comment_id来查询值 -->
+  	<select id="queryCommentById"  resultMap="BaseResultMap" parameterType="INTEGER" >
+  		SELECT
+			c.*
+		FROM
+			t_comment c
+		WHERE
+			c.comment_id=#{comment_id}
+  	</select>
+  	
+  	
+  	<!-- 根据commentId查询根节点 -->
+  	<select id="queryRootCommentById"  resultMap="BaseResultMap" parameterType="pd" >
+  		SELECT
+			t.comment_id,
+			t.order_id,
+			t.order_code,
+			t.customer_id,
+			t.product_id,
+			t.content,
+			t.status,
+			t.content_imgs,
+			CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END AS create_time,
+			t.root_id,
+			t.parent_id,
+			t.is_custom_service,
+     		(select count(1) from t_praise t where t.praise_type=1 and t.obj_id = t.comment_id) praise_count
+     		,
+     		ifnull((select count(1) from t_comment tc where (tc.root_id = t.comment_id) and tc.`status`=2), 0) reply_count
+			<if test="currentId != null and currentId != ''">
+				, ifnull((select praise_id from t_praise tp where tp.praise_type=1 and tp.obj_id = t.comment_id and tp.customer_id=#{currentId}), 0) is_praise
+			</if>
+			<if test="currentId == null or currentId == '' or currentId == 0">
+				, 0 as is_praise
+			</if>
+		FROM
+			t_comment c, t_comment t
+		WHERE
+			c.comment_id= #{commentId} and c.root_id = t.comment_id
+			and c.status = 2
+  	</select>
+  	
+  	<select id="queryCommentByRootIdListPage"  resultMap="BaseResultMap" parameterType="INTEGER" >
+  		SELECT
+			c.*,(select case when tct.nickname is not null and tct.nickname <![CDATA[ <> ]]> '' then tct.nickname else mosaic(tct.mobile) end 
+				from t_customer tct where tct.customer_id = (select customer_id from t_comment where comment_id = c.parent_id)) replyer_name
+		FROM
+			t_comment c
+		WHERE
+			c.root_id=#{comment_id}
+  	</select>
+  	
+</mapper>

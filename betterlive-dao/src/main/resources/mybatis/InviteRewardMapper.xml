@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.InviteRewardMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.InviteReward" >
+    <id column="reward_id" property="rewardId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="reward_type" property="rewardType" jdbcType="INTEGER" />
+    <result column="obj_id" property="objId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="obj_value" property="objValue" jdbcType="VARCHAR" />
+    <result column="obj_count" property="objCount" jdbcType="INTEGER" />
+    <result column="obj_name" property="objName" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="head_url" property="headUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.reward_id, t.customer_id, t.reward_type, t.obj_id,
+    DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+  </sql>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_invite_reward t where 1=1
+    limit 1
+  </select>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.InviteReward" useGeneratedKeys="true"  keyProperty="rewardId">
+    insert into t_invite_reward (customer_id, reward_type, obj_id, create_time)
+    values (#{customerId}, #{rewardType}, #{objId}, NOW())
+  </insert>
+  
+   <select id="queryInviteRankingList" resultMap="BaseResultMap" parameterType="pd" >
+		SELECT t.*,
+			(select case when tci.coupon_money is not null then CONCAT('获得', tci.coupon_money,'元优惠券一张') 
+					else '' end from t_invite_reward tird, t_coupon_info tci 
+				where tird.reward_type = 2 and tird.customer_id = t.customer_id
+					and tird.obj_id = tci.coupon_id ORDER BY tci.create_time desc limit 1) obj_name
+		 FROM (
+			SELECT
+				count(1) obj_count,
+				tcst.customer_id,
+				(case when tcst.nickname is not null and tcst.nickname <![CDATA[<>]]> '' then tcst.nickname
+							when tcst.mobile is not null and tcst.mobile <![CDATA[<>]]> '' then mosaic(tcst.mobile)
+							else '小挥挥' end) nickname,
+				tcst.head_url
+			 FROM t_invite_record tir, t_customer tcst
+			 WHERE tir.invite_id = tcst.customer_id and tir.invite_flag = 2
+				GROUP BY tir.invite_id) t 
+		 WHERE t.obj_count > 0 ORDER BY t.obj_count desc
+		limit #{rowStart}, #{pageSize}
+  </select>
+  
+</mapper>

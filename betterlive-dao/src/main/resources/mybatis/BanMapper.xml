@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.BanMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Ban" >
+    <id column="ban_id" property="banId" jdbcType="INTEGER" />
+    <result column="request_ip" property="requestIp" jdbcType="VARCHAR"/>
+    <result column="request_mobile" property="requestMobile" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+   	ban_id, request_ip, request_mobile
+  </sql>
+  
+    
+  <select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="pd" >
+       SELECT <include refid="Base_Column_List" /> FROM t_ban t WHERE t.ban_id=#{banId}
+  </select>
+    
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    	<include refid="Base_Column_List" />
+    from t_ban t
+    where 1=1
+    <if test="requestIp != null and requestIp != ''">
+    	and t.request_ip = #{requestIp}
+    </if>
+    <if test="requestMobile != null and requestMobile != ''">
+    	and t.request_mobile = #{requestMobile}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_ban where ban_id=#{banId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.Ban" >
+    	insert into t_ban 
+    	(
+			request_ip
+			,request_mobile
+		)
+    	values 
+    	(
+		  #{requestIp}
+		  ,#{requestMobile}
+    	)
+  </insert>
+</mapper>

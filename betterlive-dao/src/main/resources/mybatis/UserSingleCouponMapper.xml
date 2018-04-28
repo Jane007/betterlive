@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.UserSingleCouponMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.UserSingleCoupon">
+		<id column="user_single_id" property="userSingleId" jdbcType="INTEGER" />
+		<result column="coupon_id" property="couponId" jdbcType="INTEGER"/>
+		<result column="spec_id" property="specId" jdbcType="INTEGER"/>
+		<result column="product_id" property="productId" jdbcType="INTEGER"/>
+		<result column="customer_id" property="customerId" jdbcType="INTEGER"/>
+		<result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+		<result column="full_money" property="fullMoney" jdbcType="DECIMAL"/>
+		<result column="coupon_money" property="couponMoney" jdbcType="DECIMAL"/>
+		<result column="start_time" property="startTime" jdbcType="DATE"/>
+		<result column="end_time" property="endTime" jdbcType="DATE"/>
+		<result column="create_time" property="createTime" jdbcType="DATE"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		<result column="used_time" property="usedTime" jdbcType="DATE"/>
+		<result column="coupon_name" property="couponName" jdbcType="VARCHAR"/>
+		<result column="coupon_content" property="couponContent" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		user_single_id,
+		coupon_id,
+		customer_id,
+		mobile,
+		full_money,
+		coupon_money,
+		spec_id,
+		product_id,
+		status,
+		DATE_FORMAT(start_time, '%Y-%m-%d %H:%i:%s') AS start_time,
+		DATE_FORMAT(end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+		DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+		DATE_FORMAT(used_time, '%Y-%m-%d %H:%i:%s') AS used_time
+		
+	</sql>
+	
+		<sql id="Base_Column_List2">
+		tusc.user_single_id,
+		tusc.coupon_id,
+		tusc.customer_id,
+		tusc.mobile,
+		tusc.full_money,
+		tusc.coupon_money,
+		tusc.spec_id,
+		tusc.product_id,
+		tusc.status,
+		DATE_FORMAT(tusc.start_time, '%Y-%m-%d %H:%i:%s ') AS start_time,
+		DATE_FORMAT(tusc.end_time, '%Y-%m-%d %H:%i:%s') AS end_time,
+		DATE_FORMAT(tusc.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+		DATE_FORMAT(tusc.used_time, '%Y-%m-%d %H:%i:%s') AS used_time
+		
+	</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_single_coupon
+    where user_single_id = #{userSingleId,jdbcType=INTEGER}
+  </select>
+	
+	<select id="queryListPage" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List2" />,
+				tsc.coupon_name,
+				tsc.coupon_content,
+				tpro.product_name 
+			from t_user_single_coupon tusc 
+				inner join t_single_coupon tsc on tsc.coupon_id = tusc.coupon_id
+				left join t_product tpro on tusc.product_id=tpro.product_id  where 1=1
+			<if test="userSingleId != null and ''!=userSingleId" >
+	        	and tusc.user_single_id=#{userSingleId}
+	      	</if>
+			<if test="null!=couponId and ''!=couponId">
+				and tusc.coupon_id=#{couponId}
+			</if>
+			<if test="null!=customerId and ''!=customerId ">
+				and tusc.customer_id=#{customerId}
+			</if>
+			<if test="null!=startTime and ''!=startTime ">
+				and tusc.start_time&lt;#{startTime}
+			</if>
+			<if test="null!=endTime and ''!=endTime ">
+				and tusc.end_time&gt;#{endTime}
+			</if>
+			<if test="null!=status">
+				and tusc.status=#{status}
+			</if>
+			<if test="productId!=null and ''!=productId">
+				and tusc.product_id=#{productId}
+			</if>
+			<if test="specId!=null and ''!=specId">
+				and tusc.spec_id=#{specId}
+			</if>
+			<if test="productIds !=null and '' != productIds">
+				and tusc.product_id in (${productIds})
+			</if>
+			<if test="specIds != null and '' != specIds">
+				and tusc.spec_id in (${specIds})
+			</if>
+			<if test="price != null">
+			  	<![CDATA[  and tusc.full_money <= #{price}   ]]>
+			</if>
+			
+			<!-- 可使用单品红包 -->
+	     	<if test="0 == canusecoupon">
+	     	    <![CDATA[   and tusc.status = 0  and tusc.end_time > now() ]]>   
+	     	</if>
+     		<!-- 已过期单品红包-->
+	   		<if test="3 == canusecoupon">
+	     	    <![CDATA[  and  (tusc.status=2 or (tusc.status = 0 and tusc.end_time <= now())) ]]>   
+	     	</if>
+		order by tusc.end_time asc
+	</select>
+	
+	<!-- 不分页查询  -->
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List2" />,tpro.product_name 
+		from t_user_single_coupon tusc left join t_product tpro on tusc.product_id=tpro.product_id  where 1=1
+		<if test="userSingleId != null and ''!=userSingleId" >
+        	and tusc.user_single_id=#{userSingleId}
+      	</if>
+		<if test="null!=couponId and ''!=couponId">
+			and tusc.coupon_id=#{couponId}
+		</if>
+		<if test="null!=customerId and ''!=customerId ">
+			and tusc.customer_id=#{customerId}
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and tusc.start_time&lt;#{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and tusc.end_time&gt;#{endTime}
+		</if>
+		<if test="null!=status">
+			and tusc.status=#{status}
+		</if>
+		<if test="productId!=null and ''!=productId">
+			and tusc.product_id=#{productId}
+		</if>
+		<if test="specId!=null and ''!=specId">
+			and tusc.spec_id=#{specId}
+		</if>
+		order by tusc.create_time desc
+	</select>
+	
+	<select id="queryOne" resultMap="BaseResultMap"  parameterType="pd">
+		select <include refid="Base_Column_List" />
+		from t_user_single_coupon
+		where 1=1
+		<if test="userSingleId != null and ''!=userSingleId" >
+        	and user_single_id=#{userSingleId}
+      	</if>
+		<if test="couponId!=null and ''!=couponId">
+			and coupon_id=#{couponId}
+		</if>
+		<if test="productId!=null and ''!=productId">
+			and product_id=#{productId}
+		</if>
+		<if test="specId!=null and ''!=specId">
+			and spec_id=#{specId}
+		</if>
+		<if test="null!=customerId and ''!=customerId ">
+			and customer_id=#{customerId}
+		</if>
+		<if test="null!=mobile and ''!=mobile ">
+			and mobile=#{mobile}
+		</if>
+		<if test="null!=startTime and ''!=startTime ">
+			and start_time&lt;#{startTime}
+		</if>
+		<if test="null!=endTime and ''!=endTime ">
+			and end_time&gt;#{endTime}
+		</if>
+		<if test="null!=status ">
+			and status=#{status}
+		</if>
+		<if test="null != fullMoney">
+		    <![CDATA[  and full_money <= #{fullMoney}   ]]>
+		</if>
+		
+		<!-- 可使用单品红包 -->
+     	<if test="0 == canusecoupon">
+     	    <![CDATA[   and status = 0  and end_time > now() ]]>   
+     	</if>
+    		<!-- 已过期单品红包-->
+   		<if test="3 == canusecoupon">
+     	    <![CDATA[  and  (status=2 or (status = 0 and end_time <= now())) ]]>   
+     	</if>
+     	<if test="productIds != null">
+     		and product_id in (${productIds})
+     	</if>
+     	<if test="specIds != null">
+     		and spec_id in (${specIds})
+     	</if>
+		order by coupon_money desc
+		limit 1
+	</select>
+	
+	
+	<!-- 插入数据  -->
+	 <insert id="insert" parameterType="com.kingleadsw.betterlive.model.UserSingleCoupon" useGeneratedKeys="true" keyColumn="user_single_id" keyProperty="userSingleId">
+	 	insert into t_user_single_coupon
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+    		<if test="userSingleId != null and ''!=userSingleId" >
+        		user_single_id,
+      		</if>
+    		<if test="couponId != null and ''!=couponId" >
+        		coupon_id,
+      		</if>
+      		<if test="customerId != null and ''!=customerId" >
+        		customer_id,
+      		</if>
+      		<if test="mobile != null and ''!=mobile" >
+	 			mobile,
+	 		</if>
+      		<if test="fullMoney != null and ''!=fullMoney" >
+        		full_money,
+      		</if>
+      		<if test="productId!=null and ''!=productId">
+      			product_id,
+      		</if>
+      		<if test="specId!=null and ''!=specId">
+      			spec_id,
+      		</if>
+      		<if test="couponMoney != null and ''!=couponMoney" >
+        		coupon_money,
+      		</if>
+      		
+      		<if test="startTime != null and ''!=startTime" >
+        		start_time,
+      		</if>
+      		<if test="endTime != null and ''!=endTime" >
+        		end_time,
+      		</if>
+      		status,
+      		create_time
+	 	</trim>
+	 	<trim prefix="values (" suffix=")" suffixOverrides="," >
+	 		<if test="userSingleId != null and ''!=userSingleId" >
+        		#{userSingleId},
+      		</if>
+	 		<if test="couponId != null and ''!=couponId" >
+	 			#{couponId},
+	 		</if>
+	 		<if test="customerId != null and ''!=customerId" >
+        		#{customerId},
+      		</if>
+	 		<if test="mobile != null and ''!=mobile" >
+	 			#{mobile},
+	 		</if>
+	 		<if test="fullMoney != null and ''!=fullMoney" >
+	 			#{fullMoney},
+	 		</if>
+	 		<if test="productId!=null and ''!=productId">
+      			#{productId},
+      		</if>
+      		<if test="specId!=null and ''!=specId">
+      			#{specId},
+      		</if>
+	 		<if test="couponMoney != null and ''!=couponMoney" >
+	 			#{couponMoney},
+	 		</if>
+	 		
+	 		<if test="startTime != null and ''!=startTime" >
+	 			#{startTime},
+	 		</if>
+	 		<if test="endTime != null and ''!=endTime" >
+	 			#{endTime},
+	 		</if>
+	 			0,
+	 			NOW()
+	 	</trim>
+	 </insert>
+	 
+	 
+	  <!-- 更新 -->
+	 <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.UserSingleCoupon">
+	 	update t_user_single_coupon
+	 		 <set>
+	 			<if test="null!=status">
+    				status=#{status},
+    			</if>
+    			<if test="null!=usedTime">
+    				used_time=#{usedTime},
+    			</if>
+	 		 </set>
+	 		 where 1=1
+	 		 <if test="userSingleId != null and ''!=userSingleId" >
+        		and user_single_id=#{userSingleId}
+      		</if>
+      		<if test="customerId != null and ''!=customerId" >
+        		and customer_id=#{customerId}
+      		</if>
+	 </update>
+	 
+ <select id="queryExpiringList" resultMap="BaseResultMap"  parameterType="pd">
+		select 
+			<include refid="Base_Column_List2" />,
+			sc.coupon_name,
+			sc.coupon_content
+		from t_user_single_coupon tusc, t_single_coupon sc
+		  where tusc.coupon_id = sc.coupon_id and tusc.`status` = 0
+		  	and  tusc.end_time > NOW()
+		  	and datediff(tusc.end_time, NOW()) <![CDATA[ <= ]]> 3 
+		  	<if test="customerId != null and customerId > 0">
+		  		and tusc.customer_id = #{customerId}
+		  	</if>
+			order by tusc.end_time asc
+		  	<if test="rowStart != null">
+		  		 limit #{rowStart}, #{pageSize}
+		  	</if>
+	</select>	 
+	
+</mapper>

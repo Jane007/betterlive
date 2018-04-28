@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.OrderSalesMapper" >
+
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.OrderSales">
+		<id column="order_id"  property="orderId" jdbcType="INTEGER"/>
+		<result column="order_source"  property="orderSource" jdbcType="VARCHAR"/>
+		<result column="customer_source"  property="customerSource" jdbcType="VARCHAR"/>
+		<result column="total_price"  property="totalPrice" jdbcType="VARCHAR"/>
+		<result column="total_pay"  property="totalPay" jdbcType="VARCHAR"/>
+		<result column="product_id"  property="productId" jdbcType="VARCHAR"/>
+		<result column="product_name"  property="productName" jdbcType="VARCHAR"/>
+		<result column="product_code"  property="productCode" jdbcType="VARCHAR"/>
+		<result column="quantity"  property="quantity" jdbcType="INTEGER"/>
+		<result column="ORDER_COUNT"  property="orderCount" jdbcType="INTEGER"/>
+		<result column="PRODUCT_COUNT"  property="productCount" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- 挥货平台月度营收额统计 -->
+	<select id="queryMonthCostAmountSum" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+		  DATE_FORMAT(os.order_time, '%m') AS MONTH,
+		  SUM(os.total_price) AS TOTAL_PRICE,
+		  SUM(os.pay_money) AS TOTAL_PAY
+		FROM t_order os
+		WHERE DATE_FORMAT(os.order_time, '%Y') = #{queryYear}
+			AND os.status in (2,3,4,5)
+		GROUP BY month
+		ORDER BY month
+	</select>
+	
+	<!-- 挥货平台日营收额统计 -->
+	<select id="queryDayCostAmountSum" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+		  DATE_FORMAT(os.order_time, '%d') AS DAY,
+		  SUM(os.total_price) AS TOTAL_PRICE,
+		  SUM(os.pay_money) AS TOTAL_PAY
+		FROM t_order os
+		WHERE DATE_FORMAT(os.order_time, '%Y-%m') = #{queryMonth}
+			AND os.`status` in (2,3,4,5)
+		GROUP BY day
+		ORDER BY day
+	</select>
+	
+	<!-- 其他平台月度营收额统计 -->
+	<select id="queryOtherMonthCostAmountSum" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+		  DATE_FORMAT(t.pay_time, '%m') AS MONTH,
+		  SUM(t.total_price) AS TOTAL_PRICE,
+		  SUM(t.pay_money) AS TOTAL_PAY
+		FROM t_other_order t
+		WHERE DATE_FORMAT(t.pay_time, '%Y') = #{queryYear}
+		GROUP BY month
+		ORDER BY month
+	</select>
+	
+	<!-- 其他平台日营收额统计 -->
+	<select id="queryOtherDayCostAmountSum" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+		  DATE_FORMAT(t.pay_time, '%d') AS DAY,
+		  SUM(t.total_price) AS TOTAL_PRICE,
+		  SUM(t.pay_money) AS TOTAL_PAY
+		FROM t_other_order t
+		WHERE DATE_FORMAT(t.pay_time, '%Y-%m') = #{queryMonth}
+		GROUP BY day
+		ORDER BY day
+	</select>
+	
+	 <!--挥货平台用户来源统计    -->
+	<select id="queryTotalByCustSourceListPage" parameterType="pd" resultMap="BaseResultMap">
+		SELECT rst.* FROM (
+			SELECT
+				IFNULL(SUM(t.total_price), 0) TOTAL_PRICE,
+				IFNULL(SUM(t.pay_money), 0) TOTAL_PAY,
+				IFNULL(COUNT(t.order_id), 0) ORDER_COUNT,
+				(case when tc.source is not null and tc.source <![CDATA[<>]]> '' then tc.source else '未知来源' end) CUSTOMER_SOURCE
+			FROM
+				t_order t,
+				t_paylog p,
+				t_customer tc
+			WHERE
+				t.customer_id = tc.customer_id
+			  AND t.order_id = p.order_id
+			  AND t.`status` IN (2, 3, 4, 5)
+			
+			<if test="customerSource != null and customerSource != ''">
+				<if test="customerSource == '未知来源'">
+					AND (tc.source is null or tc.source = '')
+				</if>
+				<if test="customerSource != '未知来源'">
+					AND tc.source like '%${customerSource}%'
+				</if>
+			</if>
+			<if test="startTime != null and startTime != ''">
+					AND DATE_FORMAT(p.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+					AND DATE_FORMAT(p.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+			</if>
+			GROUP BY tc.source
+			) rst ORDER BY rst.TOTAL_PRICE desc
+  	</select>
+  	
+  	 <!--挥货平台用户来源统计商品销量份数    -->
+	<select id="queryTotalQuantityByCustSourceList" parameterType="pd" resultMap="BaseResultMap">
+				SELECT SUM(top.quantity) PRODUCT_COUNT FROM t_order_product top
+				WHERE 1=1
+				<if test="orderIds != null and orderIds != '' ">
+					and top.order_id IN (${orderIds})
+				</if>
+				
+  	</select>
+	<select id="queryTotalOrderIdByCustSourceList" parameterType="pd" resultType="String">
+				SELECT tor.order_id FROM t_order tor,t_paylog tp,t_customer c
+				WHERE tor.customer_id = c.customer_id AND tor.order_id = tp.order_id AND tor.`status` IN (2, 3, 4, 5)
+				<if test="source != null and source != '' and source != '未知来源' ">
+					AND c.source = #{source}
+				</if>
+				<if test="source != null and source != '' and source == '未知来源' ">
+					AND c.source = ''
+				</if>
+				<if test="startTime != null and startTime != ''">
+					AND DATE_FORMAT(tp.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+				</if>
+				<if test="endTime != null and endTime != ''">
+					AND DATE_FORMAT(tp.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+				</if>
+				
+  	</select>
+  	
+  	 <!--其他平台挥货用户来源统计    -->
+	<select id="queryOtherTotalByCustSourceListPage" parameterType="pd" resultMap="BaseResultMap">
+			SELECT rst.* FROM (
+				SELECT
+					IFNULL(SUM(t.total_price), 0) TOTAL_PRICE,
+					IFNULL(SUM(t.pay_money), 0) TOTAL_PAY,
+					IFNULL(COUNT(t.order_id), 0) ORDER_COUNT,
+					IFNULL(SUM(t.quantity),0) PRODUCT_COUNT,
+					(case when t.customer_source is not null and t.customer_source <![CDATA[<>]]> '' then t.customer_source else '未知来源' end) CUSTOMER_SOURCE
+				FROM
+					t_other_order t
+				 WHERE 1=1
+			 	<if test="customerSource != null and customerSource != ''">
+					<if test="customerSource == '未知来源'">
+						AND (t.customer_source is null or t.customer_source = '')
+					</if>
+					<if test="customerSource != '未知来源'">
+						AND t.customer_source like '%${customerSource}%'
+					</if>
+				</if>
+				<if test="startTime != null and startTime != ''">
+					AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+				</if>
+				<if test="endTime != null and endTime != ''">
+						AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+				</if>
+				GROUP BY t.customer_source
+			) rst ORDER BY rst.TOTAL_PRICE desc
+  	</select>
+  	
+  	 <!--挥货平台订单来源统计    -->
+	<select id="queryTotalByOrderSourceListPage" parameterType="pd" resultMap="BaseResultMap">
+		SELECT rst.* FROM (
+			SELECT
+				IFNULL(SUM(t.total_price), 0) TOTAL_PRICE,
+				IFNULL(SUM(t.pay_money), 0) TOTAL_PAY,
+				IFNULL(COUNT(t.order_id), 0) ORDER_COUNT,
+				(case when t.order_source is not null and t.order_source <![CDATA[<>]]> '' then t.order_source else '未知来源' end) ORDER_SOURCE
+			FROM
+				t_order t,
+				t_paylog p
+			WHERE
+				t.`status` IN (2, 3, 4, 5)
+				AND t.order_id = p.order_id
+			<if test="orderSource != null and orderSource != ''">
+				<if test="orderSource == '未知来源'">
+					AND (t.order_source is null or t.order_source = '')
+				</if>
+				<if test="orderSource != '未知来源'">
+					AND t.order_source like '%${orderSource}%'
+				</if>
+			</if>
+			<if test="startTime != null and startTime != ''">
+					AND DATE_FORMAT(p.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+					AND DATE_FORMAT(p.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+			</if>
+			GROUP BY t.order_source
+			) rst ORDER BY rst.TOTAL_PRICE desc
+  	</select>
+  	
+  	  	 <!--根据订单来源统计商品销量份数    -->
+	<select id="queryProductCountByCustSourceList" parameterType="pd" resultMap="BaseResultMap">
+				SELECT SUM(top.quantity) PRODUCT_COUNT FROM t_order_product top
+					WHERE 1=1 
+					<if test="orderIds != null and orderIds != '' ">
+					and top.order_id IN (${orderIds})
+					</if>
+  	</select>
+  	
+  		<select id="queryTotalOrderIdByOrderSourceList" parameterType="pd" resultType="String">
+				SELECT tor.order_id FROM t_order tor, t_paylog tp
+					WHERE tor.order_id = tp.order_id
+					AND tor.`status` IN (2, 3, 4, 5)
+				<if test="source != null and source != '' and source != '未知来源' ">
+					AND tor.order_source = #{source}
+				</if>
+				<if test="source != null and source != '' and source == '未知来源' ">
+					AND tor.order_source = ''
+				</if>
+				<if test="startTime != null and startTime != ''">
+					AND DATE_FORMAT(tp.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+				</if>
+				<if test="endTime != null and endTime != ''">
+					AND DATE_FORMAT(tp.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+				</if>
+				
+  	</select>
+  	
+  	
+  	 <!--根据挥货平台订单来源统计其他平台订单    -->
+	<select id="queryOtherTotalByOrderSourceListPage" parameterType="pd" resultMap="BaseResultMap">
+		SELECT rst.* FROM (
+				SELECT
+					IFNULL(SUM(t.total_price), 0) TOTAL_PRICE,
+					IFNULL(SUM(t.pay_money), 0) TOTAL_PAY,
+					IFNULL(COUNT(t.order_id), 0) ORDER_COUNT,
+					IFNULL(SUM(t.quantity),0) PRODUCT_COUNT,
+					(case when t.order_source is not null and t.order_source <![CDATA[<>]]> '' then t.order_source else '未知来源' end) ORDER_SOURCE
+				FROM
+					t_other_order t
+				 WHERE 1=1
+			 	<if test="orderSource != null and orderSource != ''">
+					<if test="orderSource == '未知来源'">
+						AND (t.order_source is null or t.order_source = '')
+					</if>
+					<if test="orderSource != '未知来源'">
+						AND t.order_source like '%${orderSource}%'
+					</if>
+				</if>
+				<if test="startTime != null and startTime != ''">
+					AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+				</if>
+				<if test="endTime != null and endTime != ''">
+						AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+				</if>
+				GROUP BY t.order_source
+			) rst ORDER BY rst.TOTAL_PRICE desc
+  	</select>
+  	
+  	 <!--根据挥货平台订单来统计商品销量 -->
+	<select id="queryProductSalesListPage" parameterType="pd" resultMap="BaseResultMap">
+				select tbls.product_name,tbls.product_id,
+						SUM(tbls.quantity) quantity, SUM(tbls.price*tbls.quantity) total_price, 
+						(case when ROUND(SUM((case when tbls.activity_price is not null then (tbls.activity_price*tbls.quantity-IFNULL(tbls.coupon_money,0))-(IFNULL(tbls.conpon_money,0)/tbls.order_quantity)-(IFNULL(tbls.gitf_card_money,0)/tbls.order_quantity)-(tbls.freight/tbls.order_quantity)-IFNULL(tbls.full_money,0)
+												when tbls.discount_price is not null and tbls.discount_price > 0 then (tbls.discount_price*tbls.quantity-IFNULL(tbls.coupon_money,0))-(IFNULL(tbls.conpon_money,0)/tbls.order_quantity)-(IFNULL(tbls.gitf_card_money,0)/tbls.order_quantity)-(tbls.freight/tbls.order_quantity)-IFNULL(tbls.full_money,0)
+												else (tbls.price*tbls.quantity-IFNULL(tbls.coupon_money, 0))-(IFNULL(tbls.conpon_money,0)/tbls.order_quantity)-(IFNULL(tbls.gitf_card_money,0)/tbls.order_quantity)-(tbls.freight/tbls.order_quantity)-IFNULL(tbls.full_money,0)
+												end)),2) <![CDATA[ < ]]> 0 then 0 
+							else ROUND(SUM((case when tbls.activity_price is not null then (tbls.activity_price*tbls.quantity-IFNULL(tbls.coupon_money,0))-(IFNULL(tbls.conpon_money,0)/tbls.order_quantity)-(IFNULL(tbls.gitf_card_money,0)/tbls.order_quantity)-(tbls.freight/tbls.order_quantity)-IFNULL(tbls.full_money,0)
+									when tbls.discount_price is not null and tbls.discount_price > 0 then (tbls.discount_price*tbls.quantity-IFNULL(tbls.coupon_money,0))-(IFNULL(tbls.conpon_money,0)/tbls.order_quantity)-(IFNULL(tbls.gitf_card_money,0)/tbls.order_quantity)-(tbls.freight/tbls.order_quantity)-IFNULL(tbls.full_money,0)
+									else (tbls.price*tbls.quantity-IFNULL(tbls.coupon_money, 0))-(IFNULL(tbls.conpon_money,0)/tbls.order_quantity)-(IFNULL(tbls.gitf_card_money,0)/tbls.order_quantity)-(tbls.freight/tbls.order_quantity)-IFNULL(tbls.full_money,0)
+									end)),2) end ) total_pay
+				from (
+					select pd.product_name, t.quantity, t.price, t.activity_price, t.discount_price, t.coupon_money,
+								 t.full_money, tod.pay_money, tod.conpon_money, tod.gitf_card_money, tod.freight,t.product_id,
+								 (select SUM(top.quantity) from t_order_product top where top.orderpro_id=t.orderpro_id) order_quantity
+						from t_order_product t, t_order tod, t_paylog pl, t_product pd
+								 where t.`status` in (2,3,4,5)
+									and t.order_id  = tod.order_id
+									and t.order_id = pl.order_id
+									and t.product_id = pd.product_id
+					<if test="productName != null and productName != ''">
+						AND pd.product_name like '%${productName}%'
+					</if>
+					<if test="startTime != null and startTime != ''">
+						AND DATE_FORMAT(pl.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+					</if>
+					<if test="endTime != null and endTime != ''">
+							AND DATE_FORMAT(pl.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+					</if>
+				) tbls
+				  GROUP BY tbls.product_id
+							  ORDER BY quantity desc
+  	</select>
+  	
+  	 <!--根据其他平台订单来统计商品销量 -->
+	<select id="queryOtherProductSalesListPage" parameterType="pd" resultMap="BaseResultMap">
+			select SUM(t.quantity) quantity, SUM(t.total_price) total_price, SUM(t.pay_money) total_pay, t.product_name,t.product_code
+			 from t_other_order t
+			 where 1=1
+				<if test="productName != null and productName != ''">
+					AND t.product_name like '%${productName}%'
+				</if>
+				<if test="startTime != null and startTime != ''">
+					AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+				</if>
+				<if test="endTime != null and endTime != ''">
+						AND DATE_FORMAT(t.pay_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+				</if>
+			  GROUP BY t.product_code
+			  ORDER BY quantity desc
+  	</select>
+</mapper>

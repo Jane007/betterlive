@@ -1,0 +1,292 @@
+.header{
+	border-bottom: 1px solid #dcdcdb;
+}
+.mainBox{
+	width: 100%;
+	position: fixed;
+	top: 0.98rem;
+	bottom: 0;
+	overflow-y: scroll;
+	font-size:0.24rem;
+	padding: 0 0 1.3rem 0;
+}
+.timeBox{
+	text-align: center;
+	background: #FBFAF3;
+	padding: 0.26rem 0 0.23rem;
+	font-size: 0.22rem;
+	color: #666666;
+}
+.timeBox img{
+	width: 0.69rem;
+	height: 0.69rem;
+	display: block;
+	margin: 0 auto;
+}
+.timeBox p{
+	text-align: center;
+}
+.residue{
+	margin: 0.2rem 0 0.05rem;
+	font-size: 0.24rem;
+	color: #333333;
+}
+.orderInfor{
+	background: #FBFAF3;
+	margin-top: 0.15rem;
+	color: #333333;
+}
+.orderInfor ul{
+	padding: 0.1rem 0.34rem;
+}
+.orderInfor li{
+	padding: 0.15rem 0;
+}
+.orderInfor li i{
+	color: #aa2c23;
+	float: right;
+}
+.goodsBox{
+	margin-top: 0.15rem;
+	padding: 0 0.34rem;
+	background:#fbfaf3;
+}
+.orgoodslist {
+  overflow: hidden;
+  clear: both;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #dcdcdc;
+}
+.orgoodslist:last-child{
+	border-bottom:0;
+}
+.orgoodslist .orgoodspic {
+  float: left;
+  width: 1.2rem;
+  height: 1.2rem;
+  position: relative;
+}
+.orgoodslist .orgoodspic img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.orgoodslist .orgoodspic span{
+	background:rgba(0,0,0,0.5);
+	opacity: 0.85;
+	display: inline-block;
+	width: 100%;
+	height: 0.36rem;
+	line-height: 0.39rem;
+	color: white;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+}
+.orgzh {
+  
+  overflow: hidden;
+  clear: both;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.orgzh .orgoodspic {
+  float: left;
+  width: 2.0rem;
+  height: 2.0rem;
+  background: #fbfaf3;
+  position: relative;
+  margin-left:10px;
+}
+.orgzh .orgoodspic img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.orgzh .orgoodscontent {
+  float: left;
+  font-style: italic;
+  font-size: 0.3rem;
+  font-weight:bold;
+  margin-left: 0.38rem;
+  padding-top: 0.6rem;
+}
+.orgoodscontent {
+  float: left;
+  margin-left: 0.25rem;
+  padding-top: 0.05rem;
+}
+.orgoodscontent .orgoodsweight {
+  font-size: 0.2rem;
+  color: #999;
+  margin-top: 0.12rem;
+}
+.orgoodscontent .orgoodprice {
+  color: #333;
+}
+.orgoodscontent .orgoodprice del{
+  color: #999999;
+  margin-left: 0.24rem;
+}
+.orgoodsright{
+	float: right;
+	padding: 0.2rem 0 0 0;
+	text-align: end;
+}
+.orgoodsright .evaluate{
+	display: inline-block;
+	margin-top: 0.25rem;
+	padding: 0 0.3rem;
+	height: 0.44rem;
+	line-height: 0.47rem;
+	color: #AA2C23;
+	border-radius: 2px;
+	border: 1px solid #ba554d;
+}
+.soldOut,.soldOut .orgoodprice,.soldOut .orgoodsweight,.soldOut .orgoodprice del{
+	color:#BBBBBB !important;
+}
+.orderContent{
+	margin-top: 0.15rem;
+	background:#fbfaf3;
+	padding: 0 0.33rem;
+	color: #666666;
+}
+.addresslist {
+  font-size: 0.24rem;
+  padding: 0.2rem 0 0.15rem;
+  border-bottom: 1px solid #dcdcdc;
+}
+.addresslist P {
+  line-height: 0.45rem;
+  overflow: hidden;
+}
+.addresslist .conname{
+	width: 1.16rem;
+	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	float: left;
+}
+.addresslist .consignee .phonenumber {
+	float: left;
+}
+.addresslist .Receivingaddress {
+  margin-bottom: 0.1rem;
+  font-size: 0.22rem;
+}
+.orderContent ul{
+	padding: 0.2rem 0;
+}
+.orderContent ul li{
+	line-height: 0.4rem;
+}
+.now-pay{
+	width: 100%;
+    height: 0.84rem;
+    background: #aa2c23;
+    line-height: 0.87rem;
+    font-size: 0.26rem;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+}
+
+.getRedpacket{
+	width: 0.95rem;
+	height: 1.09rem;
+	position: fixed;
+	right: 0.4rem;
+	bottom: 0.4rem;
+	
+}
+.getRedpacket img{
+	width: 100%;
+  height: 100%;
+  display: block;
+}
+.dia-getRedpacket{
+	 width: 5.2rem;
+	 background: white;
+	  position: fixed;
+	  top: 20%;
+	  right: 0;
+	  left: 0;
+	  margin: auto;
+	  z-index: 120;
+	  border-radius: 4px;
+	  text-align: center;
+	  padding: 0.4rem 0 0 0;
+	  font-family: "微软雅黑";
+	  font-size: 0.26rem;
+	  color: #333333;
+	  display: none;
+}
+.hongbaoimg{
+	width: 2.04rem;
+	height: 2.55rem;
+	margin: 0 auto;
+}
+.hongbaoimg img{
+	width: 100%;
+  height: 100%;
+  display: block;
+}
+.pay-success{
+	margin: 0.25rem 0 0 0;
+}
+.getbox{
+	margin: 0.1rem 0 0 0;
+}
+.dia-getRedpacket .key{
+	border-top: 1px solid #dcdcdc;
+	margin-top: 0.35rem;
+	height: 0.86rem;
+}
+.dia-getRedpacket a {
+  height: 100%;
+  line-height: 0.89rem;
+  display: inline-block;
+  text-align: center;
+  float: left;
+}
+.dia-getRedpacket .yes {
+  width: 50%;
+  border-left: 1px solid #dcdcdc;
+  box-sizing: border-box;
+  color: #aa2c23;
+}
+.dia-getRedpacket .no {
+	color: #666666;
+  width: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

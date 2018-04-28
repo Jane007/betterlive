@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Message" >
+    <id column="msg_id" property="msgId" jdbcType="INTEGER" />
+    <result column="msg_type" property="msgType" jdbcType="INTEGER" />
+    <result column="msg_title" property="msgTitle" jdbcType="VARCHAR" />
+    <result column="msg_detail" property="msgDetail" jdbcType="VARCHAR" />
+    <result column="msg_local" property="msgLocal" jdbcType="VARCHAR"/>
+    <result column="is_read" property="isRead" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="obj_id" property="objId" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="sub_msg_type" property="subMsgType" jdbcType="INTEGER" />
+    
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="root_id" property="rootId" jdbcType="INTEGER" />
+    <result column="obj_time" property="objTime" jdbcType="TIMESTAMP" />
+    <result column="obj_status" property="objStatus" jdbcType="VARCHAR" />
+    <result column="img_local" property="imgLocal" jdbcType="VARCHAR"/>
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+    <result column="other_name" property="otherName" jdbcType="VARCHAR"/>
+    <result column="obj_type" property="objType" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+    <result column="create_time_str" property="createTimeStr" jdbcType="VARCHAR"/>
+    <result column="total_count" property="totalCount" jdbcType="INTEGER" />
+    <result column="unread_count" property="unreadCount" jdbcType="INTEGER" />
+    <result column="obj_name" property="objName" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.msg_id, t.msg_type, t.msg_title, t.msg_detail, t.is_read, t.customer_id, t.obj_id, t.sub_msg_type, t.create_time
+  </sql>
+  
+    
+	<select id="selectByPrimaryKey"  resultMap="BaseResultMap" resultType="java.lang.Integer">
+        SELECT <include refid="Base_Column_List" /> FROM t_message t WHERE t.msg_id=#{msgId}
+    </select>
+    
+   	<select id="queryOne"  resultMap="BaseResultMap" resultType="pd">
+        SELECT <include refid="Base_Column_List" /> FROM t_message t WHERE 1=1
+        <if test="msgId != null">
+        	and t.msg_id=#{msgId}
+        </if>
+        <if test="msgType != null">
+        	and t.msg_type=#{msgType}
+        </if>
+        <if test="subMsgType != null">
+        	and t.sub_msg_type=#{subMsgType}
+        </if>
+        <if test="customerId != null">
+        	and t.customer_id=#{customerId}
+        </if>
+        <if test="objId != null">
+        	and t.obj_id=#{objId}
+        </if>
+        limit 1
+    </select>
+    
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />,
+	    case when c.nickname is not null and c.nickname <![CDATA[ <>]]> '' then c.nickname
+	    	else mosaic(c.mobile) end customer_name,
+     			CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time_str
+	    from t_message t,t_customer c
+	    where t.del_flag = 0 and t.customer_id = c.customer_id
+    <if test="customerId != null">
+    	and t.customer_id=#{customerId}
+    </if>
+    <if test="msgType != null and msgType > -1">
+    	and t.msg_type=#{msgType}
+    </if>
+    <if test="msgTitle != null and msgTitle != ''">
+    	and t.msg_title like '%${msgTitle}%'
+    </if>
+    order by t.create_time desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update t_message set del_flag = 1 where msg_id=#{msgId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.SysDict" >
+    insert into t_message 
+    	(
+    		msg_id,
+			msg_type,
+			msg_title,
+			msg_detail,
+			is_read,
+			customer_id,
+			obj_id,
+			create_time,
+			sub_msg_type,
+			del_flag
+		)
+    values 
+    	(
+    	    #{msgId},
+			#{msgType},
+			#{msgTitle},
+			#{msgDetail},
+			#{isRead},
+			#{customerId},
+			#{objId},
+			NOW(),
+			#{subMsgType},
+			0
+    	)
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.Message" >
+    update t_message
+    <set >
+    	create_time = create_time
+      <if test="isRead != null" >
+        ,is_read = #{isRead}
+      </if>
+    </set>
+    where 1=1
+    <if test="msgId != null and msgId > 0">
+    	and msg_id=#{msgId}
+    </if>
+    <if test="customerId != null and customerId > 0">
+    	and customer_id=#{customerId}
+    </if>
+    <if test="msgType != null">
+    	and msg_type=#{msgType}
+    </if>
+  </update>
+  
+   <delete id="delete" parameterType="pd" >
+   		update t_message
+	    	set del_flag = 1
+	    where 1=1
+	    <if test="msgId != null and msgId > 0">
+	    	and msg_id=#{msgId}
+	    </if>
+	    <if test="customerId != null and customerId > 0">
+	    	and customer_id=#{customerId}
+	    </if>
+	    <if test="msgType != null">
+	    	and msg_type=#{msgType}
+	    </if>
+       <if test="subMsgType != null">
+	    	and sub_msg_type=#{subMsgType}
+	    </if>
+       <if test="objId != null">
+	    	and obj_id=#{objId}
+	    </if>
+  </delete>
+
+  <!--根据消息类型查最新未读消息(一条)-->
+  <select id="selectByLastUnread" parameterType="pd" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+     ,CASE WHEN YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND day(create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND day(create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time_str
+     from t_message t 
+   	where t.customer_id = #{customerId} and t.msg_type=#{msgType} 
+   		  and t.is_read=0 and t.del_flag = 0 and DATEDIFF(now(),t.create_time) <![CDATA[ <=]]>2 order by t.msg_id desc limit 1
+  </select>
+  
+    <!--根据消息类型查最新未读消息-->
+  <select id="selectByLast" parameterType="pd" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+     ,CASE WHEN YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND day(create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND day(create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time_str
+<!--       ,(select count(1) from t_message tt where tt.customer_id = t.customer_id and tt.is_read=0 and tt.del_flag = 0 and tt.msg_type=t.msg_type) unread_count -->
+     from t_message t 
+   	where t.customer_id = #{customerId} and t.msg_type=#{msgType} 
+   		 	and t.del_flag = 0 order by t.msg_id desc limit 1
+  </select>
+  
+  <!--查未读消息数-->
+  <select id="selectCountByUnread" parameterType="pd" resultType="java.lang.Integer">
+    select count(1)
+    from t_message t
+     where t.customer_id = #{customerId} and t.is_read=0 and t.del_flag = 0
+    	<if test="msgType != null">
+    		and t.msg_type = #{msgType}
+    	</if>
+    	<!-- 评论 -->
+    	<if test="flag != null and flag == 0">
+    		and t.sub_msg_type in (9,12,13,14,22)
+    	</if>
+    	<!-- 点赞 -->
+    	<if test="flag != null and flag == 1">
+    		and t.sub_msg_type in (15,16,17,18,20)
+    	</if>
+  </select>
+  
+  <!-- 查看优惠券、红包消息 分页 -->
+  <select id="queryCouponMsgListPage" resultMap="BaseResultMap" parameterType="pd" >
+  	   	  select r.*,CASE WHEN YEAR(r.create_time) = YEAR(NOW()) AND MONTH(r.create_time) = MONTH(NOW()) AND day(r.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(r.create_time, '%H:%i')))
+            WHEN YEAR(r.create_time) = YEAR(NOW()) AND MONTH(r.create_time) = MONTH(NOW()) AND day(r.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(r.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(r.create_time, '%Y-%m-%d %H:%i') END  create_time_str from (  
+		    select 
+				<include refid="Base_Column_List" />,
+				c.endtime AS obj_time,
+				case when c.status > 0 then 1
+					else 0 end obj_status
+		    from t_message t, t_coupon_info c, t_coupon_manager cm
+		    where t.customer_id=#{customerId}
+		    	  and t.msg_type=#{msgType}
+		    	  and (t.sub_msg_type=1 or t.sub_msg_type=3)
+		    	  and t.obj_id = c.coupon_id
+		    	  and c.cm_id = cm.cm_id
+		    	  and t.del_flag = 0
+		    union all
+		   	select 
+				<include refid="Base_Column_List" />,
+				c.end_time AS obj_time,
+				case when c.status > 0 then 1
+					else 0 end obj_status
+		    from t_message t, t_user_single_coupon c, t_single_coupon s
+		    where t.customer_id=#{customerId}
+		    	  and t.msg_type=#{msgType}
+		   	      and (t.sub_msg_type=2 or t.sub_msg_type=4)
+		    	  and t.obj_id = c.user_single_id
+		    	  and c.coupon_id = s.coupon_id
+		    	  and t.del_flag = 0
+      ) r
+		order by r.is_read asc, r.create_time desc
+  </select>
+  
+    <!--查挥货活动消息分页-->
+   	<select id="querySpecialMsgListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+    			<include refid="Base_Column_List" />,
+     			p.special_type AS obj_type,p.endtime AS obj_time,p.special_cover AS img_local,p.special_page AS msg_local,p.`status` AS obj_status,
+     			CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time_str
+     	from t_professional p, t_message t
+     	where t.customer_id = #{customerId}
+     		and t.msg_type = #{msgType}
+    		and t.sub_msg_type = 10
+    		and t.del_flag = 0
+    		and p.special_id = t.obj_id
+    		order by t.is_read asc, t.create_time desc 
+  	</select>
+ 	
+	<!-- 订单分页 -->
+  	<select id="queryTransMsgListPage" resultMap="BaseResultMap" parameterType="pd" >
+		SELECT tbl.*,CASE WHEN YEAR(tbl.create_time) = YEAR(NOW()) AND MONTH(tbl.create_time) = MONTH(NOW()) AND day(tbl.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(tbl.create_time, '%H:%i')))
+            WHEN YEAR(tbl.create_time) = YEAR(NOW()) AND MONTH(tbl.create_time) = MONTH(NOW()) AND day(tbl.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(tbl.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(tbl.create_time, '%Y-%m-%d %H:%i') END  create_time_str from (
+	  		SELECT <include refid="Base_Column_List" />, 
+				(SELECT p.product_logo FROM t_order_product top, t_product p
+					WHERE top.product_id = p.product_id AND t.obj_id = top.order_id LIMIT 1 ) AS img_local,
+				(SELECT top1.order_id FROM t_order_product top1, t_product p1
+						WHERE top1.product_id = p1.product_id AND t.obj_id = top1.order_id LIMIT 1 ) AS order_id
+			FROM t_message t WHERE t.customer_id = #{customerId} AND t.msg_type = #{msgType}
+			AND t.del_flag = 0 AND t.sub_msg_type = 5
+	  		union all
+	  		select  <include refid="Base_Column_List" />,
+				p2.product_logo AS img_local, top2.order_id AS order_id
+			 from t_message t, t_order_product top2, t_product p2 
+			 	where t.customer_id = #{customerId} and t.msg_type = #{msgType} and t.del_flag = 0 and (t.sub_msg_type = 6 or t.sub_msg_type = 7) 
+			 	AND top2.product_id = p2.product_id AND t.obj_id = top2.orderpro_id
+	 	 ) tbl order by tbl.is_read asc, tbl.create_time desc 
+	</select>
+	
+	<!-- 评价消息分页 -->
+	<select id="queryCommentMsgListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+   			t.msg_id, t.msg_type, 
+			(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname else mosaic(tc.mobile) end)	msg_title,
+			t.msg_detail, t.is_read, t.customer_id, t.obj_id, t.sub_msg_type, t.create_time,
+   			p.product_logo AS msg_local, tc.head_url AS img_local,
+   			CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time_str
+     	from t_comment c, t_product p, t_customer tc, t_message t
+     	where t.customer_id = #{customerId}
+     		and c.comment_id = t.obj_id
+     		and c.customer_id = tc.customer_id
+     		and c.product_id = p.product_id
+     		and t.msg_type = #{msgType}
+    		and t.sub_msg_type = 9
+    		and t.del_flag = 0
+    		order by t.is_read asc, t.create_time desc 
+  	</select>
+  	
+  	<!-- 查询我的评论消息子类列表 -->
+	<select id="queryCommentMsgByGroupSubTypeListPage" resultMap="BaseResultMap" parameterType="pd" >
+		select t.comment_id obj_id, t.parent_id, t.root_id, t.sub_msg_type, t.msg_local, t.msg_detail,
+			CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+		            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+		            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time_str,
+			(case when t_cust.nickname is not null and t_cust.nickname <![CDATA[ <> ]]> '' then t_cust.nickname else mosaic(t_cust.mobile) end) customer_name,
+			t_cust.customer_id customer_id,
+			t_cust.head_url img_local
+		 from 
+			(
+				(
+				select tc.comment_id, tc.parent_id, tc.root_id, tc.create_time, 9 sub_msg_type, tp.product_logo msg_local, parent_comm.content msg_detail, parent_comm.customer_id my_cust, tc.customer_id comm_cust
+				 from t_comment tc, t_comment parent_comm, t_product tp 
+				 where tc.`status` = 2 and tc.product_id = tp.product_id
+<!-- 				  and tp.`status` = 1 -->
+							and tc.parent_id = parent_comm.comment_id and parent_comm.`status` = 2
+				  GROUP BY tc.parent_id  ORDER BY tc.create_time desc
+				)
+				  union all
+				(
+				select tsc.comment_id, tsa.article_id parent_id, tsa.article_id root_id, tsc.create_time, 22 sub_msg_type, tsa.article_cover msg_local, tsa.article_title msg_detail, tsa.customer_id my_cust, tsc.customer_id comm_cust
+				 from t_special_comment tsc, t_special_article tsa
+				where tsc.special_id = tsa.article_id and tsc.special_type = 5 and tsa.article_from = 1
+					and tsc.`status` = 2 and tsa.`status` = 1
+				 GROUP BY tsa.article_id  ORDER BY tsc.create_time desc
+				)
+			  union all
+				(
+				select tsc.comment_id, tsc.parent_id, tsc.root_id, tsc.create_time, 12 sub_msg_type, tsa.article_cover msg_local, parent_comm.content msg_detail, parent_comm.customer_id my_cust, tsc.customer_id comm_cust
+				 from t_special_comment tsc, t_special_comment parent_comm, t_special_article tsa
+				where tsc.special_id = tsa.article_id and tsc.special_type = 5 and tsa.article_from = 1
+					and tsc.`status` = 2 and tsa.`status` = 1
+					and tsc.parent_id = parent_comm.comment_id and parent_comm.`status` = 2
+				 GROUP BY tsc.parent_id  ORDER BY tsc.create_time desc
+				)
+		  union all
+			(
+			select tsc.comment_id, tsc.parent_id, tsc.root_id, tsc.create_time, 13 sub_msg_type, tsa.article_cover msg_local, parent_comm.content msg_detail, parent_comm.customer_id my_cust, tsc.customer_id comm_cust
+				from t_special_comment tsc, t_special_comment parent_comm, t_special_article tsa
+			where tsc.special_id = tsa.article_id and tsc.special_type = 5 and tsa.article_from = 0
+				and tsc.`status` = 2 and tsa.`status` = 1
+				and tsc.parent_id = parent_comm.comment_id and parent_comm.`status` = 2
+			  GROUP BY tsc.parent_id  ORDER BY tsc.create_time desc
+			)
+		  union all
+			(
+			select tsc.comment_id, tsc.parent_id, tsc.root_id, tsc.create_time, 14 sub_msg_type, tpf.special_cover msg_local, parent_comm.content msg_detail, parent_comm.customer_id my_cust, tsc.customer_id comm_cust
+				from t_special_comment tsc, t_special_comment parent_comm, t_professional tpf
+			where tsc.special_id = tpf.special_id and tsc.special_type = 4 and tsc.`status` = 2 and tpf.`status` = 1
+				and tsc.parent_id = parent_comm.comment_id and parent_comm.`status` = 2
+			 GROUP BY tsc.parent_id  ORDER BY tsc.create_time desc
+			)
+		) t, t_customer t_cust
+		where t.my_cust = #{customerId} 
+		 and t.parent_id is not null
+		 and t.comm_cust = t_cust.customer_id
+		ORDER BY t.create_time desc
+
+  	</select>
+  	
+  		<!-- 查询我的点赞消息子类列表 -->
+	<select id="queryPraiseMsgByGroupSubTypeListPage" resultMap="BaseResultMap" parameterType="pd" >
+		select t.*, (case when tct.nickname is not null and tct.nickname <![CDATA[ <> ]]> '' then tct.nickname else mosaic(tct.mobile) end) customer_name,
+				tct.head_url img_local
+		from (
+			(
+			select tpr.product_id obj_id, tc.comment_id parent_id, tc.content msg_detail, tp.customer_id, 15 sub_msg_type, tp.praise_time create_time_str, tpr.product_logo msg_local, tpr.product_name obj_name, tc.customer_id my_cust
+			 from t_comment tc, t_praise tp, t_product tpr
+				where tc.comment_id = tp.obj_id and tc.`status` = 2 and tp.praise_type = 1
+					and tc.product_id = tpr.product_id
+				GROUP BY tp.obj_id
+				ORDER BY tp.praise_time desc
+			)
+		  union all
+			(
+			select tsa.article_id obj_id, tsp.comment_id parent_id, tsp.content msg_detail, tp.customer_id, (case when tsa.article_from = 1 then 17 else 18 end) sub_msg_type, tp.praise_time create_time_str, tsa.article_cover msg_local, tsa.article_title obj_name, tsp.customer_id my_cust
+			 from t_special_comment tsp, t_praise tp, t_special_article tsa
+				where tsp.comment_id = tp.obj_id and tsp.`status` = 2 and tp.praise_type = 5
+						and tsp.special_id = tsa.article_id and tsp.special_type = 5
+				GROUP BY tp.obj_id
+				ORDER BY tp.praise_time desc)
+		
+		  union all
+		
+		(
+			select tsa.article_id obj_id, tsa.article_id parent_id, tsa.article_title msg_detail, tp.customer_id, 16 sub_msg_type, tp.praise_time create_time_str, tsa.article_cover msg_local, tsa.article_title obj_name, tsa.customer_id my_cust
+			 from t_special_article tsa, t_praise tp
+				where tsa.article_id = tp.obj_id and tsa.article_from = 1 and tsa.status = 1 and tp.praise_type = 4
+			GROUP BY tp.obj_id
+			ORDER BY tp.praise_time desc
+		)
+		
+		  union all
+		
+		(
+		select tpf.special_id obj_id, tsp.comment_id parent_id, tsp.content msg_detail, tp.customer_id, 20 sub_msg_type, tp.praise_time create_time_str, tpf.special_cover msg_local, tpf.special_title obj_name, tsp.customer_id my_cust
+		 from t_special_comment tsp, t_praise tp, t_professional tpf
+			where tsp.comment_id = tp.obj_id and tsp.`status` = 2 and tp.praise_type = 3
+					and tsp.special_id = tpf.special_id and tsp.special_type = 4 and tpf.special_type = tsp.special_type
+			GROUP BY tp.obj_id
+			ORDER BY tp.praise_time desc)
+		
+		) t, t_customer tct where t.customer_id = tct.customer_id and t.my_cust = #{customerId}
+		ORDER BY t.create_time_str desc
+
+  	</select>
+  	
+  	<!-- 商品评论消息 -我的未读消息数 -->
+	<select id="queryProductCommentByUnreadMsgCount" resultType="java.lang.Integer" parameterType="pd" >
+		select count(1)
+		  from t_message t, t_comment tsc where t.customer_id = #{customerId} and t.del_flag = 0 and t.sub_msg_type = 9 and t.is_read = 0  
+			and t.obj_id = tsc.comment_id and tsc.parent_id = #{parentId} and tsc.status = 2
+  	</select>
+  	
+	<!-- 商品评论消息 -我的消息数评论人数 -->
+	<select id="queryProductCommentByMsgTotalCount" resultType="java.lang.Integer" parameterType="pd" >
+		select count(1) from (
+			select 1 from t_comment tc, t_customer t 
+			 where tc.parent_id = #{parentId} and tc.`status` = 2 and tc.customer_id = t.customer_id
+			GROUP BY t.customer_id) ttt
+  	</select>
+  	
+  	<!-- 动态评论消息 -我的未读消息数 -->
+	<select id="queryDynamicCommentByUnreadMsgCount" resultType="java.lang.Integer" parameterType="pd" >
+		select count(1) 
+		  from t_message t, t_special_comment tsc where t.customer_id = #{customerId} and t.del_flag = 0 and t.sub_msg_type = 22 and t.is_read = 0  
+			and t.obj_id = tsc.comment_id and tsc.special_id = #{parentId} and tsc.status = 2
+  	</select>
+  	
+	<!-- 我的动态被评论消息 -我的消息数评论人数 -->
+	<select id="queryDynamicCommentByMsgTotalCount" resultType="java.lang.Integer" parameterType="pd" >
+		select count(1) from (
+			select 1 from t_special_comment tc, t_customer t 
+			 where tc.special_id = #{parentId} and tc.parent_id is null and tc.`status` = 2 and tc.customer_id = t.customer_id
+			GROUP BY t.customer_id) ttt
+  	</select>
+  	
+	<!-- 文章消息 -我的未读消息数 -->
+	<select id="queryArticleCommentByUnreadMsgCount" resultType="java.lang.Integer" parameterType="pd" >
+		select count(1)
+		 from t_message t, t_special_comment tsc where t.customer_id = #{customerId} and t.del_flag = 0 and t.sub_msg_type = #{subMsgType} and t.is_read = 0  
+			and t.obj_id = tsc.comment_id and tsc.parent_id = #{parentId} and tsc.status = 2
+  	</select>
+  	
+  	<!-- 我的动态/文章/视频评论消息 -我的消息数评论人数 -->
+	<select id="queryArticleCommentByMsgTotalCount" resultType="java.lang.Integer" parameterType="pd" >
+		select count(1) from (
+			select 1 from t_special_comment tc, t_customer t 
+			 where tc.parent_id = #{parentId} and tc.`status` = 2 and tc.customer_id = t.customer_id
+			GROUP BY t.customer_id) ttt
+  	</select>
+  	
+  	<!-- 评论点赞消息 -我的未读消息数 -->
+	<select id="queryPraiseByUnreadMsgCount" resultType="java.lang.Integer" parameterType="pd" >
+		SELECT count(1) FROM t_message t, t_praise tps 
+			WHERE t.msg_type = 4 AND t.sub_msg_type = #{subMsgType} AND t.customer_id = #{customerId}
+		 		AND t.del_flag = 0 AND t.is_read = 0 AND t.obj_id = tps.praise_id
+		 		AND tps.obj_id = #{objId} AND tps.praise_type = #{praiseType}
+  	</select>
+  	
+  	<!-- 评论点赞消息 -点赞人数 -->
+	<select id="queryPraiseByMsgTotalCount" resultType="java.lang.Integer" parameterType="pd" >
+		select count(1) from (
+			select 1 from t_praise where praise_type = #{praiseType} and obj_id = #{objId} GROUP BY customer_id) t
+  	</select>
+  	
+  	<!-- 更新商品评论消息读取状态 -->
+  	<update id="updateProductMessageReadStatus" parameterType="pd">
+  		update t_message t, t_comment tsc  set t.is_read = 1 where t.customer_id = #{customerId} and t.sub_msg_type = 9 and t.is_read = 0  
+			and t.obj_id = tsc.comment_id and tsc.parent_id = #{commentId} and tsc.status = 2
+  	</update>
+  	
+  	<!-- 更新我的动态被评论消息读取状态 -->
+  	<update id="updateDynamicMessageReadStatus" parameterType="pd">
+  		update t_message t, t_special_comment tsc set t.is_read = 1 where t.customer_id = #{customerId} and t.sub_msg_type = 22 and t.is_read = 0  
+			and t.obj_id = tsc.comment_id and (tsc.parent_id is null or tsc.parent_id = 0) and tsc.status = 2
+  	</update>
+  	
+  	<!-- 更新我的动态/文章/视频消息读取状态 -->
+  	<update id="updateArticleMessageReadStatus" parameterType="pd">
+  		update t_message t, t_special_comment tsc set t.is_read = 1 where t.customer_id = #{customerId} and t.sub_msg_type = #{subMsgType} and t.is_read = 0  
+			and t.obj_id = tsc.comment_id and tsc.parent_id = #{commentId} and tsc.status = 2
+  	</update>
+  	
+  	<!-- 更新点赞消息读取状态 -->
+  	<update id="updatePraiseMsgReadStatus" parameterType="pd">
+  		update t_message t, t_praise tp
+		 set t.is_read = 1 
+			where
+				t.customer_id = #{customerId} and t.obj_id = tp.praise_id
+			and tp.obj_id = #{objId} and t.del_flag = 0 and tp.praise_type = #{praiseType}
+  	</update>
+  	
+</mapper>

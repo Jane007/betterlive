@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.PostageMapper">
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.Postage">
+		<id column="postage_id" property="postageId" jdbcType="INTEGER" />
+		<result column="postage_name" property="postageName" jdbcType="VARCHAR" />
+		<result column="postage_type" property="postageType" jdbcType="INTEGER" />
+		<result column="meet_conditions" property="meetConditions" jdbcType="VARCHAR" />
+		<result column="postage" property="postage" jdbcType="VARCHAR" />
+		<result column="product_ids" property="productIds" jdbcType="VARCHAR" />
+		<result column="postage_msg" property="postageMsg" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		postage_id,postage_name,postage_type, meet_conditions, postage, product_ids,postage_msg
+	</sql>
+	
+	<!-- 根据运费主键查询单个运费 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_postage
+		where postage_id = #{postageId}
+	</select>
+
+	<!-- 根据条件分页查询运费 -->
+	<select id="queryListPage" resultMap="BaseResultMap" parameterType="pd">
+		select
+		<include refid="Base_Column_List" />
+		from t_postage
+		where 1=1
+		<if test="null != postageId">
+			and postage_id=#{postageId}
+		</if>
+		<if test="null != postageName and '' != postageName ">
+			and postage_id=#{postageName}
+		</if>
+		<if test="null != postageType">
+			and postage_type = #{postageType}
+		</if>
+	</select>
+	
+	<select id="queryPostageByAreaCode" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+		SELECT * FROM t_postage 
+		WHERE FIND_IN_SET(#{areaCode},area_ids) OR FIND_IN_SET(#{provinceCode},area_ids)
+	</select>
+	
+	<insert id="insert" parameterType="com.kingleadsw.betterlive.model.Postage" useGeneratedKeys="true" keyProperty="postageId">
+  	insert into t_postage(postage_name,postage_type,meet_conditions,postage,postage_msg) values(#{postageName,jdbcType=VARCHAR},#{postageType,jdbcType=INTEGER},#{meetConditions,jdbcType=VARCHAR},#{postage,jdbcType=VARCHAR},#{postageMsg,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_postage
+    where 1=1
+    <if test="postageId != null">
+    	and postage_id = #{postageId}
+    </if>
+    <if test="productId != null">
+    	and product_ids LIKE '%,${productId},%'
+    </if>
+  </select>
+	
+	<update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.Postage" >
+    update t_postage
+    set postage_name=#{postageName}, postage_type=#{postageType}, meet_conditions=#{meetConditions}, postage=#{postage}, product_ids=#{productIds},postage_msg=#{postageMsg}
+    where postage_id = #{postageId}
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    DELETE FROM t_postage WHERE postage_id = #{postageId}
+  </delete>
+</mapper>

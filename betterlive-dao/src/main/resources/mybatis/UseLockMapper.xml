@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.UseLockMapper" >
+		
+	<sql id="Base_Column_List" >
+		lock_id,
+		use_giftcard_no,
+		use_card_money,
+		use_coupon_id,
+		customer_id,
+		order_code,
+		lock_status,
+    	DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time    
+  	</sql>
+  
+	<!-- //根据条件查询所有锁定记录   -->
+	<select id="findListUseLock" resultType="com.kingleadsw.betterlive.model.UseLock" parameterType="pd">
+    	SELECT
+     		<include refid="Base_Column_List" />
+     	FROM t_use_lock WHERE  lock_id IS NOT NULL
+     	
+		<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!= orderCode">
+     	    and order_code=#{orderCode}
+     	</if>
+     	
+     	<!--锁定状态：1 已锁定 2 已解除 3 已取消订单 4已过期 -->
+     	<if test="null != lockStatus  and ''!= lockStatus ">
+     		and lock_status=#{lockStatus}
+     	</if>
+     	
+     	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and customer_id=#{customerId}
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!--  //根据条件查询锁定记录    -->
+	<select id="findUseLock" resultType="com.kingleadsw.betterlive.model.UseLock" parameterType="pd" >
+    	SELECT
+     		<include refid="Base_Column_List" />
+     	FROM t_use_lock WHERE  lock_id IS NOT NULL
+     	
+		<!-- 订单编号 -->
+		<if test="null != orderCode  and ''!= orderCode">
+     	    and order_code=#{orderCode}
+     	</if>
+     	
+     	<!--锁定状态：1 已锁定 2 已解除 3 已取消订单 4已过期 -->
+     	<if test="null != lockStatus  and ''!= lockStatus ">
+     		and lock_status=#{lockStatus}
+     	</if>
+     	
+     	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and customer_id=#{customerId}
+     	</if>
+     	
+     	<!-- 优惠券Id -->
+     	<if test="null != couponId  and ''!= couponId ">
+     		and use_coupon_id=#{couponId}
+     	</if>
+     	limit 1
+  	</select>
+  	
+  
+  	
+  	<!-- //新增锁定记录 -->
+  	<insert id="insertUseLock" parameterType="com.kingleadsw.betterlive.model.UseLock" >
+    	insert into t_use_lock (lock_id,
+								use_giftcard_no,
+								use_card_money,
+								use_coupon_id,
+								customer_id,
+								order_code,
+								lock_status,
+								create_time
+    				  		)
+    				  	values (NULL,
+    				  	 	    #{use_giftcard_no},
+    				  	 	    #{use_card_money},
+    				  	 	    #{use_coupon_id},
+    				  	 	    #{customer_id},
+    				  	 	    #{order_code},
+    				  	 	    #{lock_status},
+    				  	 	    now()
+    				  	 	  )
+  	</insert>
+   	
+   	<!--  //更新锁定记录  -->
+    <update id="editUseLockById" parameterType="pd" >
+    	update t_use_lock   
+    			<set>
+    				<!-- 锁定状态  -->
+    				<if test="null!=lockStatus and ''!=lockStatus ">
+    					lock_status=#{lockStatus},
+    				</if>
+    			</set>
+								
+    	where order_code=#{orderCode} 
+    	
+    	<!-- 用户ID -->
+     	<if test="null != customerId  and ''!= customerId ">
+     		and customer_id=#{customerId}
+     	</if>
+    	
+    </update> 
+    
+    
+    <!-- 查询用户锁定的礼品卡金额 -->
+   <select id="findCustomerLockMoney" resultType="java.lang.Float" parameterType="java.lang.String" >
+    	SELECT IFNULL(sum(use_card_money),0) as lockmoney FROM t_use_lock WHERE  customer_id=#{customerId} and lock_status=1
+  	</select>
+    
+    
+    
+    <!-- 合并用户时,需要合并用户的锁定状态 -->
+    <update id="modifyCustomerUseLockBycId" parameterType="pd" >
+	    update t_use_lock set customer_id=#{newCustomerId}  where customer_id=#{customerId}
+	</update> 
+	
+</mapper> 

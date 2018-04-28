@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingleadsw.betterlive.dao.ProductMapper">
+
+	<resultMap  id="BaseResultMap" type="com.kingleadsw.betterlive.model.Product">
+		<id column="product_id"  property="product_id"   jdbcType="INTEGER" />
+		<result column="product_code" property="product_code" jdbcType="VARCHAR" /> 
+	    <result column="product_name" property="product_name" jdbcType="VARCHAR" />
+	    <result column="pt_id" property="pt_id" jdbcType="INTEGER" />
+	    <result column="product_logo" property="product_logo" jdbcType="VARCHAR" />
+	    <result column="price" property="price" jdbcType="VARCHAR" />
+    	
+    	<result column="activity_id" property="activity_id" jdbcType="VARCHAR" />
+    	<result column="activity_name" property="activity_name" jdbcType="VARCHAR" />
+    	<result column="prompt" property="prompt" jdbcType="VARCHAR" />
+    	<result column="eat_recommend" property="eat_recommend" jdbcType="INTEGER" />
+    	<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    	<result column="status" property="status" jdbcType="INTEGER" />
+    	<result column="details" property="details" jdbcType="VARCHAR" />
+    	<result column="create_time" property="create_time" javaType="String" jdbcType="VARCHAR" />
+     	<result column="order_num" property="order_num" jdbcType="INTEGER" />
+     	
+     	<result column="is_online" property="is_online" jdbcType="INTEGER" />
+     	<result column="warehouse" property="warehouse" jdbcType="VARCHAR" />
+    	<result column="deliver_type" property="deliver_type" jdbcType="INTEGER" />
+     	<result column="share_explain" property="share_explain" javaType="String" jdbcType="VARCHAR" />
+   		<result column="homeweekly_first_img" property="homeweekly_first_img" javaType="String" jdbcType="VARCHAR" />
+		<result column="homeweekly_after_img" property="homeweekly_after_img" javaType="String" jdbcType="VARCHAR" />
+		<result column="homefame_img" property="homefame_img" javaType="String" jdbcType="VARCHAR" />
+	   	<result column="product_type" property="product_type" jdbcType="INTEGER" />
+	   	<result column="label_name" property="labelName" javaType="String" jdbcType="VARCHAR" />
+	   	<result column="is_freight" property="is_freight" jdbcType="INTEGER" />
+	   	<result column="is_quality" property="is_quality" jdbcType="INTEGER" />
+   	  	<result column="is_testing" property="is_testing" jdbcType="INTEGER" />
+  		<result column="sales_volume" property="salesVolume" jdbcType="INTEGER" />
+  		<result column="fake_sales_copy" property="fake_sales_copy" jdbcType="INTEGER" />
+  		<result column="if_coupon" property="ifCoupon" jdbcType="INTEGER" />
+	   	<result column="detail_explain" property="detailExplain" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap  id="BaseJionResultMap" type="com.kingleadsw.betterlive.model.Product">
+		<id column="product_id"  property="product_id"   jdbcType="INTEGER" />
+		<result column="product_code" property="product_code" jdbcType="VARCHAR" /> 
+	    <result column="product_name" property="product_name" jdbcType="VARCHAR" />
+	    <result column="pt_id" property="pt_id" jdbcType="INTEGER" />
+	    <result column="product_logo" property="product_logo" jdbcType="VARCHAR" />
+	    <result column="price" property="price" jdbcType="VARCHAR" />
+    	
+    	<result column="activity_id" property="activity_id" jdbcType="VARCHAR" />
+    	<result column="activity_name" property="activity_name" jdbcType="VARCHAR" />
+    	<result column="prompt" property="prompt" jdbcType="VARCHAR" />
+    	<result column="eat_recommend" property="eat_recommend" jdbcType="INTEGER" />
+    	<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    	<result column="status" property="status" jdbcType="INTEGER" />
+    	<result column="details" property="details" jdbcType="VARCHAR" />
+    	<result column="create_time" property="create_time" javaType="String" jdbcType="VARCHAR" />
+     	<result column="order_num" property="order_num" jdbcType="INTEGER" />
+     	
+     	<result column="is_online" property="is_online" jdbcType="INTEGER" />
+     	<result column="warehouse" property="warehouse" jdbcType="VARCHAR" />
+     	<result column="deliver_type" property="deliver_type" jdbcType="INTEGER" />
+     	<result column="share_explain" property="share_explain" javaType="String" jdbcType="VARCHAR" />
+     	<result column="homeweekly_first_img" property="homeweekly_first_img" javaType="String" jdbcType="VARCHAR" />
+		<result column="homeweekly_after_img" property="homeweekly_after_img" javaType="String" jdbcType="VARCHAR" />
+		<result column="homefame_img" property="homefame_img" javaType="String" jdbcType="VARCHAR" />
+	   	<result column="product_type" property="product_type" jdbcType="INTEGER" />
+   		<result column="is_freight" property="is_freight" jdbcType="INTEGER" />
+	   	<result column="is_quality" property="is_quality" jdbcType="INTEGER" />
+   	  	<result column="is_testing" property="is_testing" jdbcType="INTEGER" />
+		<result column="label_name" property="labelName" javaType="String" jdbcType="VARCHAR" />
+	   	<result column="sales_volume" property="salesVolume" jdbcType="INTEGER" />
+   	 	<result column="total_stock_copy" property="total_stock_copy" jdbcType="INTEGER" />
+   	 	<result column="if_coupon" property="ifCoupon" jdbcType="INTEGER" />
+	   	<result column="detail_explain" property="detailExplain" javaType="String" jdbcType="VARCHAR" />
+    	<collection property="listSpecVo" column="product_id"  select="findProductSpecByPid" /> 
+    	<collection property="extensionVos" column="product_id" select="findExtensionByPid"/>
+    	<collection property="pictures" column="product_id" select="findProductBannerByPid"/>
+	</resultMap>
+	 
+	<resultMap id="BaseOtherResultMap" type="com.kingleadsw.betterlive.model.ProductSpec">
+		<id column="spec_id" property="spec_id" jdbcType="INTEGER" />
+		<result column="spec_name" property="spec_name" jdbcType="VARCHAR" /> 
+	    <result column="spec_price" property="spec_price" jdbcType="VARCHAR" />
+	    <result column="activity_price" property="activity_price" jdbcType="VARCHAR" />
+        <result column="discount_price" property="discount_price" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		p.product_id,
+		p.product_code,
+		p.product_name,
+		p.pt_id,
+		p.product_logo,
+		ifnull(p.price, 0) price,
+		p.activity_id,
+		p.activity_name,
+		p.prompt,
+		p.eat_recommend,
+		p.introduce,
+		p.status,
+		p.details,
+		p.order_num,
+		p.warehouse,
+		p.deliver_type,
+		p.share_explain,
+		p.is_online,
+		p.homeweekly_first_img,
+		p.homeweekly_after_img,
+		p.homefame_img,
+		p.product_type,
+		p.is_freight,
+		p.is_quality,
+		p.is_testing,
+		p.fake_sales_copy,
+		p.if_coupon,
+    	DATE_FORMAT(p.create_time, '%Y-%m-%d %H:%i:%s') AS create_time    
+  	</sql>
+	
+	<!-- 商品banner图resultMap -->
+	<resultMap  id="ProductBannerResultMap" type="Pictures">
+		<id column="picture_id"  property="picture_id" jdbcType="INTEGER" />
+		<id column="object_id"  property="object_id" jdbcType="INTEGER" />
+		<id column="picture_type"  property="picture_type" jdbcType="INTEGER" />
+		<result column="small_img" property="small_img" jdbcType="VARCHAR" /> 
+	    <result column="original_img" property="original_img" jdbcType="VARCHAR" />
+	    <result column="create_time" property="create_time" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 根据商品ID查询商品规格 -->
+	<select id="findProductSpecByPid" resultMap="BaseOtherResultMap"  parameterType="java.lang.Integer" flushCache="true">
+		 SELECT spec_id,spec_name,spec_img,spec_price,stock_copy,
+		 limit_max_copy,package_desc,discount_price,
+		 DATE_FORMAT(limit_start_time, '%Y-%m-%d %H:%i:%s') as limit_start_time,
+		 DATE_FORMAT(limit_end_time, '%Y-%m-%d %H:%i:%s') as limit_end_time
+		  FROM t_spec WHERE product_id=#{product_id} and status=1
+		  order by spec_price asc
+		<!-- SELECT DISTINCT s.spec_id,s.spec_name,s.spec_price,s.spec_img,ap.activity_price FROM t_spec s LEFT JOIN  t_activity_product ap ON s.spec_id=ap.spec_id   WHERE s.product_id=#{product_id} and s.status=1 -->	
+	</select>	
+	<!-- 根据商品ID查询商品轮播图 -->
+	<select id="findProductBannerByPid" resultMap="ProductBannerResultMap"  parameterType="java.lang.Integer" flushCache="true">
+		SELECT picture_id,object_id,picture_type,small_img,original_img,DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time  
+		FROM t_pictures 
+		WHERE object_id = #{product_id} AND picture_type = 1 AND status=1
+		  order by sort asc	
+	</select>	
+	<resultMap id="BaseExtensionResultMap" type="com.kingleadsw.betterlive.model.Extension">
+		<id column="extension_id" property="extensionId" jdbcType="INTEGER" />
+		<result column="extension_type" property="extensionType" jdbcType="TINYINT" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" />
+	 	<result column="is_homepage" property="isHomepage" jdbcType="TINYINT" />
+	</resultMap>
+	<!-- 根据商品id查询出商品扩展表里的人气或推荐商品 -->
+	<select id="findExtensionByPid" resultMap="BaseExtensionResultMap"  parameterType="java.lang.Integer" flushCache="true">
+		SELECT extension_id,extension_type,product_id,is_homepage FROM t_extension WHERE product_id=#{product_id} 
+		
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>,
+			(select tpl.label_title from t_product_label tpl where tpl.product_id = p.product_id and tpl.status = 0
+     			and tpl.show_start <![CDATA[ <= ]]> NOW() and tpl.show_end <![CDATA[ >= ]]> NOW() limit 1) label_name
+		 from t_product p where p.product_id=#{productId}
+	</select>
+		
+	<!-- 根据条件分页查询商品    -->
+	<select id="queryProductListPage" resultMap="BaseJionResultMap" parameterType="pd">
+    	select distinct
+     		<include refid="Base_Column_List" />,
+     		(select tpl.label_title from t_product_label tpl where tpl.product_id = p.product_id and tpl.status = 0
+     			and tpl.show_start <![CDATA[ <= ]]> NOW() and tpl.show_end <![CDATA[ >= ]]> NOW() limit 1) label_name,
+     		(select ifnull(sum(op.quantity), 0) from t_order_product op where op.product_id = p.product_id and op.`STATUS` in (2,3,4,5)) sales_volume
+     	from t_product p left join t_extension e on p.product_id=e.product_id where 1=1
+     	
+     	<!-- 产品状态 -->
+     	<if test="null != status  and ''!= status">
+     		and p.status=#{status}
+     	</if>
+     	 
+     	<!-- 产品ID -->
+     	<if test="null != productId  and ''!= productId">
+     		and p.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 产品状态 -->
+     	<if test="null != productStatus  and ''!= productStatus">
+     		and p.status=#{productStatus}
+     	</if>
+     	
+     	<!-- 是否喜欢 -->
+     	<if test="null != eatRecommend  and ''!= eatRecommend">
+     		and p.eat_recommend=#{eatRecommend}
+     	</if>
+     	
+     	<!-- 产品名称 -->
+     	<if test="null != productName  and ''!= productName">
+     	    and p.product_name like '%${productName}%'
+     	</if>
+     	<if test="null!=isHomepage and ''!=isHomepage">
+			and e.is_homepage=#{isHomepage}
+		</if>
+		<if test="null!=extensionType and ''!=extensionType">
+			and e.extension_type=#{extensionType}
+		</if>
+		<if test="null!=isOnline and ''!=isOnline">
+			and p.is_online=#{isOnline}
+		</if>
+		<if test="productType != null and productType > 0">
+			and p.product_type=#{productType}
+		</if>
+		<if test="null != hasNoPro  and 1== hasNoPro">
+   			and p.product_id 
+				not in (select product_id from t_activity_product ap, t_professional tp where ap.activity_id = tp.special_id and tp.endtime &gt; NOW() and tp.status = 1
+					<if test="editFlag != null and editFlag == 1">
+						and ap.activity_id &lt;&gt; #{specialId}
+					</if>
+				)
+			<if test="extensionFlag != null and extensionFlag == 1">
+				and p.product_id not in (select product_id from t_extension)
+			</if> 
+   		</if>
+   		<if test="proIds != null">
+   			and p.product_id in (${proIds})
+   		</if>
+   		<if test="pro_ids != null and pro_ids != '' ">
+   			or p.product_id in (${pro_ids})
+   		</if>
+		<!-- 过滤掉已删除的商品 -->
+		AND p.status != 3
+		order by p.status asc,p.order_num,p.create_time desc
+		<if test="rowStart != null">
+			limit #{rowStart}, #{pageSize}
+		</if>
+  	</select>
+  	<select id="queryNotExistInExtension" resultMap="BaseJionResultMap" parameterType="pd">
+  		select <include refid="Base_Column_List" /> from t_product p where  not exists (select product_id from t_extension e where e.product_id=p.product_id) and p.`status`=1
+  	</select>
+  	
+  	<select id="queryExtensionListPage" resultMap="BaseResultMap" parameterType="pd">
+  		select <include refid="Base_Column_List" />,
+  			   (select IFNULL(sum(op.quantity), 0) from t_order_product op where op.product_id = p.product_id and op.`status` in (2,3,4,5)) quantity
+  		 from t_product p 
+  		INNER JOIN t_extension e ON p.product_id = e.product_id 
+  		WHERE p.`status` = #{status} AND e.extension_type = #{extensionType} 
+  		<if test="null != isHomepage and '' != isHomepage">
+			AND e.is_homepage = #{isHomepage}
+		</if>
+		<if test="null != isOnline and '' != isOnline">
+			AND p.is_online = #{isOnline}
+		</if>
+		<if test="orderFlag == null">
+			ORDER BY p.order_num asc
+		</if>
+		<if test="orderFlag != null and orderFlag == 1">
+			ORDER BY quantity desc
+		</if>
+  	</select>
+  	
+  	
+  	<!--根据条件查询单个商品    -->
+	<select id="selectProductByOption" resultMap="BaseJionResultMap" parameterType="pd">
+    	select 
+    		p.detail_explain,
+     		<include refid="Base_Column_List" />,
+  				<if test="specialId != null and specialId > 0">
+  					(select IFNULL(sum(ts1.stock_copy), 0) from t_activity_product ap2, t_spec ts1 
+		     			where ap2.product_id = p.product_id and ap2.product_id = ts1.product_id and ap2.spec_id = ts1.spec_id and ts1.status=1
+				     		and ap2.activity_id=#{specialId}
+		     			) total_stock_copy,
+  				</if>
+  				<if test="specialId == null">
+  					(SELECT ifnull(sum(c.stock_copy), 0) FROM t_spec c WHERE c.`status` = 1 AND c.product_id = p.product_id) total_stock_copy,
+				</if>
+			(select ifnull(sum(op.quantity), 0) from t_order_product op
+						where op.product_id = p.product_id and op.`STATUS` in (2,3,4,5)) sales_volume,
+   			(select tpl.label_title from t_product_label tpl where tpl.product_id = p.product_id and tpl.status = 0
+   				and show_start <![CDATA[ <= ]]> NOW() and show_end <![CDATA[ >= ]]> NOW() limit 1) label_name
+     	from t_product p where  p.product_id=#{productId}  
+     	
+     	<!-- 商品状态 -->
+     	<if test="null!=status and ''!=status ">
+     		and  p.status=#{status}
+     	</if>
+     	
+     	<!-- 线上或者线下的商品 -->
+     	<if test="null != is_online and '' != is_online">
+     		and p.is_online=#{isOnline}
+     	</if>
+  	</select>
+  	
+  	<!--查询所有的商品    -->
+  	<select id="queryProductList" resultMap="BaseJionResultMap" parameterType="pd">
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_product p  where   1=1
+     	
+    	<!-- 产品ID -->
+     	<if test="null != productId  and ''!= productId">
+     		and p.product_id=#{productId}
+     	</if>
+     	
+     	<!-- 产品状态 -->
+     	<if test="null != productStatus  and ''!= productStatus">
+     		and p.status=#{productStatus}
+     	</if>
+     	
+     	<!-- 是否喜欢 -->
+     	<if test="null != eatRecommend  and ''!= eatRecommend">
+     		and p.eat_recommend=#{eatRecommend}
+     	</if>
+     	
+     	<!-- 产品名称 -->
+     	<if test="null != productName  and ''!= productName">
+     	    and p.product_name like '%${productName}%'
+     	</if>
+     	<if test="isOnline != null">
+     		and p.is_online = #{isOnline}
+     	</if>
+     	<!-- 新增专题时，去除状态为 预售 的商品     
+     	     发现BUG： （暂时不解决）
+     	         1. 预购的商品 活动已经结束,这是就是普通商品    但是新增专题时并没有被查询出来 (根据预售时间判断是否结束)
+     	         2. 已经为专题的商品（未结束）能不再次成为专题 ，新增专题时被查询出来 
+     	-->
+     	<if test="null != activityType  and ''!= activityType">
+    		AND p.product_id not in (
+					SELECT DISTINCT atp.product_id FROM t_activity_product atp WHERE atp.activity_type=#{activityType} and product_id is not null
+				) 	    
+	
+     	</if>
+   		<if test="null != hasNoPro  and 1== hasNoPro">
+   			and p.product_id 
+				not in (select product_id from t_activity_product ap, t_professional tp where ap.activity_id = tp.special_id and tp.endtime &gt; NOW() and tp.status = 1
+					<if test="editFlag != null and editFlag == 1">
+						and ap.activity_id &lt;&gt; #{specialId}
+					</if>
+				)
+			<if test="extensionFlag != null and extensionFlag == 1">
+				and p.product_id not in (select product_id from t_extension) 
+			</if> 
+   		</if>
+     	<!-- 满减活动 -->
+     	<if test="null!=salePromotion and ''!=salePromotion">
+     		AND p.product_id not in (
+     			select ps.product_id FROM t_promotion_spec ps inner join t_sale_promotion sp on ps.promotion_id=sp.promotion_id
+     			where sp.start_time&lt;NOW() and sp.end_time&gt;NOW()
+     		)
+     	</if>
+  	</select>
+  	
+  	
+  	<select id="queryProductBaseInfoList" resultMap="BaseResultMap" parameterType="pd">
+  		SELECT 
+     		<include refid="Base_Column_List" />
+     	FROM t_product p WHERE 1=1
+     	<!-- 产品状态 -->
+     	<if test="null != productStatus  and ''!= productStatus">
+     		and p.status=#{productStatus}
+     	</if>
+     	
+     	<!-- 是否喜欢 -->
+     	<if test="null != eatRecommend  and ''!= eatRecommend">
+     		and p.eat_recommend=#{eatRecommend}
+     	</if>
+     	
+  	</select>
+  	
+  	<!-- 增加商品 -->
+  	<insert id="insertProduct" parameterType="com.kingleadsw.betterlive.model.Product" useGeneratedKeys="true"  keyProperty="product_id">
+    	insert into t_product 
+    	
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+    		
+    		<if test="product_code!=null">
+    			product_code,
+    		</if>
+    		<if test="product_name!=null">
+    			product_name,
+    		</if>
+    		<if test="pt_id!=null">
+    			pt_id,
+    		</if>
+    		<if test="product_logo!=null">
+    			product_logo,
+    		</if>
+    		<if test="price!=null">
+    			price,
+    		</if>
+    		<if test="activity_id!=null">
+    			activity_id,
+    		</if>
+    		<if test="activity_name!=null">
+    			activity_name,
+    		</if>
+    		<if test="prompt!=null">
+    			prompt,
+    		</if>
+    		<if test="eat_recommend!=null">
+    			eat_recommend,
+    		</if>
+    		<if test="introduce!=null">
+    			introduce,
+    		</if>
+    		<if test="status!=null">
+    			status,
+    		</if>
+    		<if test="details!=null">
+    			details,
+    		</if>
+    		<if test="order_num!=null">
+    			order_num,
+    		</if>
+    		<if test="warehouse!=null and ''!=warehouse">
+    			warehouse,
+    		</if>
+    		
+    		<if test="deliver_type!=null ">
+    			deliver_type,
+    		</if>
+    		<if test="share_explain!=null and ''!=share_explain">
+    			share_explain,
+    		</if>
+    		<if test="is_online!=null and ''!=is_online">
+    			is_online,
+    		</if>
+   			<if test="homeweekly_first_img!=null and ''!=homeweekly_first_img">
+    			homeweekly_first_img,
+    		</if>
+   			<if test="homeweekly_after_img!=null and ''!=homeweekly_after_img">
+    			homeweekly_after_img,
+    		</if>
+   			<if test="homefame_img!=null and ''!=homefame_img">
+    			homefame_img,
+    		</if>
+    		<if test="product_type!=null">
+    			product_type,
+    		</if>
+   			<if test="is_freight!=null">
+    			is_freight,
+    		</if>
+   			<if test="is_quality!=null">
+    			is_quality,
+    		</if>
+   			<if test="is_testing!=null">
+    			is_testing,
+    		</if>
+    		<if test="fake_sales_copy !=null">
+    			fake_sales_copy,
+    		</if>
+    		<if test="ifCoupon !=null">
+    			if_coupon,
+    		</if>
+    			create_time
+    		 </trim>
+    	
+    		 <trim prefix="values (" suffix=")" suffixOverrides=",">
+    		 	<if test="product_code!=null">
+	    			#{product_code},
+	    		</if>
+	    		<if test="product_name!=null">
+	    			#{product_name},
+	    		</if>
+	    		<if test="pt_id!=null">
+	    			#{pt_id},
+	    		</if>
+	    		<if test="product_logo!=null">
+	    			#{product_logo},
+	    		</if>
+	    		<if test="price!=null">
+	    			#{price},
+	    		</if>
+	    		<if test="activity_id!=null">
+	    			#{activity_id},
+	    		</if>
+	    		<if test="activity_name!=null">
+	    			#{activity_name},
+	    		</if>
+	    		<if test="prompt!=null">
+	    			#{prompt},
+	    		</if>
+	    		<if test="eat_recommend!=null">
+	    			#{eat_recommend},
+	    		</if>
+	    		<if test="introduce!=null">
+	    			#{introduce},
+	    		</if>
+	    		<if test="status!=null">
+	    			#{status},
+	    		</if>
+	    		<if test="details!=null">
+	    			#{details},
+	    		</if>
+	    		<if test="order_num!=null">
+	    			#{order_num},
+	    		</if>
+	    		<if test="warehouse!=null and ''!=warehouse">
+	    			#{warehouse},
+	    		</if>
+	    		
+	    		<if test="deliver_type!=null">
+	    			#{deliver_type},
+	    		</if>
+	    		<if test="share_explain!=null and ''!=share_explain">
+	    			#{share_explain},
+	    		</if>
+	    		<if test="is_online!=null and ''!=is_online">
+    				#{is_online},
+    			</if>
+    			<if test="homeweekly_first_img!=null and ''!=homeweekly_first_img">
+    				#{homeweekly_first_img},
+	    		</if>
+	   			<if test="homeweekly_after_img!=null and ''!=homeweekly_after_img">
+	    			#{homeweekly_after_img},
+	    		</if>
+    			<if test="homefame_img!=null and ''!=homefame_img">
+    				#{homefame_img},
+	    		</if>
+	    		<if test="product_type!=null">
+	    			#{product_type},
+	    		</if>
+    			<if test="is_freight!=null">
+    				#{is_freight},
+	    		</if>
+	   			<if test="is_quality!=null">
+	    			#{is_quality},
+	    		</if>
+	   			<if test="is_testing!=null">
+	    			#{is_testing},
+	    		</if>
+	    		<if test="fake_sales_copy !=null">
+	    			#{fake_sales_copy},
+	    		</if>
+	    		<if test="ifCoupon !=null">
+	    			#{ifCoupon},
+	    		</if>
+    			NOW()
+    		 </trim>
+  	</insert>
+   	
+   	<!--修改商品-->
+    <update id="updateProduct" parameterType="com.kingleadsw.betterlive.model.Product">
+    	update t_product 
+    		<set>
+    			<if test="product_name!=null">
+    				product_name=#{product_name},
+    			</if>
+    			<if test="pt_id!=null">
+    				 pt_id=#{pt_id},
+    			</if>
+    			<if test="product_logo!=null">
+    				 product_logo=#{product_logo},
+    			</if>
+    			<if test="price!=null">
+    				 price=#{price},
+    			</if>
+    			<if test="activity_id!=null">
+    				 activity_id=#{activity_id},
+    			</if>
+    			<if test="activity_name!=null">
+    				 activity_name=#{activity_name},
+    			</if>
+    			<if test="prompt!=null and ''!=prompt">
+    				prompt=#{prompt},
+    			</if>
+    			<if test="eat_recommend!=null and ''!=eat_recommend">
+    			 	eat_recommend=#{eat_recommend},
+    			</if>
+    			<if test="introduce!=null and ''!=introduce">
+    				introduce=#{introduce},
+    			</if>
+    			<if test="status!=null and ''!=status">
+    				 status=#{status},
+    			</if>
+    			<if test="details!=null and ''!=details">
+    				details=#{details},
+    			</if>
+    			<if test="order_num!=null and ''!=order_num">
+    				order_num=#{order_num},
+    			</if>
+    			
+    			<if test="warehouse!=null and ''!=warehouse">
+    				 warehouse=#{warehouse}, 
+    			</if>
+    			
+    			<if test="deliver_type!=null ">
+    				 deliver_type=#{deliver_type},
+    			</if>
+    			<if test="share_explain!=null and ''!=share_explain">
+    				share_explain=#{share_explain},
+    			</if>
+    			<if test="homeweekly_first_img!=null and ''!=homeweekly_first_img">
+    				homeweekly_first_img = #{homeweekly_first_img},
+	    		</if>
+	   			<if test="homeweekly_after_img!=null and ''!=homeweekly_after_img">
+	    			homeweekly_after_img = #{homeweekly_after_img},
+	    		</if>
+	    		<if test="homefame_img!=null and ''!=homefame_img">
+    				homefame_img = #{homefame_img},
+	    		</if>
+	    		<if test="product_type!=null">
+	    			product_type = #{product_type},
+	    		</if>
+    			<if test="is_freight!=null">
+	    			is_freight = #{is_freight},
+	    		</if>
+	    		<if test="is_quality!=null">
+	    			is_quality = #{is_quality},
+	    		</if>
+	    		<if test="is_testing!=null">
+	    			is_testing = #{is_testing},
+	    		</if>
+    			<if test="is_online!=null and ''!=is_online">
+    				is_online=#{is_online},
+    			</if>
+   				<if test="fake_sales_copy!=null">
+    				fake_sales_copy=#{fake_sales_copy},
+    			</if>
+    			<if test="ifCoupon != null">
+    				if_coupon = #{ifCoupon}
+    			</if>
+    		</set>
+    	  
+    				   
+    	where product_id=#{product_id}
+    	
+    </update> 
+    
+    
+    <!-- 修改商品状态  -->
+    <update id="updateProductStatus" parameterType="pd">
+    	UPDATE t_product SET `status` = #{status} WHERE product_id = #{productId}
+    </update>
+    
+    <!-- 删除商品-->
+    <delete id="deleteProductById" parameterType="java.lang.String">
+    	delete from  t_product where product_id=#{productId}
+    </delete> 
+    
+   	<!--查询所有没有标签的商品    -->
+  	<select id="queryProductListByLabel" resultMap="BaseResultMap" parameterType="pd">
+		select <include refid="Base_Column_List" /> from
+		 t_product p
+		 where p.product_id not in(
+			select l.product_id from t_product_label l where l.show_end<![CDATA[>]]> NOW()
+			and l.`status` = 0
+		) and p.`status`=1
+  	</select>
+  	
+  	<!--根据文章关联的商品查询所有的商品    -->
+  	<select id="queryListByArticle" resultMap="BaseJionResultMap" parameterType="pd">
+    	select
+     		<include refid="Base_Column_List" />,
+     		(select tpl.label_title from t_product_label tpl where tpl.product_id = p.product_id and tpl.status = 0
+     			and tpl.show_start <![CDATA[ <= ]]> NOW() and tpl.show_end <![CDATA[ >= ]]> NOW() limit 1) label_name,
+     		(select ifnull(sum(op.quantity), 0) from t_order_product op where op.product_id = p.product_id and op.`STATUS` in (2,3,4,5)) sales_volume
+     	from t_product p, t_article_relation_pro arp, t_special_article tsa
+     	 where p.product_id=arp.product_id and p.status=1
+     	 	and arp.article_id = tsa.article_id and tsa.status=1
+     		and arp.article_id=#{articleId}
+  	</select>
+  	
+  	<select id="queryRegisterProductListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	 SELECT
+    	 	tp.product_id,tp.product_name,tp.product_logo,
+    	 	(select tsp.spec_price from t_spec tsp where tsp.product_id = tp.product_id order by tsp.spec_price asc limit 1) as price,
+    	 	(select tsp.discount_price from t_spec tsp where tsp.product_id = tp.product_id order by tsp.spec_price asc limit 1) as discountPrice 
+    	 	
+		FROM t_product tp ,t_sys_invite si
+		where si.dict_type=6 and si.obj_id=tp.product_id
+		order by si.sorts desc
+    </select>
+     
+</mapper>

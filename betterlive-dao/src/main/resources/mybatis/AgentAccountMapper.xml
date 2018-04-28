@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.AgentAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.AgentAccount" >
+  	<id column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="agent_id" property="agentId" jdbcType="INTEGER" />
+    <result column="account_amount" property="accountAmount" jdbcType="DECIMAL" />
+    <result column="cash_allow_amount" property="cashAllowAmount" jdbcType="DECIMAL" />
+    <result column="cash_disallow_amount" property="cashDisallowAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    
+  <sql id="Base_Column_List" >
+  	aa.account_id, aa.status, aa.agent_id, 
+  	ifnull(aa.account_amount, 0) account_amount, ifnull(aa.cash_allow_amount, 0) cash_allow_amount, 
+  	ifnull(aa.cash_disallow_amount, 0) cash_disallow_amount, 
+  	aa.create_time, 
+  	aa.modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  		 SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_agent_account aa, t_customer_agent ca where aa.agent_id = ca.agent_id and aa.account_id = #{accountId}
+  </select>
+  
+  
+<insert id="insert" parameterType="com.kingleadsw.betterlive.model.AgentAccount" useGeneratedKeys="true" keyColumn="account_id" keyProperty="accountId">
+  		insert into t_agent_account
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			
+  			<if test="agentId!=null">
+  				agent_id,
+  			</if>
+  			<if test="accountAmount!=null">
+  				account_amount,
+  			</if>
+  			<if test="cashAllowAmount!=null">
+  				cash_allow_amount,
+  			</if>
+  			<if test="cashDisallowAmount!=null">
+  				cash_disallow_amount,
+  			</if>
+  			<if test="status!=null">
+  				status,
+  			</if>
+  			create_time,
+  			modify_time,
+  		</trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	    
+  			<if test="agentId!=null">
+  				#{agentId},
+  			</if>
+  			<if test="accountAmount!=null">
+  				#{accountAmount},
+  			</if>
+  			<if test="cashAllowAmount!=null">
+  				#{cashAllowAmount},
+  			</if>
+  			<if test="cashDisallowAmount!=null">
+  				#{cashDisallowAmount},
+  			</if>
+  			<if test="status!=null">
+  				#{status},
+  			</if>
+  			NOW(),
+  			NOW(),
+	    </trim>
+  </insert>
+  
+   <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.AgentAccount">
+  		update t_agent_account
+  		<set >
+  			<if test="accountAmount!=null">
+  				account_amount = #{accountAmount},
+  			</if>
+  			<if test="cashAllowAmount!=null">
+  				cash_allow_amount = #{cashAllowAmount},
+  			</if>
+  			<if test="cashDisallowAmount!=null">
+  				cash_disallow_amount = #{cashDisallowAmount},
+  			</if>
+  			<if test="status!=null">
+  				status=#{status},
+  			</if>
+  			modify_time = NOW()
+  		</set>
+  		where account_id = #{accountId}
+  </update>
+
+
+
+
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+  	 SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_agent_account aa inner join t_customer_agent ca on aa.agent_id = ca.agent_id
+		 WHERE 1=1
+		 <if test="agentId != null">
+		 	and aa.agent_id = #{agentId}
+		 </if>
+		 <if test="accountId != null">
+		 	and aa.account_id = #{accountId}
+		 </if>
+		 <if test="status != null">
+		 	and aa.status = #{status}
+		 </if>
+		 order by aa.create_time desc
+  </select>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd">
+  		 SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_agent_account aa inner join t_customer_agent ca on aa.agent_id = ca.agent_id
+		 WHERE 1=1
+		 <if test="agentId != null">
+		 	and aa.agent_id = #{agentId}
+		 </if>
+		 <if test="accountId != null">
+		 	and aa.account_id = #{accountId}
+		 </if>
+  </select>
+  
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  	  update t_agent_account set status = 1 where account_id = #{accountId}
+  </delete>
+  
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="betterlive-biz" />
+        <module name="betterlive-core" />
+        <module name="betterlive-dao" />
+        <module name="betterlive-model" />
+        <module name="betterlive-pay" />
+        <module name="betterlive-redis" />
+        <module name="betterlive-service" />
+        <module name="betterlive-vo" />
+        <module name="bettetlive-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="betterlive" target="1.5" />
+      <module name="betterlive-biz" target="1.7" />
+      <module name="betterlive-core" target="1.7" />
+      <module name="betterlive-dao" target="1.7" />
+      <module name="betterlive-model" target="1.7" />
+      <module name="betterlive-parent" target="1.7" />
+      <module name="betterlive-pay" target="1.7" />
+      <module name="betterlive-redis" target="1.7" />
+      <module name="betterlive-service" target="1.7" />
+      <module name="betterlive-vo" target="1.7" />
+      <module name="bettetlive-web" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

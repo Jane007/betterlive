@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingleadsw.betterlive.dao.AgentSystemConfigMapper">
+
+	<resultMap  id="BaseResultMap" type="com.kingleadsw.betterlive.model.AgentSystemConfig">
+		<id column="config_id"  property="configId"   jdbcType="BIGINT" />
+		<result column="proportion" property="proportion" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+		<result column="modify_time" property="modifyTime" jdbcType="VARCHAR"/>
+		<result column="creator" property="creator" jdbcType="BIGINT" /> 
+    	<result column="status" property="status" jdbcType="INTEGER" />
+    	<result column="is_default" property="isDefault" jdbcType="INTEGER" />
+    	<result column="user_name" property="userName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		a.config_id, a.proportion, a.create_time, a.modify_time, a.creator, a.status, a.is_default
+  	</sql>
+ 	
+	<select id="queryList" parameterType="pd" resultMap="BaseResultMap">
+  		SELECT <include refid="Base_Column_List" />
+  		 from t_agent_system_config a
+  		where 1=1 
+  		<if test="status != null and status > -1">
+			and a.`status` = #{status}
+		</if>
+		<if test="isDefault != null and isDefault > -1">
+		 	and a.is_default = #{isDefault}
+		</if>
+  	</select>
+  	
+	<select id="queryOne" parameterType="pd" resultMap="BaseResultMap">
+  		SELECT <include refid="Base_Column_List" />
+  		 from t_agent_system_config a
+  		where 1=1 
+  		<if test="status != null and status > -1">
+			and a.`status` = #{status}
+		</if>
+		<if test="isDefault != null and isDefault > -1">
+		 	and a.is_default = #{isDefault}
+		</if>
+  	</select>
+  	
+  	<select id="queryListPage" parameterType="pd" resultMap="BaseResultMap">
+  		SELECT <include refid="Base_Column_List" />,ad.username user_name from t_agent_system_config a LEFT JOIN t_admin  ad ON a.creator = ad.staff_id 
+  		where 1=1 
+  		<if test="status != null and status > -1">
+		and a.`status` = #{status}
+		</if>
+		<if test="isDefault != null and isDefault > -1">
+		 and a.is_default = #{is_default}
+		</if>
+		<if test="username != null and username != ''">
+		  and ad.username LIKE '%${username}%'
+		</if>
+  		
+  	</select>
+  	
+  	<insert id="insertPageData" parameterType="pd" >
+     	insert INTO t_agent_system_config(proportion,create_time,creator,status,is_default) VALUES (${proportion},'${createTime}',${creator},${status},${isDefault})
+     </insert>
+     
+     <update id="updateByDefault">
+     	UPDATE t_agent_system_config SET is_default = 0
+     </update>
+     
+     <!-- 删除商品-->
+    <delete id="delete" parameterType="pd">
+    	UPDATE t_agent_system_config SET `status` = 1 where config_id in (${configIdArray})
+    </delete>
+    
+    <select id="selectByPrimaryKey" parameterType="Integer" resultMap="BaseResultMap">
+    	SELECT <include refid="Base_Column_List" />
+  		 from t_agent_system_config a where a.config_id = #{configId}
+    </select> 
+    <select id="findProportionByConfigId" parameterType="Long" resultType="String">
+    	select proportion from t_agent_system_config where config_id = #{configId}
+    </select>
+</mapper>

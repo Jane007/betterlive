@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="bettetlive-web">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="betterlive-core-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-core/betterlive-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="betterlive-biz-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-biz/betterlive-biz">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="betterlive-service-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-service/betterlive-service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="betterlive-dao-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-dao/betterlive-dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="betterlive-model-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-model/betterlive-model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="betterlive-redis-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-redis/betterlive-redis">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="betterlive-pay-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-pay/betterlive-pay">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="betterlive-vo-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/betterlive-vo/betterlive-vo">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="betterlive-web"/>
+        <property name="java-output-path" value="/bettetlive-web/target/classes"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ArticleRelationProMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ArticleRelationPro" >
+    <id column="relation_pro_id" property="relationProId" jdbcType="INTEGER" />
+    <result column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    t.relation_pro_id, t.article_id, t.product_id, t.create_time
+
+  </sql>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_article_relation_pro t
+     limit 1
+    
+  </select>
+  
+  <select id="queryList" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />,
+    tp.product_name
+    from t_article_relation_pro t, t_product tp
+     where t.product_id=tp.product_id and tp.status=1
+ 	<if test="articleId != null">
+ 		and t.article_id = #{articleId}
+ 	</if>
+    
+  </select>
+  
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />,
+    tp.product_name
+    from t_article_relation_pro t, t_product tp
+     where t.product_id=tp.product_id and tp.status=1
+ 	<if test="articleId != null">
+ 		and t.article_id = #{articleId}
+ 	</if>
+    
+  </select>
+  
+   <insert id="insertAll" parameterType="java.util.List">
+    insert into t_article_relation_pro 
+    	(
+    		article_id,
+			product_id,
+			create_time
+		)
+		values
+	  	<foreach collection="list" index="index" item="item" separator=",">
+	         (#{item.articleId},
+	         #{item.productId},
+	         NOW())
+	     </foreach>
+  </insert>
+  
+   <delete id="deleteByArticleIds" parameterType="java.lang.Integer" >
+   		delete from t_article_relation_pro where article_id = #{articleId}
+   </delete>
+  
+</mapper>

@@ -1,0 +1,328 @@
+body{
+	background: #eee;
+}
+#laout{}
+
+.header{
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	background: #E62D29;
+}
+.nav-wrap{
+	position: relative;
+}
+.goback{
+	width: 0.25rem;
+    height: 0.4814rem;
+    position: absolute;
+    left: 0.3888rem;
+    top: 50%;
+    transform: translateY(-50%)
+}
+.goback img{
+	width:100%;
+	height:100%;
+	display:block;
+}
+.head-right{
+	display:none;
+	position: absolute;
+	width:0.67rem ;
+	height: 0.67rem;
+	right: 0.3888rem;
+	top: 50%;
+	transform: translateY(-50%);
+	background: url(../../img/discovery/head-02.png) no-repeat;
+	background-size:100% 100%;
+}
+.faxian_nav{
+	height:1.24rem;
+	display: flex;
+	width: 50%;
+	margin: 0 auto;
+	justify-content: space-between;
+}
+.faxian_nav li{
+	width: 0.94rem;
+	text-align: center;
+	font-size: 0.444rem;
+}
+.faxian_nav li a{
+	color: rgba(255,255,255,0.6);
+	display: block;
+	height: 1.24rem;
+	line-height:1.24rem;
+	box-sizing: border-box;
+}
+
+.faxian_nav li.current a{
+	color:#fff;
+	position: relative;
+}
+.faxian_nav li.current a::after{
+	display: block;
+	content: '';
+	width:87.5% ;
+	height: 0.056rem;
+	background: #fff;
+	position: absolute;
+	border-radius: 0.028rem;
+	bottom: 0.1574rem;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+
+/*content*/
+.content-wrap{
+	margin-top:1.2129rem;
+	padding-bottom: 51px;
+}
+.banner{
+	width: 100%;
+	height: 4.4167rem;
+	background: url(http://images.hlife.shop/quanzitop20180208.png) no-repeat;
+	background-size:100% 100% ;
+}
+
+.banlist{
+	width: 88.333%;
+	height: 100%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+.banlist li{
+	width: 2.222rem;
+	margin: 0 0.3611rem;
+}
+.banlist li a{
+	display: block;
+	text-align: center;
+	margin-top: 0.6388rem;
+}
+.banlist li dl{}
+.banlist li dt{
+	position: relative;
+}
+.banlist li dt .hold{
+	position: absolute;
+	width:0.333rem;
+	height:0.333rem;
+	background:url("../../img/discovery/share_04.png") no-repeat;
+	background-size:100% 100%;
+	right: 0.22rem;
+    bottom: 0.22rem;
+}
+.banlist li dd{}
+.banlist li dt img{
+	display: block;
+	width: 2.222rem;
+	height: 2.222rem;
+}
+.banlist li dd{
+	color: #fff;
+	font-size: 0.333rem;
+	margin-top: 0.056rem;
+}
+
+
+
+.intelligent{
+	width: 100%;
+	height: 3.333rem;
+	background: #fff;
+	overflow-y: hidden;
+	
+}
+.intelligent .title{
+	width: 96.111%;
+	margin-left: 0.3888rem;
+	position: relative;
+}
+.intelligent .title h3{
+	font-size: 0.444rem;
+	color: #363636;
+	font-weight: 600;
+}
+.intelligent .title .close{
+	width:0.3888rem;
+	height: 0.3888rem;
+	background: url(../../img/discovery/close-01.png) no-repeat;
+	background-size:100% 100% ;
+	position: absolute;
+	right: 0.3888rem;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.intelist-wrap{
+	margin-left: 0.3888rem;
+	width: 96.111%;
+	height: 4.888rem;
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+.intelist{}
+.intelist li{
+	width: 1.2777rem;
+	float: left;
+	margin-left: 0.833rem;
+}
+.intelist li:first-child{
+	margin-left: 0;
+}
+.intelist li a{
+	display: block;
+	margin-top: 0.444rem;
+	text-align: center;
+}
+.intelist li dt{
+	width: 1.2777rem;
+	height: 1.2777rem;
+}
+.intelist li img{
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+.intelist li dd{
+	margin-top:0.2777rem ;
+}
+.intelist li dd span{
+	display: block;
+	width: 100%;
+	color: #868686;
+	font-size: 0.3rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+/*瀑布流*/
+.grid{
+	width:94.444%;
+	margin:0.1666rem auto 0 ;
+}
+.grid .item{
+	width: 4.5rem;
+	background: #fff;
+	margin: 0.222rem 0 0 0.08rem;
+	float: left;
+}
+.grid .item img{
+	display: block;
+	width: 100%;
+}
+.grid .section-p{
+	width: 87.65%;
+	margin: 0.333rem auto 0;
+}
+.grid .section-p h3{
+	font-size: 0.333rem;
+	color: #363636;
+	line-height:0.4629rem ;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.grid .section-p p{
+	font-size: 0.3rem;
+	color: #868686;
+	margin-top: 0.185rem;
+	line-height:0.4629rem ;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.grid .section-p .personage{
+	height:1.8148rem;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.2777rem;
+	color: #868686;
+}
+
+.grid .section-p .per-left{
+	width: 63.78%;
+	height: 0.56rem;
+	line-height: 0.56rem;
+	margin-top: 0.6274rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	
+}
+.grid .section-p .per-left img{
+	display: block;
+	width: 0.56rem;
+	height: 0.56rem;
+	float: left;
+	margin-right: 0.111rem;
+	border-radius: 50%;
+}
+.grid .section-p .per-right{
+	line-height: 0.56rem;
+	width: 20.6%;
+	height: 0.56rem;
+	margin-top: 0.6274rem;
+	background: url(../../img/discovery/pre-06.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+	text-indent: 0.5rem;
+}
+
+.grid .section-p .per-right.on{
+	background: url(../../img/discovery/pre-07.png) no-repeat left center;
+	background-size: 0.3888rem 0.3888rem;
+	text-indent: 0.5rem;
+}
+
+.guide-wrap{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background: rgba(0,0,0,0.6);
+	top: 0;
+	left: 0;
+	z-index: 60;
+	display:none;
+}
+.guide-wrap .guide-top{
+	width:81.94%;
+	height:4.277rem;
+	background: url(../../img/discovery/guide_01.png) no-repeat;
+	background-size: 100% 100%;
+	margin-top: 1.1rem;
+	margin-left: 0.5rem;
+}
+
+.guide-wrap .roger{
+	width: 2.888rem;
+	height: 1.5rem;
+	background: url(../../img/usercenter/guide_02.png) no-repeat;
+	background-size: 100% 100%;
+	margin: 1.9259rem auto 0;
+}
+
+
+
+/* 暂无内容*/
+.zanwubg{
+	display:none;
+	font-size: 0.26rem;
+	color:#868686; 
+	text-align:center;
+	background:url(../../img/zhuantizanwu.png) no-repeat center 1rem; 
+	background-size:1.66rem; 
+	padding-top:2.9rem; 
+}

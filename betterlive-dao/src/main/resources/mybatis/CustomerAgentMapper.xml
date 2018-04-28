@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CustomerAgentMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.CustomerAgent" >
+  	<id column="agent_id" property="agentId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="agent_code" property="agentCode" jdbcType="VARCHAR" />
+    <result column="sys_config_id" property="sysConfigId" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+  		agent_id,customer_id,password,agent_code,sys_config_id,status,create_time
+  </sql>
+  
+  
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+  		 SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_customer_agent ca where 1=1
+		 order by create_time desc
+  </select>
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.CustomerAgent" useGeneratedKeys="true" keyColumn="agent_id" keyProperty="agentId">
+  		insert into t_customer_agent
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			<if test="customerId!=null">
+  				customer_id,
+  			</if>
+  			<if test="password!=null">
+  				password,
+  			</if>
+  			<if test="agentCode!=null">
+  				agent_code,
+  			</if>
+  			<if test="sysConfigId!=null">
+  				sys_config_id,
+  			</if>
+  			status,
+  			create_time,
+  		</trim>
+  		<trim prefix="values (" suffix=")" suffixOverrides=",">
+  			<if test="customerId!=null">
+  				#{customerId},
+  			</if>
+  			<if test="password!=null">
+  				#{password},
+  			</if>
+  			<if test="agentCode!=null">
+  				#{agentCode},
+  			</if>
+  			<if test="sysConfigId!=null">
+  				#{sysConfigId},
+  			</if>
+  			0,
+  			NOW(),
+  		</trim>
+  </insert>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="pd">
+  		 SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_customer_agent where 1=1
+		 <if test="customerId!=null">
+		 	and customer_id = #{customerId}
+		 </if>
+		 <if test="agentId!=null">
+		 	and agent_id = #{agentId}
+		 </if>
+		 <if test="status!=null">
+		 	and status = #{status}
+		 </if>
+		 <if test="agentCode!=null">
+		 	and agent_code = #{agentCode}
+		 </if>
+		 order by create_time desc
+  
+  </select>
+  
+  <update id="updateByPrimaryKey" parameterType="com.kingleadsw.betterlive.model.CustomerAgent">
+  	update t_customer_agent
+  		<set>
+  			<if test="sysConfigId!=null and sysConfigId>0">
+  				sys_config_id=#{sysConfigId},
+  			</if>
+  			modify_time=NOW()
+  		</set>
+  		where agent_id=#{agentId}
+  </update>
+  <select id="findAgentBySource" resultMap="BaseResultMap" parameterType="String">
+  	SELECT <include refid="Base_Column_List"/>
+		 FROM t_customer_agent where agent_code = #{orderSource}
+  </select>
+  
+  <select id="isAgentProduct" parameterType="INTEGER" resultType="INTEGER">
+  	SELECT COUNT(1) FROM `t_agent_product_relation` where product_id = #{productId} and `status` = 0
+  </select>
+  
+</mapper>

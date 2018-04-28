@@ -1,0 +1,68 @@
+{
+    "button": [
+        {
+            "name": "挥货商城",
+             "sub_button": [
+                {
+                    "type": "view",
+                    "name": "商城首页",
+                    "url": "http://www.hlife.shop/huihuo/weixin/index"
+                },{
+                    "type": "view",
+                    "name": "新品首发",
+                    "url": "http://www.hlife.shop/huihuo/weixin/product/productList?extensionType=1"
+                },
+                {
+                    "type": "view",
+                    "name": "热门专题",
+                    "url": "http://www.hlife.shop/huihuo/weixin/discovery/toSelected"
+                }
+            ]
+        },
+        {
+            "name": "活动特惠",
+            "sub_button": [
+            	{
+                    "type": "view",
+                    "name": "招行十元生活专区",
+                    "url": "http://www.hlife.shop/huihuo/weixin/customercash/toCashGift?source=zhlipinduihuan"
+                },
+                {
+                    "type": "view",
+                    "name": "限量团购",
+                    "url": "http://www.hlife.shop/huihuo/weixin/toGroupGoods"
+                },
+                {
+                    "type": "view",
+                    "name": "限时秒杀",
+                    "url": "http://www.hlife.shop/huihuo/weixin/toLimitGoods"
+                }
+            ]
+        },
+        {
+            "name": "个人中心",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "我的订单",
+                    "url": "http://www.hlife.shop/huihuo/weixin/order/findList?status=0"
+                },
+                {
+                    "type": "view",
+                    "name": "联系客服",
+                    "url": "http://www.hlife.shop/huihuo/weixin/usercenter/contactUs"
+                },
+                {
+                    "type": "view",
+                    "name": "app下载",
+                    "url": "http://www.hlife.shop/huihuo/weixin/share/shareDownloadApp"
+                },
+                {
+                    "type": "view",
+                    "name": "注册",
+                    "url": "http://www.hlife.shop/huihuo/weixin/toRegister"
+                }
+            ]
+        }
+    ]
+}

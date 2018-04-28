@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.CouponManagerMapper" >
+	
+		
+	<sql id="Base_Column_List" >
+		cm_id,
+		coupon_name,
+		coupon_type,
+		get_source,
+		coupon_money,
+		usemax_date,
+		usemin_money,
+		create_by,
+		coupon_content,
+    	DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+    	home_flag    
+  	</sql>
+  
+    <select id="selectByPrimaryKey" resultType="com.kingleadsw.betterlive.model.CouponManager" parameterType="java.lang.Integer" >
+	    SELECT
+			<include refid="Base_Column_List"/>
+		FROM
+			t_coupon_manager
+		WHERE cm_id = #{cmId}
+	  </select>
+  
+	<!-- //根据条件分页查询优惠券管理    -->
+	<select id="findCouponMangerListPage" resultType="com.kingleadsw.betterlive.model.CouponManager" parameterType="pd">
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_coupon_manager where  cm_id is not null
+     	
+     	<!-- 优惠券类型，1：专题券，2：优惠券，3：红包 
+     	<if test="null != couponType  and ''!= couponType">
+     		and coupon_type=#{couponType}
+     	</if>
+     	-->
+     	
+     	<!-- 获取来源，1：所有用户；2：新手券（自动发放，用户限领一份）； 
+     	<if test="null != getSource  and ''!= getSource">
+     		and get_source=#{getSource}
+     	</if>
+     	-->
+     	<!-- 优惠券形式，1：满减；2：折扣； 
+     	<if test="null != couponFrom  and ''!= couponFrom">
+     		and coupon_from=#{couponFrom}
+     	</if>
+     	-->
+     	
+     	<!-- 优惠券名称 -->
+     	<if test="null != couponName  and ''!= couponName">
+     	    and coupon_name like '%${couponName}%'
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!-- //根据条件查询单个优惠券管理详细    -->
+	<select id="findCouponManager" resultType="com.kingleadsw.betterlive.model.CouponManager" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />,
+			coupon_content     	from t_coupon_manager where  cm_id is not null
+     	
+     	<!-- 优惠券ID   -->
+     	<if test="null != cmId  and ''!= cmId">
+	     	and cm_id=#{cmId}
+     	</if>
+     	
+     	<!-- 优惠券名称 -->
+     	<if test="null != couponName  and ''!= couponName">
+     	    and coupon_name=#{couponName}
+     	</if>
+     	
+     	<!-- 优惠券类型，1：分享券，2：补偿券，3：新手券 -->
+     	<if test="null != couponType  and ''!= couponType">
+     		and coupon_type=#{couponType}
+     	</if>
+     	
+     	<!--  添加分享券时 查询   优惠券类型 为 ：1（分享券）或  优惠券名称  -->
+     	<if test="null != couponTypeOrName  and ''!= couponTypeOrName">
+     		and  ( coupon_type=1  or  coupon_name=#{couponTypeOrName} ) 
+     	</if>
+     	
+     	
+  	</select>
+  	
+  	<!-- //根据条件查询全部优惠券管理     -->
+  	<select id="findListCouponManager" resultType="com.kingleadsw.betterlive.model.CouponManager" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+       
+        from t_coupon_manager where  cm_id is not null
+     	
+     	<!-- 优惠券名称 -->
+     	<if test="null != couponName  and ''!= couponName">
+     	    and coupon_name=#{couponName}
+     	</if>
+     	
+     	<!-- 优惠券类型，1：分享券 -->
+     	<if test="null != couponType  and ''!= couponType">
+     		and coupon_type=#{couponType}
+     	</if>
+     	
+     	<!--  修改分享券时 查询   优惠券类型 为 ：1（分享券）或  优惠券名称  -->
+     	<if test="null != couponTypeOrName  and ''!= couponTypeOrName">
+     		and  ( coupon_type=1  or  coupon_name=#{couponTypeOrName} ) 
+     	</if>
+     	
+  	</select>
+  	
+  	
+  	<!-- //增加优惠券管理 -->
+  	<insert id="insertCouponManager" parameterType="com.kingleadsw.betterlive.model.CouponManager" >
+    	insert into t_coupon_manager ( cm_id,
+								coupon_name,
+								coupon_type,
+								get_source,
+								coupon_money,
+								usemin_money,
+								usemax_date,
+								create_by,
+								create_time,
+								coupon_content,
+								home_flag
+    				  		)
+    				  	values (null,
+    				  	 	    #{coupon_name},
+    				  	 	    #{coupon_type},
+    				  	 	    #{get_source},
+    				  	 	    #{coupon_money}, 
+    				  	 	    #{usemin_money},
+    				  	 	    #{usemax_date},
+    				  	 	    #{create_by},
+    				  	 	    now(),
+    				  	 	    #{coupon_content},
+    				  	 	    #{home_flag}
+    				  	 	  )
+  	</insert>
+   	
+   	<!--//修改优惠券管理-->
+    <update id="updateCouponManagerByCmId" parameterType="pd" >
+    	update t_coupon_manager 
+
+			<set>
+				<!-- 优惠券名称 -->
+		     	<if test="null != couponName  and ''!= couponName">
+		     	    coupon_name=#{couponName},
+		     	</if>
+		     	
+		     	<!-- 优惠券金额（固定金额） -->
+		     	<if test="null != couponMoney  and ''!= couponMoney">
+		     		coupon_money=#{couponMoney},
+		     	</if>
+		     	
+		     	<!-- 优惠券使用门槛金额  -->
+		     	<if test="null != useMinMoney  and ''!= useMinMoney">
+		     		usemin_money=#{useMinMoney},
+		     	</if>
+		     	
+		     	<!-- 优惠券有效期(天) -->
+		     	<if test="null != endDate  and ''!= endDate">
+		     		usemax_date=#{endDate},
+		     	</if>
+		     	
+		     	<!-- 优惠券类型 -->
+		     	<if test="null != couponType  and ''!= couponType">
+		     		coupon_type=#{couponType},get_source=#{couponType},
+		     	</if>
+     	
+		     	<!-- 创建  -->
+		     	<if test="null != create_by  and ''!= create_by">
+		     		create_by=#{create_by},
+		     	</if>
+		     	
+		     	<!-- 简介 -->
+	     		<if test="null != coupon_content  and ''!= coupon_content">
+		     		coupon_content=#{coupon_content},
+		     	</if>
+		     	<if test="home_flag != null">
+		     		home_flag = #{home_flag},
+		     	</if>
+			</set> 
+    	where cm_id=#{cmId}
+    	
+    </update> 
+    
+    <!-- //删除优惠券管理 -->
+    <delete id="deleteByCmId" parameterType="java.lang.String" >
+    	delete from  t_coupon_manager where cm_id=#{cmId}
+    </delete> 
+    
+  	 <select id="queryEffectiveCouponList" resultType="com.kingleadsw.betterlive.model.CouponManager" parameterType="pd">
+	 	select <include refid="Base_Column_List" /> from t_coupon_manager 
+		where home_flag=1
+		<if test="couponType != null">
+			and coupon_type = #{couponType}
+		</if>
+		<if test="customerId != null and customerId > 0">
+			and cm_id not in (
+			select cm_id from t_coupon_info where customer_id = #{customerId}
+				<if test="hasUsed!=null and hasUsed!=''">
+					and `status` > 0
+				</if>
+			)
+		</if>
+		order by cm_id asc
+		<if test="rowStart != null">
+			limit #{rowStart}, #{pageSize}
+		</if>
+	 </select>
+	 
+	 
+	 <select id="queryNewUserCouponList" resultType="com.kingleadsw.betterlive.model.CouponManager" parameterType="pd">
+	 	select <include refid="Base_Column_List" /> from t_coupon_manager 
+		where 1=1
+		<if test="couponType != null">
+			and coupon_type = #{couponType}
+		</if>
+		<if test="customerId != null and customerId > 0">
+			and cm_id not in (
+				select cm_id from t_coupon_info where customer_id = #{customerId}
+				<if test="hasUsed!=null and hasUsed!=''">
+					and `status` > 0
+				</if>
+			)
+		</if>
+		
+		
+		<if test="cmIds !=null and cmIds!=''">
+			and cm_id in 
+			<foreach collection="cmIds" index="index" item="item" open="(" separator="," close=")">  
+        		#{item}  
+    		</foreach>
+		</if>
+		order by cm_id asc
+		<if test="rowStart != null">
+			limit #{rowStart}, #{pageSize}
+		</if>
+	 </select>
+     
+</mapper>

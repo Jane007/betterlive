@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.ReceiverAddressMapper" >
+	 <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.ReceiverAddress" >
+	 	<id column="receiver_id" property="receiverId" jdbcType="INTEGER" />
+	 	<result column="customer_id" property="customerId" jdbcType="INTEGER" />
+	 	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+	 	<result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+	 	
+	 	<result column="province_id" property="provinceId" jdbcType="INTEGER" />
+	 	<result column="city_id" property="cityId" jdbcType="INTEGER" />
+	 	<result column="area_id" property="areaId" jdbcType="INTEGER" />
+	 	
+	 	<result column="address" property="address" jdbcType="VARCHAR" />
+	 	<result column="is_del" property="isDel" jdbcType="TINYINT" />
+	 	<result column="is_default" property="isDefault" jdbcType="TINYINT" />
+	 	<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	 </resultMap>
+	 <sql id="Base_Column_List">
+	 	receiver_id,customer_id,mobile,receiver_name,province_id,city_id,area_id,address,is_del,is_default,	 	
+	 	DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time
+	 </sql>
+	 
+	 <!-- 根据条件查询单个收货地址-->
+	 <select id="selectReceiverAddressByOption" resultMap="BaseResultMap"  parameterType="pd" >
+		    select 
+		    <include refid="Base_Column_List" />
+		    from t_receiver
+		    where is_del=1
+		    <if test="null!=receiverId and ''!=receiverId">
+		    	and receiver_id =#{receiverId}
+		    </if>
+		    <if test="null!=customerId and ''!=customerId">
+		    	and  customer_id=#{customerId} 
+		    </if>
+		    <if test="null!=isDefault and ''!=isDefault">
+		    	and is_default=#{isDefault}
+		    </if>
+		    <if test="null!=isDel">
+		    	and is_del=#{isDel}
+		    </if>
+		    
+  	</select>
+  	
+  	
+  	<!-- 根据条件查询单个收货地址-->
+	 <select id="queryOne" resultMap="BaseResultMap" parameterType="pd">
+		    select 
+		    <include refid="Base_Column_List" />
+		    from t_receiver
+		    where  is_del=1 
+		    <if test="null !=customerId  and ''!=customerId ">
+		    	and customer_id=#{customerId} 
+		    </if>
+		    <!--是否默认地址  -->
+		    <if test="null !=isDefault  and ''!=isDefault ">
+		    	and is_default=#{isDefault}
+		    </if>
+		    
+		    <!-- 根据ID查询收货地址 -->
+		    <if test="null !=receriverId and ''!=receriverId ">
+		    	and receiver_id=#{receriverId}
+		    </if>
+		    
+  	</select>
+  	
+  	<!-- 根据条件分页查询收货地址 -->
+  	<select id="queryListPage" resultMap="BaseResultMap"  parameterType="pd">
+  		 select 
+		    <include refid="Base_Column_List" />
+		    from t_receiver
+		    where is_del=1
+		    
+		    <if test="null!=receiverId and ''!=receiverId">
+		    	and receiver_id =#{receiverId}
+		    </if>
+		    <if test="null!=customerId and ''!=customerId">
+		    	and customer_id =#{customerId}
+		    </if>
+		    <if test="null!=mobile and ''!=mobile">
+		    	and mobile =#{mobile}
+		    </if>
+		    <if test="null!=receiverName and ''!=receiverName">
+		    	and receiver_name =#{receiverName}
+		    </if>
+		    <if test="null!=isDel">
+		    	and is_del=#{isDel}
+		    </if>
+		    
+		    
+  	</select>
+  	<!-- 根据条件查询收货地址 -->
+  	<select id="queryList" resultMap="BaseResultMap"  parameterType="pd">
+  		 select 
+		    <include refid="Base_Column_List" />
+		    from t_receiver
+		    where is_del=1
+		    <if test="null!=receiverId and ''!=receiverId">
+		    	and receiver_id =#{receiverId}
+		    </if>
+		    <if test="null!=customerId and ''!=customerId">
+		    	and customer_id =#{customerId}
+		    </if>
+		    <if test="null!=mobile and ''!=mobile">
+		    	and mobile =#{mobile}
+		    </if>
+		    <if test="null!=receiverName and ''!=receiverName">
+		    	and receiver_name =#{receiverName}
+		    </if>
+  	</select>
+  	<!-- 插入收货地址 -->
+  	<insert id="insertReceiverAddress" parameterType="com.kingleadsw.betterlive.model.ReceiverAddress" 
+  		useGeneratedKeys="true"  keyProperty="receiverId">
+  		insert into t_receiver ( receiver_id,
+  								 customer_id,
+  								 mobile,
+  								 receiver_name,
+  								 province_id,
+  								 city_id,
+  								 area_id,
+  								 address,
+  								 is_del,
+  								 is_default,
+  								 create_time
+  							)
+  						values	( null,
+  								  #{customerId},
+  								  #{mobile},
+  								  #{receiverName},
+  								  #{provinceId},
+  								  #{cityId},
+  								  #{areaId},
+  								  #{address},
+  								  1,
+  								  #{isDefault},
+  								  NOW()
+  								)
+  						
+  		
+  	</insert>
+  	<!-- 修改收货地址 -->
+  	<update id="updateReceiverAddress"  parameterType="com.kingleadsw.betterlive.model.ReceiverAddress">
+  		update t_receiver
+  		set mobile=#{mobile},
+  			receiver_name=#{receiverName},
+  			province_id=#{provinceId},
+  			city_id=#{cityId},
+  			area_id=#{areaId},
+  			address=#{address},
+  			is_default=#{isDefault}
+  		where receiver_id =#{receiverId}
+  	</update>
+  	
+  	<update id="editReceiverAddress"  parameterType="com.kingleadsw.betterlive.model.ReceiverAddress">
+  		update t_receiver
+  		set 
+  			is_default=0
+  		where receiver_id !=#{receiverId}  and customer_id=#{customerId}
+  	</update>
+  	
+  	
+  	
+  	<!-- 删除地址 -->
+  	<update id="deleteReceiverAddressById" parameterType="pd" >
+  		update t_receiver set is_del=0 where receiver_id =#{receiverId} and customer_id=#{customerId}
+  	</update>
+	 
+	 
+	<!-- 根据Id设置是否默认收货地址 -->
+  	<update id="updateReceiverStatusAddressById" parameterType="pd" >
+  		update t_receiver set is_default=#{isDefault} where 
+  		
+  		<if test=" null!=receiverId and ''!=receiverId  and  null!=customerId and ''!=customerId ">
+  			receiver_id =#{receiverId} and customer_id=#{customerId}
+  		</if>
+  		
+  		<if test=" ( null==receiverId or ''==receiverId )  and  null!=customerId and ''!=customerId ">
+  			 customer_id=#{customerId}
+  		</if>
+  		
+  	</update> 
+	 
+	 
+	<!-- 合并用户时,需要合并用户的收货地址 -->
+	<update id="updateReceiverBycId" parameterType="pd" >
+	    update  t_receiver set customer_id=#{newCustomerId},is_default=0  where customer_id=#{customerId}
+	</update> 
+	 
+</mapper>

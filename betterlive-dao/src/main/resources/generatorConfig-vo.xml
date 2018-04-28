@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration  
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
+<generatorConfiguration>  
+ 
+    <classPathEntry  location="D:\mysql_lib\mysql-connector-java-5.1.29.jar"/>  
+    <context id="DB2Tables"  targetRuntime="MyBatis3">  
+        <commentGenerator>  
+            <property name="suppressDate" value="true"/>  
+         
+            <property name="suppressAllComments" value="true"/>  
+        </commentGenerator>  
+       
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://172.16.0.18:3306/betterlive" userId="root" password="rootcentos">  
+        </jdbcConnection>  
+        <javaTypeResolver>  
+            <property name="forceBigDecimals" value="false"/>  
+        </javaTypeResolver>  
+        
+        <javaModelGenerator targetPackage="com.kingleadsw.betterlive.model" targetProject="betterlive-model">  
+            <property name="enableSubPackages" value="true"/>  
+            <property name="trimStrings" value="true"/>  
+        </javaModelGenerator>  
+        
+         <sqlMapGenerator targetPackage="resources.mybatis" targetProject="betterlive-dao">  
+            <property name="enableSubPackages" value="true"/>  
+        </sqlMapGenerator>  
+	  
+        <javaClientGenerator type="XMLMAPPER" targetPackage="resources.mybatis" targetProject="betterlive-dao">  
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+  <!-- 
+         <table tableName="t_article" domainObjectName="ArticleVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         <table tableName="t_article_class" domainObjectName="ArticleClassVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         <table tableName="t_bespeak" domainObjectName="BespeakVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         <table tableName="t_consume_log" domainObjectName="ConsumeLogVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         
+         
+         <table tableName="t_course" domainObjectName="CourseVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		 <table tableName="t_course_trainer" domainObjectName="CourseTrainerVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>                 
+         <table tableName="t_course_sub" domainObjectName="CourseSubVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		 <table tableName="t_customer" domainObjectName="CustomerVo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>                 
+         <table tableName="t_picture" domainObjectName="PictureVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		 <table tableName="t_schedual" domainObjectName="SchedualVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>                 
+         <table tableName="t_shop" domainObjectName="ShopVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		 <table tableName="t_substance" domainObjectName="SubstanceVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		 <table tableName="t_trainer" domainObjectName="TrainerVO" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>                 
+ --> 
+ 	 <table tableName="t_order_refund" domainObjectName="OrderRefund" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+     </context>  
+</generatorConfiguration> 

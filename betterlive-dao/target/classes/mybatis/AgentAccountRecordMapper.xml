@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.AgentAccountRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.AgentAccountRecord" >
+  	<id column="account_record_id" property="accountRecordId" jdbcType="BIGINT" />
+  	<result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="agent_id" property="agentId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="before_amount" property="beforeAmount" jdbcType="DECIMAL" />
+    <result column="after_amount" property="afterAmount" jdbcType="DECIMAL" />
+    <result column="obj_id" property="objId" jdbcType="BIGINT" />
+   
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="BIGINT" />
+    
+    <result column="status" property="status" jdbcType="INTEGER" />
+    
+  
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+  		taar.account_record_id,taar.account_id,taar.agent_id,taar.type,taar.amount,taar.before_amount,taar.after_amount,taar.obj_id,
+  		DATE_FORMAT(taar.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+  		DATE_FORMAT(taar.modify_time, '%Y-%m-%d %H:%i:%s') AS modify_time,
+		taar.modifier,taar.status
+  </sql>
+  
+  <select id="queryListPage" resultMap="BaseResultMap" parameterType="pd" >
+  	SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM t_agent_account_record 
+		 where 1=1
+		 <if test="accountRecordId!=null">
+		 	and account_record_id=#{accountRecordId}
+		 </if>
+		 <if test="type!=null">
+		 	and type=#{type}
+		 </if>
+		 <if test="agentId!=null">
+		 	and agent_id = #{agentId}
+		 </if>
+		 <if test="status!=null">
+		 	and status = #{status}
+		 </if>
+  </select>
+  
+  <select id="queryIncomeListPage" resultMap="BaseResultMap" parameterType="pd">
+  		SELECT 
+			<include refid="Base_Column_List"/>,o.order_code as orderCode,trp.product_name as productName
+		 FROM t_agent_account_record taar inner join t_order_product trp  on taar.obj_id = trp.orderpro_id
+		 inner join t_order o on o.order_id = trp.order_id
+		 where 1=1
+		 <if test="accountRecordId != null">
+		 	and taar.account_record_id = #{accountRecordId}
+		 </if>
+		 <if test="type != null">
+		 	and taar.type = #{type}
+		 </if>
+		 <if test="agentId != null">
+		 	and taar.agent_id = #{agentId}
+		 </if>
+		 <if test="status != null">
+		 	and taar.status = #{status}
+		 </if>
+		 <if test="startTime != null">
+		 	and DATE_FORMAT(taar.modify_time, '%Y-%m-%d') &gt;= #{startTime}
+		 </if>
+		 <if test="endTime != null">
+		 	and DATE_FORMAT(taar.modify_time, '%Y-%m-%d') &lt;= #{endTime}
+		 </if>
+  </select>
+  
+  
+  <insert id="insert" parameterType="com.kingleadsw.betterlive.model.AgentAccountRecord" useGeneratedKeys="true" keyColumn="account_record_id" keyProperty="accountRecordId">
+  	insert into t_agent_account_record
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			<if test="accountId!=null">
+  				account_id,
+  			</if>
+  			<if test="agentId!=null">
+  				agent_id,
+  			</if>
+  			<if test="type!=null">
+  				type,
+  			</if>
+  			<if test="amount!=null">
+  				amount,
+  			</if>
+  			<if test="beforeAmount!=null">
+  				before_amount,
+  			</if>
+  			<if test="afterAmount!=null">
+  				after_amount,
+  			</if>
+  			<if test="objId!=null">
+  				obj_id,
+  			</if>
+  			
+  			<if test="modifier!=null">
+  				modifier,
+  			</if>
+  			<if test="status!=null">
+  				status,
+  			</if>
+  			create_time,
+  			modify_time
+  		</trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	  			<if test="accountId!=null">
+	  				#{accountId},
+	  			</if>
+	  			<if test="agentId!=null">
+	  				#{agentId},
+	  			</if>
+	  			<if test="type!=null">
+	  				#{type},
+	  			</if>
+	  			<if test="amount!=null">
+	  				#{amount},
+	  			</if>
+	  			<if test="beforeAmount!=null">
+	  				#{beforeAmount},
+	  			</if>
+	  			<if test="afterAmount!=null">
+	  				#{afterAmount},
+	  			</if>
+	  			<if test="objId!=null">
+	  				#{objId},
+	  			</if>
+	  			
+	  			<if test="modifier!=null">
+	  				#{modifier},
+	  			</if>
+	  			<if test="status!=null">
+  				#{status},
+  			</if>
+	  			NOW(),
+	  			NOW()
+	    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.AgentAccountRecord">
+  		update t_agent_account_record
+  		<set>
+	  			<if test="type!=null">
+	  				type=#{type},
+	  			</if>
+	  			<if test="amount!=null">
+	  				amount = #{amount},
+	  			</if>
+	  			<if test="beforeAmount!=null">
+	  				before_amount = #{beforeAmount},
+	  			</if>
+	  			<if test="afterAmount!=null">
+	  				after_amount = #{afterAmount},
+	  			</if>
+	  			<if test="objId!=null">
+	  				obj_id=#{objId},
+	  			</if>
+	  			<if test="modifier!=null">
+	  				modifier = #{modifier},
+	  			</if>
+	  			modify_Time = NOW()
+	  			
+	  			where account_record_id = #{accountRecordId}
+  		</set>
+  </update>
+  
+  <select id="queryTodayIncome" resultType="java.math.BigDecimal" parameterType="pd">
+	select ifnull(sum(amount), 0) from t_agent_account_record 
+	 where agent_id = #{agentId} and type = #{type} and to_days(create_time) = to_days(now()) and status != 2;
+  </select>
+  
+  <select id="queryMonthIncome" resultType="java.math.BigDecimal" parameterType="pd">
+	select ifnull(sum(amount), 0) from t_agent_account_record 
+	 where agent_id=#{agentId} and type= #{type} and DATE_FORMAT(create_time, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m') and status != 2;
+  </select>
+  
+ </mapper>

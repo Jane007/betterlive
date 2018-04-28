@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.SpecialCommentMapper" >
+	
+	<resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.SpecialComment" >
+	    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+	    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+	    <result column="special_id" property="specialId" jdbcType="INTEGER" />
+	    <result column="content" property="content" jdbcType="VARCHAR" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    	<result column="is_custom_service" property="isCustomService" jdbcType="INTEGER" />	    
+  	    <result column="praise_count" property="praiseCount" jdbcType="INTEGER" />
+   	    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+   	    <result column="root_id" property="rootId" jdbcType="INTEGER" />
+        <result column="reply_count" property="replyCount" jdbcType="INTEGER" />
+        <result column="is_praise" property="isPraise" jdbcType="INTEGER" />
+        <result column="special_type" property="specialType" jdbcType="INTEGER" />
+        <result column="article_title" property="articleTitle" jdbcType="VARCHAR" />
+        
+        <!-- 子类型 -->
+        <result column="special_type_child" property="specialTypeChild" jdbcType="INTEGER" />       
+        <result column="opinion" property="opinion" jdbcType="VARCHAR" />
+        <result column="replyer_name" property="replyerName" jdbcType="VARCHAR" />
+        <result column="replyer_id" property="replyerId" jdbcType="VARCHAR" />
+	    <association property="customerVo" column="customer_id" select="getUsername"/>
+	  </resultMap>
+	  
+	  
+	  <select id="getUsername"  parameterType="INTEGER" resultType="com.kingleadsw.betterlive.model.Customer">
+	   		select customer_id,
+	   				(case when nickname is not null and nickname <![CDATA[ <> ]]> '' then nickname
+	   					 else mosaic(mobile) end) nickname,
+	   				mobile,
+	   				head_url,
+	   		       DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS create_time     
+	    		from t_customer
+	    			where customer_id = #{customer_id}
+	  </select>
+  
+	<sql id="Base_Column_List" >
+		t.comment_id,
+		t.customer_id,
+		t.special_id,
+		t.content,
+		t.status,
+		t.content_imgs,
+		DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%s') AS create_time,
+		t.root_id,
+		t.parent_id,
+		t.is_custom_service
+  	</sql>
+  	
+  	  	<!-- 根据评论ID查询详细 -->
+  	<select id="queryCommentByCommId" resultMap="BaseResultMap" parameterType="pd" >
+	   select 
+     		t.comment_id,
+			t.customer_id,
+			t.special_id,
+			t.content,
+			t. STATUS,
+			t.content_imgs,
+			root_id,
+			parent_id,
+			is_custom_service,
+     		(select count(1) from t_praise t where t.praise_type=#{commentPraiseType} and t.obj_id = t.comment_id) praise_count
+     		<if test="currentId != null and currentId > 0">
+				, ifnull((select praise_id from t_praise t where t.praise_type=#{commentPraiseType} and t.obj_id = t.comment_id and t.customer_id=#{currentId}), 0) is_praise
+			</if>
+			<if test="currentId == null or currentId == 0">
+				, 0 as is_praise
+			</if>
+     		,ifnull((select count(1) from t_special_comment tc where (tc.root_id = t.comment_id) and tc.`status`=2), 0) reply_count
+			,CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time
+     	from t_special_comment t where t.comment_id=#{commentId} and status=2
+     	 order by t.comment_id  desc
+	</select>
+	
+	<!-- 根据条件查询评论的详细信息   -->
+	<select id="queryCommentInfoListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	  select 
+     			t.comment_id,
+				t.customer_id,
+				t.special_id,
+				t.content,
+				t. STATUS,
+				t.content_imgs,
+				root_id,
+				parent_id,
+				is_custom_service,
+     		(select count(1) from t_praise t where t.praise_type=#{commentPraiseType} and t.obj_id = t.comment_id) praise_count
+     		,
+     		ifnull((select count(1) from t_special_comment tc where (tc.root_id = t.comment_id) and tc.`status`=2), 0) reply_count
+			<if test="currentId != null and currentId > 0">
+				, ifnull((select praise_id from t_praise t where t.praise_type=#{commentPraiseType} and t.obj_id = t.comment_id and t.customer_id=#{currentId}), 0) is_praise
+			</if>
+			<if test="currentId == null or currentId == 0">
+				, 0 as is_praise
+			</if>
+			,(select case when tct.nickname is not null and tct.nickname <![CDATA[ <> ]]> '' then tct.nickname else mosaic(tct.mobile) end 
+				from t_customer tct where tct.customer_id = (select customer_id from t_special_comment where comment_id = t.parent_id)) replyer_name,
+			(select tct.customer_id from t_customer tct where tct.customer_id = (select customer_id from t_special_comment where comment_id = t.parent_id)) replyer_id,
+			CASE WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = day(NOW()) THEN (CONCAT('今天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            WHEN YEAR(t.create_time) = YEAR(NOW()) AND MONTH(t.create_time) = MONTH(NOW()) AND day(t.create_time) = (day(NOW())-1) THEN (CONCAT('昨天  ',DATE_FORMAT(t.create_time, '%H:%i')))
+            ELSE DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') END  create_time
+     	from t_special_comment t 
+     		where t.status=2 
+     			<if test="parentId != null and parentId > 0">
+     				and t.parent_id = #{parentId}
+     			</if>
+     			<if test="rootId == null">
+	     			<if test="parentId == null or parentId == 0">
+	    				and (t.parent_id is null or t.parent_id = 0)
+	     			</if>
+     			</if>
+     			<if test="specialType != null">
+	     			and t.special_type=#{specialType}
+	     		</if>
+	     		<if test="specialId != null">
+	     			and t.special_id=#{specialId}
+	     		</if>
+	     		<if test="rootId != null">
+     				and t.root_id = #{rootId}
+     			</if>
+     			order by t.comment_id  desc
+  	</select>
+  	
+  	<!-- 根据条件查询评论的详细信息   -->
+	<select id="queryCommentByTypeListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	  select 
+     			t.comment_id,
+				t.customer_id,
+				t.special_id,
+				t.content,
+				t.`STATUS`,
+				t.content_imgs,
+				t.root_id,
+				t.parent_id,
+				t.is_custom_service,
+				DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') create_time,
+				tsa.article_title,
+				tsa.article_from special_type_child,
+     			(select count(1) from t_praise tp where tp.praise_type=#{commentPraiseType} and tp.obj_id = t.comment_id) praise_count,
+	     		ifnull((select count(1) from t_special_comment tc where tc.root_id = t.comment_id
+	     			<!-- 查看回复数 -->
+	     			<if test="parentFlag != null and parentFlag == 1">
+	     				and (tc.root_id is not null and tc.root_id > 0)
+	     			</if>
+	     			), 0) reply_count
+     	from t_special_comment t left join t_special_article tsa on tsa.article_id = t.special_id
+     		where 1=1
+     			<if test="specialId != null">
+     				and t.special_id=#{specialId}
+     			</if>
+     			<if test="parentId != null and parentId > 0">
+     				and (t.parent_id = #{parentId} or t.root_id= #{parentId})
+     			</if>
+     			<if test="parentId == null or parentId == 0">
+    				and (t.parent_id is null or t.parent_id = 0)
+     			</if>
+     			<if test="specialType != null">
+	     			and t.special_type=#{specialType}
+	     		</if>
+     			<if test="status != null">
+	     			and t.status=#{status}
+	     		</if>
+	     		<if test="articleFrom != null">
+	     			and tsa.article_from=#{articleFrom}
+	     		</if>
+     			<!-- 查看主评论列表-->
+	     		<if test="parentFlag != null and parentFlag == 1">
+     				and (t.root_id is null or t.root_id = 0)
+     			</if>
+     			order by t.comment_id  desc
+  	</select>
+  	
+  	
+  	<!-- 根据条件查询视频评论的详细信息   -->
+	<select id="queryCommentByVideoListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	  select 
+     			t.comment_id,
+				t.customer_id,
+				t.special_id,
+				t.content,
+				t.`STATUS`,
+				t.content_imgs,
+				t.root_id,
+				t.parent_id,
+				t.is_custom_service,
+				DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i') create_time,
+				tpro.special_title article_title,
+     			(select count(1) from t_praise tp where tp.praise_type=3 and tp.obj_id = t.comment_id) praise_count,
+	     		ifnull((select count(1) from t_special_comment tc where tc.root_id = t.comment_id
+	     			<!-- 查看回复数 -->
+	     			<if test="parentFlag != null and parentFlag == 1">
+	     				and (tc.root_id is not null and tc.root_id > 0)
+	     			</if>
+	     			), 0) reply_count
+     	 	from t_special_comment t left join t_professional tpro on tpro.special_id = t.special_id
+     		where 1=1
+     			<if test="specialId != null">
+     				and t.special_id=#{specialId}
+     			</if>
+     			<if test="parentId != null and parentId > 0">
+     				and (t.parent_id = #{parentId} or t.root_id= #{parentId})
+     			</if>
+     			<if test="parentId == null or parentId == 0">
+    				and (t.parent_id is null or t.parent_id = 0)
+     			</if>
+     			<if test="specialType != null">
+	     			and t.special_type=#{specialType}
+	     		</if>
+     			<if test="status != null">
+	     			and t.status=#{status}
+	     		</if>
+	     		
+     			<!-- 查看主评论列表-->
+	     		<if test="parentFlag != null and parentFlag == 1">
+     				and (t.root_id is null or t.root_id = 0)
+     			</if>
+     			order by t.comment_id  desc
+  	</select>
+  	
+  	<!-- 用户增加评论 -->
+  	<insert id="insertComment" parameterType="com.kingleadsw.betterlive.model.SpecialComment" useGeneratedKeys="true"  keyProperty="commentId">
+    	insert into t_special_comment (
+    							customer_id,
+								content,
+								status,
+								create_time,
+								is_custom_service,
+								<if test="parentId != null and parentId > 0">
+								parent_id,
+								</if>
+								<if test="rootId != null and rootId > 0">
+								root_id,
+								</if>
+								special_id,
+								special_type
+    	                   )values (
+    				  	 	    #{customerId},
+    				  	 	    #{content},
+    				  	 	    #{status},
+    				  	 	    now(),
+    				  	 	    #{isCustomService},
+    				  	 	 	<if test="parentId != null and parentId > 0">
+    				  	 	    #{parentId},
+    				  	 	    </if>
+    				  	 	    <if test="rootId != null and rootId > 0">
+    				  	 	    #{rootId},
+    				  	 	    </if>
+  				  	 	        #{specialId},
+  				  	 	        #{specialType}
+    				  	 	  )
+  	</insert>
+  	
+  	
+  	<!-- 修改审核-->
+   <update id="updateReplyById" parameterType="java.util.Map" >
+    update t_special_comment
+    <set >     
+      <if test="status != null" >
+        status = #{status},
+      </if>
+       <if test=" null != opinion and '' != opinion" >
+        opinion = #{opinion},
+      </if>
+    </set>
+    where comment_id = #{commentId}
+  </update>  	
+  
+  <!-- 查询 回复评论 全部-->
+  <select id="queryCommentByRootListPage"  resultMap="BaseResultMap" parameterType="INTEGER" >
+  		SELECT
+			<include refid="Base_Column_List"/>,
+			(case when tc.nickname is not null and tc.nickname <![CDATA[ <> ]]> '' then tc.nickname else mosaic(tc.mobile) end 
+			  ) replyer_name
+		FROM
+			t_special_comment t INNER JOIN t_special_comment parent_comment on t.parent_id = parent_comment.comment_id
+				LEFT JOIN t_customer tc  on tc.customer_id = parent_comment.customer_id
+		WHERE
+			t.root_id=#{rootId}
+			order by t.create_time desc
+  	</select>
+  	
+  	<!-- 根据comment_id来查询值 -->
+  	<select id="queryCommentById"  resultMap="BaseResultMap" parameterType="INTEGER" >
+  		
+  		select 
+  			special_id,
+			comment_id,
+			customer_id,
+			special_type,
+			status,
+			content,
+			parent_id,
+			root_id,
+			(select article_from from t_special_article a where a.article_id=t_special_comment.special_id) as special_type_child
+		 from  t_special_comment where comment_id=#{comment_id}
+  	</select>
+  	
+  	  	<!-- 根据comment_id来查询值 (視頻)-->
+  	<select id="queryCommentVideoById"  resultMap="BaseResultMap" parameterType="INTEGER" >
+  		
+  		select 
+  			special_id,
+			comment_id,
+			customer_id,
+			special_type,
+			status,
+			content,
+			parent_id,
+			root_id
+		 from  t_special_comment where comment_id=#{comment_id}
+  	</select>
+  	
+	  	<!-- 根据评论ID删除 -->
+  	<delete id="delCommentBycId" parameterType="pd">
+  		update t_special_comment set status = 4 where comment_id=#{commentId} and special_id=#{specialId}
+  	</delete>  
+  	
+  	
+  	
+</mapper>

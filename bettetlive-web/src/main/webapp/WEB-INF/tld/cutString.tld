@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+	
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>2.0</jsp-version>
+	<short-name>cut</short-name>
+	<uri>/cutString</uri>
+
+	<tag>
+		<name>cutString</name>
+		<tag-class>com.kingleadsw.betterlive.common.CutStringTag</tag-class>
+		<body-content>empty</body-content>
+		<description>Used to cut a string with your parameter.</description>
+		<attribute>
+			<name>str</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Required to set the string what you want to cut.</description>
+		</attribute>
+		<attribute>
+			<name>size</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Required to set the size or length and it compute as chinese.</description>
+		</attribute>
+		<attribute>
+			<name>mark</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Write something append to the string or you can use the default ''.</description>
+		</attribute>
+	</tag>
+</taglib>  

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kingleadsw.betterlive.dao.BannerInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.kingleadsw.betterlive.model.BannerInfo" >
+    <id column="banner_id" property="bannerId" jdbcType="INTEGER" />
+    <result column="banner_title" property="bannerTitle" jdbcType="VARCHAR" />
+    <result column="banner_img" property="bannerImg" jdbcType="VARCHAR" />
+    <result column="banner_type" property="bannerType" jdbcType="TINYINT" />
+    <result column="object_id" property="objectId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_sort" property="isSort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    banner_id, banner_title, banner_img, banner_type, status, banner_url, create_time,object_id, is_sort
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  
+  	<!-- 根据条件查询bannner    -->
+	<select id="queryBannersListPage" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_banner where  1=1 
+     	
+     	<if test="null != bannerTitle and '' !=bannerTitle ">
+     		and banner_title like '%${bannerTitle}%'
+     	</if>
+     	
+     	<if test="null != status and '' != status ">
+     		and status=#{status}
+     	</if>
+		     	
+     	<if test="bannerType != null and '' !=bannerType ">
+     		and banner_type=#{bannerType}
+     	</if>
+     	
+     	order by create_time DESC 
+  	</select>
+  	
+  	
+  	
+  	<!-- 查询所有可播放的banner    -->
+	<select id="queryAllBannersList" resultMap="BaseResultMap" parameterType="pd" >
+    	select 
+     		<include refid="Base_Column_List" />
+     	from t_banner where  status=1 
+     	
+     		<!-- 根据 id 查询 -->
+     		<if test="null !=productIdArray  and '' !=productIdArray ">
+	     		and object_id in( ${productIdArray} )
+	     	</if>
+     		order by is_sort asc
+  	</select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.kingleadsw.betterlive.model.BannerInfo" >
+    insert into t_banner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+      <if test="bannerTitle != null" >
+        banner_title,
+      </if>
+      <if test="bannerImg != null" >
+        banner_img,
+      </if>
+      <if test="bannerType != null" >
+        banner_type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="bannerUrl != null" >
+        banner_url,
+      </if>
+       <if test="objectId!=null">
+      	object_id,
+      </if>
+      <if test="isSort!=null">
+      	is_sort,
+      </if>
+     	create_time
+      
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="bannerTitle != null" >
+        #{bannerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerImg != null" >
+        #{bannerImg,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerType != null" >
+        #{bannerType,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="bannerUrl != null" >
+        #{bannerUrl,jdbcType=VARCHAR},
+      </if>
+       <if test="objectId!=null">
+      	#{objectId,jdbcType=INTEGER},
+      </if>
+      <if test="isSort!=null">
+      	#{isSort},
+      </if>
+     	NOW()
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kingleadsw.betterlive.model.BannerInfo" >
+    update t_banner
+    <set >
+      <if test="bannerTitle != null" >
+        banner_title = #{bannerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerImg != null" >
+        banner_img = #{bannerImg,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerType != null" >
+        banner_type = #{bannerType,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="bannerUrl != null" >
+        banner_url = #{bannerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="objectId!=null">
+      	object_id = #{objectId},
+      </if>
+      <if test="isSort!=null">
+      	is_sort = #{isSort},
+      </if>
+    </set>
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

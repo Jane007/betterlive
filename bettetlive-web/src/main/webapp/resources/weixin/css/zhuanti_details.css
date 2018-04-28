@@ -1,0 +1,17 @@
+/*中间主体部分*/
+.mainBox{
+	width: 100%;
+	position: absolute;
+	top: 0.79rem;
+	padding: 0.19rem 0 0;
+	box-sizing: border-box;
+}
+.mainBox img{
+	width: 100%;
+}
+
+
+
+
+
+

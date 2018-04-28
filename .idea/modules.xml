@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/betterlive.iml" filepath="$PROJECT_DIR$/betterlive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-biz/betterlive-biz.iml" filepath="$PROJECT_DIR$/betterlive-biz/betterlive-biz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-core/betterlive-core.iml" filepath="$PROJECT_DIR$/betterlive-core/betterlive-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-dao/betterlive-dao.iml" filepath="$PROJECT_DIR$/betterlive-dao/betterlive-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-model/betterlive-model.iml" filepath="$PROJECT_DIR$/betterlive-model/betterlive-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-parent/betterlive-parent.iml" filepath="$PROJECT_DIR$/betterlive-parent/betterlive-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-pay/betterlive-pay.iml" filepath="$PROJECT_DIR$/betterlive-pay/betterlive-pay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-redis/betterlive-redis.iml" filepath="$PROJECT_DIR$/betterlive-redis/betterlive-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-service/betterlive-service.iml" filepath="$PROJECT_DIR$/betterlive-service/betterlive-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/betterlive-vo/betterlive-vo.iml" filepath="$PROJECT_DIR$/betterlive-vo/betterlive-vo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bettetlive-web/bettetlive-web.iml" filepath="$PROJECT_DIR$/bettetlive-web/bettetlive-web.iml" />
+    </modules>
+  </component>
+</project>
